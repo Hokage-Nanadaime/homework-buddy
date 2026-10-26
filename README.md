@@ -1,4 +1,4 @@
-# Homework Buddy
+<img width="582" height="760" alt="image" src="https://github.com/user-attachments/assets/5d1f9214-8cf4-4269-9896-f110897f1690" /># Homework Buddy
 
 A web app where children aged 8 to 9 practise from their school books and a parent prepares them for exams. It runs in a laptop or PC browser (it is built to be published as a Claude artifact) and keeps its data with the viewer.
 
@@ -35,6 +35,6 @@ Third-party notices: `NOTICE.md` and `THIRD_PARTY.md`.
 
 ## Credits
 Created by Hokage-Nanadaime, built together with Claude (Anthropic). See `AUTHORS.md`.
-
+Maintained by Hokage-Nanadaime
 ## Contributing
 Contributions are welcome as pull requests; the owner reviews and merges every one. See `CONTRIBUTING.md`.
