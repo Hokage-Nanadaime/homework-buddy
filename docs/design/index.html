@@ -1,0 +1,98 @@
+<title>Homework Buddy Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a calm comparison sheet. Four preview columns with a screen switcher, then a table and a recommendation. */
+:root{--bg:#f3f5f7;--card:#ffffff;--ink:#1c2630;--muted:#475562;--line:#d5dbe1;--accent:#1f5f8b;--on-accent:#ffffff;--tint:#e3eef6;--good:#0b6b4a;--display:'Bricolage Grotesque',system-ui,sans-serif;--body:'Atkinson Hyperlegible',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12181e;--card:#1a232b;--ink:#e8eef3;--muted:#a9b8c4;--line:#2d3944;--accent:#8cc4ea;--on-accent:#0d1a24;--tint:#1f3242;--good:#6fd7ae;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12181e;--card:#1a232b;--ink:#e8eef3;--muted:#a9b8c4;--line:#2d3944;--accent:#8cc4ea;--on-accent:#0d1a24;--tint:#1f3242;--good:#6fd7ae;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 56px}
+.wrap>*{min-width:0}
+.wrap{width:100%;max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,4vw,40px)}h2{font-size:24px}h3{font-size:18px}
+p{margin:0}.muted{color:var(--muted)}
+header{display:flex;gap:16px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+header div{max-width:70ch;display:flex;flex-direction:column;gap:8px}
+button,a.btn{font:inherit;min-height:44px;padding:8px 16px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+button[aria-pressed="true"],a.btn.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:700}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.switch{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.grid{grid-template-columns:minmax(0,1fr)}}
+.dir{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.frame{position:relative;aspect-ratio:1280/900;overflow:hidden;border:1px solid var(--line);border-radius:8px}
+.frame iframe{position:absolute;left:0;top:0;width:1280px;height:900px;border:0;transform-origin:0 0;pointer-events:none;background:var(--bg)}
+.links{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:15px}
+.links a{color:var(--accent);min-height:32px;display:inline-flex;align-items:center}
+.scroll{overflow-x:auto;border:1.5px solid var(--line);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;min-width:900px;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--display);font-size:15px;background:var(--tint)}
+tbody th{width:150px}
+.rec{background:var(--tint);border:1.5px solid var(--accent);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.rec ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.mix{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;background:var(--tint);border:2px solid var(--accent);border-radius:16px;padding:14px}
+@media(max-width:900px){.mix{grid-template-columns:minmax(0,1fr)}}
+.mix h3{font-size:22px}.mix ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.tag{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;700&display=swap">
+<div class="wrap">
+<header>
+ <div><span class="tag">Design exploration</span><h1>Homework Buddy: five directions</h1>
+ <p class="muted">Direction E is the mix of the best parts of A to D, in one visual language. A to D are the four original directions. Each has seven screens with the same sample child and content; E adds a rewards and calm settings page. Pick a screen to compare, then open any direction in full.</p></div>
+ <button id="theme" type="button">Theme: auto</button>
+</header>
+
+<section class="wrap" style="gap:14px" aria-labelledby="cmp">
+ <h2 id="cmp">Side by side</h2>
+ <div class="mix" id="mix"></div>
+ <div class="switch" role="group" aria-label="Screen to compare" id="screens"></div>
+ <div class="grid" id="dirs"></div>
+</section>
+
+<section class="wrap" style="gap:14px" aria-labelledby="tbl">
+ <h2 id="tbl">How they differ</h2>
+ <div class="scroll"><table>
+ <thead><tr><th></th><th>A Bookshelf</th><th>B Quest map</th><th>C Calm desk</th><th>D Arcade levels</th></tr></thead>
+ <tbody>
+ <tr><th>Index</th><td>Books on a shelf. Each opens to a printed contents page: title, dotted line, school-book page number, three ink marks for Easy, Medium, Challenge.</td><td>Each book is a trail. Chapters are numbered stops with a page signpost and three steps. A List toggle gives the plain order.</td><td>One notebook. A big Continue card, then plain numbered chapter lists with a thin progress line and page number.</td><td>Each book is a world; chapters are chunky level tiles with page numbers and three pips. Map and Plain list views.</td></tr>
+ <tr><th>Gamification</th><td>Sticker and stamp album. Stamps for finishing a set, trying Challenge, fixing an old mistake. Bookmark ribbons for days; a rest day folds a corner and loses nothing.</td><td>A companion, Sprig, grows through four stages and gains accessories. Stars, a daily goal and a rest-day token. Never sick or sad.</td><td>A garden: one plant per subject, five growth stages, never wilts. Daily-goal ring with a no-penalty pause.</td><td>Player level and XP bar, effort badges, collectible avatar gear, a gentle combo that only adds a bonus. A Calm switch strips it all back.</td></tr>
+ <tr><th>Right and wrong</th><td>An ink tick pressed beside the answer (0.28 s). Wrong gets a dashed pencil note with the hint, never red.</td><td>Tiny companion at the answer: a nod (about 0.5 s) or a head tilt with the hint. Can be switched off.</td><td>Only a tick or "?" with the words "Correct" or "Not quite" and a 150 ms colour fade. Focus mode hides everything but the question.</td><td>A small pop on the answer chip (under 0.6 s). Wrong is a soft colour change and a hint card. Calm mode leaves a plain tick.</td></tr>
+ <tr><th>Parent analytics</th><td colspan="4">All four use the same activity-log data: baseline and now, weekly growth per subject, Multiplication growth against the Division plateau, honest "not enough data yet" below 10 answers, chapter heat map with numbers, level progress, habit, typing, exam readiness, what to practise next, table view, printable look, child switcher, no ranking. A and C are the most report-like; B and D keep the parent page sober, not themed. Mistake themes and reward history are marked as coming later because they are not stored yet.</td></tr>
+ <tr><th>Risk of distracting a child</th><td>Low. Calm paper surfaces. Risk: may feel plain to a child used to games.</td><td>Low to medium. The map and Sprig can attract attention on home and index; practice stays quiet.</td><td>Lowest. Risk: the garden is the only reward and may feel flat.</td><td>Medium on home (many tiles, badges, gear). Practice is quiet; Calm mode or Minimal rewards removes the rest.</td></tr>
+ <tr><th>Effort on today's app</th><td>Medium. New tokens and three small components; shelf and contents are a re-skin of the index.</td><td>Medium. Trail component with list fallback, one companion graphic, daily goal and rest-token state.</td><td>Low to medium. Mostly a re-skin; plant and goal ring are small; reserved feedback slot and focus mode.</td><td>Medium. Tiles, pips, XP bar reuse well; gear, badges and an XP ledger need new data.</td></tr>
+ <tr><th>Needs new data</th><td>Stamp ledger</td><td>Goal, rest tokens, companion stage</td><td>Goal, pause, plant stage</td><td>XP, badges, gear, combo, Calm setting</td></tr>
+ </tbody></table></div>
+</section>
+
+<section class="rec" aria-labelledby="rec">
+ <h2 id="rec">Recommendation: the mix (direction E)</h2>
+ <p>Your five asks map to different directions, so take the best part of each rather than a whole one.</p>
+ <ul>
+  <li><strong>Index: A.</strong> The printed contents page is the clearest answer to "more like a book". Page numbers match the school book and the three ink marks show levels at a glance.</li>
+  <li><strong>Right and wrong: C.</strong> A tick, the word, a 150 ms fade, and a reserved space for the hint so nothing moves. It cannot get in the way of practice.</li>
+  <li><strong>Motivation: B's companion on home and the set summary,</strong> with A's effort stamps as the collection. Growth happens at the end of a set, never during one.</li>
+  <li><strong>Calm switch and Minimal rewards: from D,</strong> for children who find effects too much, and for parents who want less.</li>
+  <li><strong>Parent page: start from A or C.</strong> They are the most report-like and read best printed.</li>
+  <li><strong>Build order:</strong> C's tokens and practice screen first (lowest effort, biggest calm), then A's index, then rewards.</li>
+ </ul>
+ <p class="muted">E is that mix made real. The design choice is yours. Nothing here has been built into the app.</p>
+</section>
+</div>
+<script>
+var D=[['a-bookshelf','A Bookshelf','Printed contents pages and a stamp album'],['b-quest-map','B Quest map','A trail, stops and a growing companion'],['c-calm-desk','C Calm desk','A quiet notebook and a garden'],['d-arcade','D Arcade levels','Levels, XP, badges and a Calm switch']];
+var S=[['01-home','Home'],['02-book-index','Book index'],['03-chapter','Chapter'],['04-practice','Practice'],['05-set-summary','Set summary'],['06-word-quest','Word Quest'],['07-parent-progress','Parent progress']];
+var E=['e-mix','E Mix (recommended)'];var cur=3,dirs=document.getElementById('dirs'),sw=document.getElementById('screens');
+S.forEach(function(s,i){var b=document.createElement('button');b.type='button';b.textContent=s[1];b.onclick=function(){cur=i;render()};b.id='s'+i;sw.appendChild(b)});
+function scale(){document.querySelectorAll('.frame').forEach(function(f){f.firstChild.style.transform='scale('+(f.clientWidth/1280)+')'})}
+function render(){S.forEach(function(s,i){document.getElementById('s'+i).setAttribute('aria-pressed',i===cur)});
+ dirs.innerHTML=D.map(function(d){var u=d[0]+'/'+S[cur][0]+'.html';return '<article class="dir"><h3>'+d[1]+'</h3><p class="muted">'+d[2]+'</p><div class="frame"><iframe src="'+u+'" title="'+d[1]+' '+S[cur][1]+'" loading="lazy" tabindex="-1"></iframe></div><div class="links"><a class="btn primary" href="'+u+'">Open this screen</a>'+S.map(function(s){return '<a href="'+d[0]+'/'+s[0]+'.html">'+s[1]+'</a>'}).join('')+'</div></article>'}).join('');scale()}
+function mix(){var u=E[0]+'/'+S[cur][0]+'.html';document.getElementById('mix').innerHTML='<div class="dir" style="border-color:transparent"><h3>'+E[1]+'</h3><div class="frame"><iframe src="'+u+'" title="E Mix '+S[cur][1]+'" loading="lazy" tabindex="-1"></iframe></div><div class="links"><a class="btn primary" href="'+u+'">Open this screen</a>'+S.map(function(s){return '<a href="'+E[0]+'/'+s[0]+'.html">'+s[1]+'</a>'}).join('')+'<a href="e-mix/08-rewards-settings.html">Rewards and calm settings</a><a href="e-mix/09-stamp-album.html">Stamp album</a><a href="e-mix/10-pip-ladder.html">Pip ladder</a></div></div><div class="dir" style="border-color:transparent"><h3>What changed from A, B, C and D</h3><ul><li><strong>From A:</strong> shelf of five books, printed contents pages with dotted leaders, page numbers and ink marks for the three levels; the report-style parent page; the stamp album.</li><li><strong>From B:</strong> one companion, Pip, who grows only when a set ends and never while a child is thinking. No trail map, to keep practice calm.</li><li><strong>From C:</strong> a tick or "?" with the words, a 150 ms fade, reserved hint space and focus mode.</li><li><strong>From D:</strong> a Calm switch in every top bar, and Full, Light or Minimal rewards, with sound, daily goal and per-child settings on the new page 08. No XP bar, gear or combos.</li><li><strong>E v2 (your choice, with changes):</strong> 49 collectible cartoon stamps in 8 sets (6 gold) with plain rules, a stamp album, a stamping popup and a chapter-complete popup that show only when a set ends, and a ten-stage Pip ladder. Popups become a quiet line in Calm mode, at Minimal rewards and with reduced motion. Rules are in e-mix/STAMPS.md and PIP.md in the repo.</li><li><strong>New in E:</strong> one visual language (chalk-green paper, pebble shapes, one companion). Chart colours and the heat-map ramp now pass the colour validator with no caveats.</li></ul></div>';}
+var _r=render;render=function(){_r();mix();var f=document.querySelectorAll('.frame');scale()};
+window.addEventListener('resize',scale);render();
+var t=document.getElementById('theme'),m=['auto','light','dark'],k=0;
+t.onclick=function(){k=(k+1)%3;var r=document.documentElement;if(m[k]==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',m[k]);t.textContent='Theme: '+m[k]};
+</script>

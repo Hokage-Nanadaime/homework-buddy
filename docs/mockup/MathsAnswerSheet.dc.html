@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Enter answers from paper</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="min-height:1300px;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5">
+  <dc-import name="TopBar" active="maths" hint-size="100%,72px"></dc-import>
+  <main style="box-sizing:border-box;max-width:1160px;margin:0 auto;padding:32px 40px 64px;display:flex;flex-direction:column;gap:24px">
+
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px">
+      <a href="MathsChapter.dc.html" style="min-height:44px;display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:800;font-size:16px">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        Unit 1
+      </a>
+      <h1 style="margin:0;flex:1 1 240px;font-family:var(--display);font-weight:700;font-size:32px;line-height:1.2">Enter answers from paper</h1>
+      <span style="padding:6px 14px;border-radius:999px;background:var(--maths-tint);color:var(--maths-ink);font-weight:800;font-size:15px">Medium · 10 questions</span>
+      <span style="padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-weight:800;font-size:15px">Worksheet code M01-MED-4F7K</span>
+    </div>
+
+    <section aria-label="Pick a worksheet" style="box-sizing:border-box;padding:18px 24px;border-radius:24px;background:var(--card);border:2px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="sheet" style="font-weight:800">Which printed worksheet?</label>
+        <select id="sheet" style="box-sizing:border-box;min-height:48px;min-width:320px;padding:0 12px;border-radius:14px;border:2px solid var(--line);background:var(--card);font-family:var(--body);font-size:17px;font-weight:700;color:var(--ink)">
+          <option selected>Chapter title · Medium · printed today · M01-MED-4F7K</option>
+          <option>Addition · Easy · printed yesterday · M02-EAS-91QC</option>
+        </select>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="code" style="font-weight:800">Or type the code on the sheet</label>
+        <input id="code" type="text" placeholder="M01-MED-4F7K" style="box-sizing:border-box;width:200px;min-height:48px;padding:0 14px;border-radius:14px;border:2px solid var(--line);background:var(--card);font-family:var(--body);font-size:17px;font-weight:700;color:var(--ink)">
+      </div>
+      <p style="margin:0;flex:1 1 260px;color:var(--muted);font-size:16px">Do your rough work on paper, then type each answer here. The question is shown so you can find it on your sheet.</p>
+    </section>
+
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px">
+      <div style="display:flex;flex-direction:column;gap:6px;flex:1 1 280px">
+        <span style="font-weight:800">6 of 10 answered</span>
+        <progress max="10" value="6" aria-label="6 of 10 answered" style="width:100%;height:10px;accent-color:var(--maths)"></progress>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <button type="button" style="box-sizing:border-box;min-height:48px;padding:0 20px;border-radius:999px;border:2px solid var(--ink);background:var(--card);color:var(--ink);font-family:var(--body);font-weight:800;font-size:16px;cursor:pointer">Save and finish later</button>
+        <a href="MathsPractice.dc.html" style="box-sizing:border-box;min-height:48px;padding:0 24px;display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:var(--maths);color:#fff;font-weight:800;font-size:16px">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+          Check my answers
+        </a>
+      </div>
+    </div>
+
+    <ol aria-label="Answer sheet" style="margin:0;padding:8px 8px;list-style:none;border-radius:28px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column">
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="10">
+        <li style="border-top:2px solid var(--line);box-sizing:border-box;padding:14px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+          <span aria-hidden="true" style="flex:0 0 auto;width:40px;height:40px;border-radius:50%;background:var(--maths-tint);color:var(--maths-ink);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:18px">{{r.n}}</span>
+          <div style="flex:1 1 320px;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+            <span style="font-weight:700">{{r.text}}</span>
+            <sc-if value="{{r.hasFigure}}" hint-placeholder-val="{{false}}">
+              <svg role="img" aria-label="An abacus with four rods: Th, H, T and O, with beads on the rods" width="170" height="98" viewBox="0 0 260 150">
+                <rect x="10" y="120" width="240" height="8" rx="4" style="fill:var(--ink)"/>
+                <line x1="40" y1="16" x2="40" y2="120" stroke-width="4" style="stroke:var(--ink)"/>
+                <line x1="100" y1="16" x2="100" y2="120" stroke-width="4" style="stroke:var(--ink)"/>
+                <line x1="160" y1="16" x2="160" y2="120" stroke-width="4" style="stroke:var(--ink)"/>
+                <line x1="220" y1="16" x2="220" y2="120" stroke-width="4" style="stroke:var(--ink)"/>
+                <circle cx="40" cy="108" r="9" style="fill:var(--maths)"/><circle cx="40" cy="88" r="9" style="fill:var(--maths)"/>
+                <circle cx="100" cy="108" r="9" style="fill:var(--maths)"/><circle cx="100" cy="88" r="9" style="fill:var(--maths)"/><circle cx="100" cy="68" r="9" style="fill:var(--maths)"/><circle cx="100" cy="48" r="9" style="fill:var(--maths)"/>
+                <circle cx="220" cy="108" r="9" style="fill:var(--maths)"/><circle cx="220" cy="88" r="9" style="fill:var(--maths)"/><circle cx="220" cy="68" r="9" style="fill:var(--maths)"/><circle cx="220" cy="48" r="9" style="fill:var(--maths)"/><circle cx="220" cy="28" r="9" style="fill:var(--maths)"/>
+              </svg>
+            </sc-if>
+          </div>
+          <sc-if value="{{r.isTyped}}" hint-placeholder-val="{{true}}">
+            <input type="text" aria-label="Answer for question {{r.n}}" value="{{r.answer}}" placeholder="Type your answer" style="box-sizing:border-box;flex:0 0 220px;min-height:48px;padding:0 14px;border-radius:14px;border:2px solid var(--line);background:var(--card);font-family:var(--display);font-weight:600;font-size:22px;color:var(--ink)">
+          </sc-if>
+          <sc-if value="{{r.isChoice}}" hint-placeholder-val="{{false}}">
+            <div role="group" aria-label="Choose the answer for question {{r.n}}" style="flex:0 0 220px;display:flex;gap:8px">
+              <sc-for list="{{r.options}}" as="o" hint-placeholder-count="3">
+                <span style="box-sizing:border-box;min-width:52px;min-height:48px;padding:0 14px;display:inline-flex;align-items:center;justify-content:center;border-radius:14px;border:2px solid var(--line);background:var(--card);font-family:var(--display);font-weight:600;font-size:24px">{{o}}</span>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{r.isGrownUp}}" hint-placeholder-val="{{false}}">
+            <span style="flex:0 0 220px;padding:8px 14px;border-radius:14px;background:var(--english-tint);color:var(--english);font-weight:800;font-size:15px">Ask a grown-up to check</span>
+          </sc-if>
+        </li>
+      </sc-for>
+    </ol>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const typed = (n, text, answer, hasFigure = false) => ({ n, text, answer, hasFigure, isTyped: true, isChoice: false, isGrownUp: false, options: [] });
+    const choice = (n, text, options) => ({ n, text, answer: '', hasFigure: false, isTyped: false, isChoice: true, isGrownUp: false, options });
+    const grownUp = (n, text) => ({ n, text, answer: '', hasFigure: false, isTyped: false, isChoice: false, isGrownUp: true, options: [] });
+    return {
+      rows: [
+        typed(1, 'Write the number name for 3,408.', 'three thousand four hundred eight'),
+        typed(2, 'Write the number shown on the abacus.', '2450', true),
+        typed(3, 'Arrange in ascending order: 4,320  4,023  4,302  4,203', '4023, 4203, 4302, 4320'),
+        choice(4, 'Put <, > or = : 5,487 and 5,478', ['<', '>', '=']),
+        typed(5, 'What is one more than 6,999?', '7000'),
+        typed(6, 'What is one less than 4,000?', ''),
+        typed(7, 'Which is the greatest? 3,019  3,109  3,091', ''),
+        typed(8, 'Write 1,806 in expanded form.', ''),
+        choice(9, 'In 1,387, in which place is the digit 8?', ['ones', 'tens', 'hundreds']),
+        grownUp(10, 'Suggest two ways to help others.')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

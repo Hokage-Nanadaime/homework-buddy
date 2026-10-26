@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Maths unit</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="min-height:1000px;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5">
+  <dc-import name="TopBar" active="maths" hint-size="100%,72px"></dc-import>
+  <main style="box-sizing:border-box;max-width:1160px;margin:0 auto;padding:40px 40px 64px;display:flex;flex-direction:column;gap:28px">
+
+    <header style="display:flex;flex-direction:column;gap:6px">
+      <a href="MathsIndex.dc.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:800;font-size:16px">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        All units
+      </a>
+      <h1 style="margin:0;font-family:var(--display);font-weight:700;font-size:40px;line-height:1.15">Unit 1 · Chapter title</h1>
+      <p style="margin:0;color:var(--muted)">Pick a topic and a level, or take the unit test.</p>
+    </header>
+
+    <section aria-label="Continue where you left off" style="box-sizing:border-box;padding:16px 22px;border-radius:24px;background:var(--maths-tint);border:2px solid var(--maths);display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+      <div style="flex:1 1 280px;display:flex;flex-direction:column;gap:2px">
+        <strong style="font-family:var(--display);font-weight:600;font-size:22px">Continue where you left off</strong>
+        <span>Number names · Medium · question 4 of 10 · same questions as before</span>
+      </div>
+      <a href="MathsPractice.dc.html" style="box-sizing:border-box;min-height:48px;padding:0 24px;display:inline-flex;align-items:center;border-radius:999px;background:var(--maths);color:#fff;font-weight:800;font-size:16px">Continue</a>
+      <button type="button" style="box-sizing:border-box;min-height:48px;padding:0 20px;border-radius:999px;border:2px solid var(--ink);background:var(--card);color:var(--ink);font-family:var(--body);font-weight:800;font-size:16px;cursor:pointer">Start a new set</button>
+    </section>
+
+    <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+      <section aria-label="Topics" style="flex:2 1 560px;min-width:0;box-sizing:border-box;padding:24px 28px;border-radius:28px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column">
+        <h2 style="margin:0 0 8px;font-family:var(--display);font-weight:600;font-size:26px">Topics</h2>
+        <sc-for list="{{topics}}" as="t" hint-placeholder-count="6">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:16px 0;border-top:2px solid var(--line)">
+            <div style="flex:1 1 240px;min-width:0">
+              <div style="font-weight:800;font-size:19px">{{t.name}}</div>
+              <div style="color:var(--muted);font-size:16px">{{t.hint}}</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <a href="MathsPractice.dc.html" style="box-sizing:border-box;min-height:44px;padding:0 16px;display:inline-flex;align-items:center;border-radius:999px;background:var(--maths-tint);color:var(--maths-ink);font-weight:800;font-size:16px">Easy</a>
+              <a href="MathsPractice.dc.html" style="box-sizing:border-box;min-height:44px;padding:0 16px;display:inline-flex;align-items:center;border-radius:999px;background:var(--maths);color:#fff;font-weight:800;font-size:16px">Medium</a>
+              <a href="MathsPractice.dc.html" style="box-sizing:border-box;min-height:44px;padding:0 16px;display:inline-flex;align-items:center;border-radius:999px;background:var(--ink);color:#fff;font-weight:800;font-size:16px">Challenge</a>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+
+      <div style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:24px">
+
+        <section style="box-sizing:border-box;padding:24px 28px;border-radius:28px;background:var(--ink);color:#fff;display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-family:var(--display);font-weight:600;font-size:28px">Unit test</h2>
+          <p style="margin:0">Like the real exam: 3 sections, 20 marks, 30 minutes.</p>
+          <div style="display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:16px">
+            <span>A · Quick answers</span>
+            <span>B · Show your working</span>
+            <span>C · Think harder</span>
+          </div>
+          <a href="MathsPractice.dc.html" style="align-self:flex-start;box-sizing:border-box;min-height:52px;padding:0 26px;display:inline-flex;align-items:center;border-radius:999px;background:var(--gold);color:var(--ink);font-weight:800;font-size:18px">Start the unit test</a>
+        </section>
+
+        <section style="box-sizing:border-box;padding:24px 28px;border-radius:28px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column;gap:10px">
+          <h2 style="margin:0;font-family:var(--display);font-weight:600;font-size:24px">Did it on paper?</h2>
+          <p style="margin:0">Do the rough work in your copy, then type just the answers here and the app will check them.</p>
+          <a href="MathsAnswerSheet.dc.html" style="align-self:flex-start;box-sizing:border-box;min-height:48px;padding:0 22px;display:inline-flex;align-items:center;border-radius:999px;border:2px solid var(--ink);font-weight:800;font-size:16px">Enter my answers</a>
+        </section>
+
+        <section style="box-sizing:border-box;padding:24px 28px;border-radius:28px;background:var(--ok-tint);color:var(--ink);display:flex;flex-direction:column;gap:10px">
+          <h2 style="margin:0;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:24px;color:var(--ok)">
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+            Nothing missed
+          </h2>
+          <p style="margin:0">Every topic in this unit is covered at all three levels. We check this against the book pages before a unit goes live.</p>
+          <a href="Progress.dc.html" style="align-self:flex-start;min-height:44px;display:inline-flex;align-items:center;color:var(--ok);font-weight:800;font-size:16px;text-decoration:underline">Parents: see the full coverage list</a>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      topics: [
+        { name: 'Number names', hint: 'Write numbers in words and in digits' },
+        { name: 'Order of numbers', hint: 'Ascending and descending order' },
+        { name: 'The abacus', hint: 'Show and read numbers on an abacus' },
+        { name: 'One more, one less', hint: 'Find the number just after or just before' },
+        { name: 'Comparing numbers', hint: 'Greater, smaller and in between' },
+        { name: 'Adding and finding differences', hint: 'Use the numbers to add and subtract' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

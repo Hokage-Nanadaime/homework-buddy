@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;700;800&display=swap">
+<title>Homework Buddy, B Quest map: Chapter</title>
+<style>
+/* Layout: a calm map-green ground; each book is a winding trail, chapters are stops with page signposts, one companion (Sprig) grows with practice. */
+:root {
+  --ground: #eef4ef;
+  --card: #ffffff;
+  --card-2: #f4f9f6;
+  --ink: #15302c;
+  --muted: #435f58;
+  --line: #cfe0d7;
+  --accent: #1f6b52;
+  --on-accent: #ffffff;
+  --accent-ink: #17533f;
+  --accent-tint: #d8efe4;
+  --maths: #2457c5;
+  --on-maths: #ffffff;
+  --maths-ink: #1b469f;
+  --maths-tint: #dfe9ff;
+  --english: #b4430c;
+  --on-english: #ffffff;
+  --english-ink: #9a3412;
+  --english-tint: #ffe8d9;
+  --ok: #086848;
+  --ok-tint: #d6f3e6;
+  --hint: #7a4e00;
+  --hint-tint: #fff0c9;
+  --gold-fill: #ffc83d;
+  --gold-ink: #7a5000;
+  --land: #dcebe1;
+  --land-2: #c7dfd0;
+  --water: #cfe5ec;
+  --trail: #6f9283;
+  --trail-lit: #b97d00;
+  --sign: #f3dfb2;
+  --sign-ink: #4a3300;
+  --buddy: #7cc79a;
+  --buddy-deep: #3f9a68;
+  --buddy-belly: #d3f0dd;
+  --buddy-eye: #15302c;
+  --buddy-cheek: #f2a9a0;
+  --scarf: #d9582b;
+  --petal: #f4a3c0;
+  --focus: #6b2fc4;
+  --key-left: #dfe9ff;
+  --key-right: #ffe8d9;
+  --paper: #ffffff;
+  --paper-ink: #1a1a1a;
+  --shadow: 0 2px 10px color-mix(in srgb, var(--ink) 10%, transparent);
+  /* chart tokens (validated with the dataviz validator: slots 1 to 3, light and dark) */
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --grid: #d3e1da;
+  --axis: #435f58;
+  --seq-1: #cde2fb;
+  --seq-2: #86b6ef;
+  --seq-3: #256abf;
+  --seq-4: #1c5cab;
+  --seq-5: #0d366b;
+  --seq-t1: #0b1f1b;
+  --seq-t2: #0b1f1b;
+  --seq-t3: #ffffff;
+  --seq-t4: #ffffff;
+  --seq-t5: #ffffff;
+  --display: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
+  --body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ground: #0f1d1a;
+    --card: #17282a;
+    --card-2: #1d3235;
+    --ink: #e6f3ee;
+    --muted: #a9c4bb;
+    --line: #2d4742;
+    --accent: #6fd3a5;
+    --on-accent: #08241a;
+    --accent-ink: #8fe0bb;
+    --accent-tint: #1d4437;
+    --maths: #8fb0ff;
+    --on-maths: #0a1a40;
+    --maths-ink: #b3c8ff;
+    --maths-tint: #1d2c55;
+    --english: #ffa571;
+    --on-english: #2a1204;
+    --english-ink: #ffbf99;
+    --english-tint: #4a2410;
+    --ok: #4fdba0;
+    --ok-tint: #0f3b2e;
+    --hint: #ffd37a;
+    --hint-tint: #3f3112;
+    --gold-ink: #ffc83d;
+    --land: #14292a;
+    --land-2: #1a3436;
+    --water: #12303a;
+    --trail: #5f857a;
+    --trail-lit: #ffc83d;
+    --sign: #3a3020;
+    --sign-ink: #f4deb0;
+    --buddy: #7fd1a0;
+    --buddy-deep: #4aa876;
+    --buddy-belly: #bfe9cf;
+    --scarf: #f07a4f;
+    --focus: #c9a8ff;
+    --key-left: #1d2c55;
+    --key-right: #4a2410;
+    --paper: #17282a;
+    --paper-ink: #e6f3ee;
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --grid: #2d4742;
+    --axis: #a9c4bb;
+    --seq-1: #0d366b;
+    --seq-2: #184f95;
+    --seq-3: #256abf;
+    --seq-4: #5598e7;
+    --seq-5: #9ec5f4;
+    --seq-t1: #ffffff;
+    --seq-t2: #ffffff;
+    --seq-t3: #ffffff;
+    --seq-t4: #0b1f1b;
+    --seq-t5: #0b1f1b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --ground: #0f1d1a;
+  --card: #17282a;
+  --card-2: #1d3235;
+  --ink: #e6f3ee;
+  --muted: #a9c4bb;
+  --line: #2d4742;
+  --accent: #6fd3a5;
+  --on-accent: #08241a;
+  --accent-ink: #8fe0bb;
+  --accent-tint: #1d4437;
+  --maths: #8fb0ff;
+  --on-maths: #0a1a40;
+  --maths-ink: #b3c8ff;
+  --maths-tint: #1d2c55;
+  --english: #ffa571;
+  --on-english: #2a1204;
+  --english-ink: #ffbf99;
+  --english-tint: #4a2410;
+  --ok: #4fdba0;
+  --ok-tint: #0f3b2e;
+  --hint: #ffd37a;
+  --hint-tint: #3f3112;
+  --gold-ink: #ffc83d;
+  --land: #14292a;
+  --land-2: #1a3436;
+  --water: #12303a;
+  --trail: #5f857a;
+  --trail-lit: #ffc83d;
+  --sign: #3a3020;
+  --sign-ink: #f4deb0;
+  --buddy: #7fd1a0;
+  --buddy-deep: #4aa876;
+  --buddy-belly: #bfe9cf;
+  --scarf: #f07a4f;
+  --focus: #c9a8ff;
+  --key-left: #1d2c55;
+  --key-right: #4a2410;
+  --paper: #17282a;
+  --paper-ink: #e6f3ee;
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --grid: #2d4742;
+  --axis: #a9c4bb;
+  --seq-1: #0d366b;
+  --seq-2: #184f95;
+  --seq-3: #256abf;
+  --seq-4: #5598e7;
+  --seq-5: #9ec5f4;
+  --seq-t1: #ffffff;
+  --seq-t2: #ffffff;
+  --seq-t3: #ffffff;
+  --seq-t4: #0b1f1b;
+  --seq-t5: #0b1f1b;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.2; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.1rem; }
+p { margin: 0; }
+a { color: var(--accent-ink); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 24px; padding-top: 24px; }
+.muted { color: var(--muted); }
+.small { font-size: 0.9rem; }
+.eyebrow { font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; color: var(--muted); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+/* top bar */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding: 8px max(16px, env(safe-area-inset-right, 0px)) 8px max(16px, env(safe-area-inset-left, 0px));
+  background: var(--card); border-bottom: 1px solid var(--line);
+}
+.topbar-in { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-weight: 600; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; margin-right: auto; }
+.brand svg { width: 28px; height: 28px; }
+.menu > summary { list-style: none; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; padding: 0 14px; border: 2px solid var(--line); border-radius: 12px; font-weight: 800; }
+.menu > summary::-webkit-details-marker { display: none; }
+.menu nav { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 8px; }
+.menu nav a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 12px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 0.95rem; }
+.menu nav a:hover { background: var(--accent-tint); }
+.menu nav a[aria-current='page'] { background: var(--accent); color: var(--on-accent); }
+.tb-btn { min-height: 44px; min-width: 44px; padding: 0 14px; border-radius: 12px; border: 2px solid var(--line); background: var(--card); color: var(--ink); font: 800 0.95rem var(--body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+.tb-btn:hover { border-color: var(--accent); }
+@media (min-width: 1000px) {
+  .menu { order: 2; flex: 1 1 auto; }
+  .menu > summary { display: none; }
+  .menu nav { padding: 0; justify-content: center; }
+  .brand { margin-right: 0; }
+}
+@media (max-width: 999px) { .menu { flex-basis: 100%; order: 5; } }
+
+/* buttons, chips */
+.btn { min-height: 48px; padding: 0 22px; border-radius: 14px; border: 2px solid var(--accent); background: var(--accent); color: var(--on-accent); font: 800 1.05rem var(--body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+.btn:hover { filter: brightness(1.06); }
+.btn.ghost { background: transparent; color: var(--accent-ink); }
+.btn.maths { background: var(--maths); border-color: var(--maths); color: var(--on-maths); }
+.btn.english { background: var(--english); border-color: var(--english); color: var(--on-english); }
+.btn.small { min-height: 44px; padding: 0 16px; font-size: 0.95rem; }
+.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 2px 12px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); font-weight: 800; font-size: 0.85rem; }
+.chip.m { background: var(--maths-tint); color: var(--maths-ink); }
+.chip.e { background: var(--english-tint); color: var(--english-ink); }
+.chip.hint { background: var(--hint-tint); color: var(--hint); }
+.seg { display: inline-flex; flex-wrap: wrap; border: 2px solid var(--line); border-radius: 14px; background: var(--card); padding: 3px; gap: 3px; }
+.seg button, .seg a { min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: transparent; color: var(--ink); font: 800 0.95rem var(--body); cursor: pointer; display: inline-flex; align-items: center; text-decoration: none; }
+.seg [aria-pressed='true'], .seg [aria-selected='true'], .seg [aria-current='true'] { background: var(--accent); color: var(--on-accent); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); }
+.demo-panel { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 10px 14px; border: 2px dashed var(--line); border-radius: 16px; background: var(--card-2); }
+.demo-panel .lbl { font-weight: 800; font-size: 0.85rem; color: var(--muted); }
+
+/* companion */
+.buddy { display: block; width: 100%; height: auto; overflow: visible; }
+.buddy .pose { transform-origin: 60px 100px; transform-box: view-box; }
+.buddy-b { fill: var(--buddy); stroke: var(--buddy-deep); stroke-width: 2.5; }
+.buddy-d { fill: var(--buddy-deep); }
+.buddy-belly { fill: var(--buddy-belly); }
+.buddy-eye { fill: var(--buddy-eye); }
+.buddy-cheek { fill: var(--buddy-cheek); opacity: 0.8; }
+.buddy-mouth { fill: none; stroke: var(--buddy-eye); stroke-width: 2.4; stroke-linecap: round; }
+.buddy-scarf { fill: var(--scarf); }
+.buddy-gold { fill: var(--gold-fill); }
+.buddy-petal { fill: var(--petal); }
+.buddy-pole { stroke: var(--sign-ink); stroke-width: 3; stroke-linecap: round; }
+.buddy .spark { fill: var(--gold-fill); opacity: 0; }
+@keyframes nod { 0%,100% { transform: translateY(0); } 40% { transform: translateY(4px); } }
+@keyframes tilt { 0% { transform: rotate(0); } 50%,100% { transform: rotate(-11deg); } }
+@keyframes twinkle { 0% { opacity: 0; transform: scale(0.4); } 40% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+@keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+.react-nod .pose { animation: nod 0.5s ease-out 1; }
+.react-nod .spark { animation: twinkle 0.55s ease-out 1; }
+.react-tilt .pose { animation: tilt 0.45s ease-out 1 forwards; }
+.react-nod .spark.s2 { animation-delay: 0.08s; }
+.react-nod .spark.s3 { animation-delay: 0.16s; }
+.calm-off .react-nod .pose, .calm-off .react-nod .spark, .calm-off .react-tilt .pose { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .react-nod .pose, .react-nod .spark, .react-tilt .pose { animation: none; }
+  .react-tilt .pose { transform: rotate(-8deg); }
+  .react-nod .spark { opacity: 1; }
+  * { scroll-behavior: auto !important; transition: none !important; }
+}
+body[data-rewards='minimal'] .reward { display: none !important; }
+body[data-rewards='quiet'] .reward.loud { display: none !important; }
+
+/* map scenery */
+.land { fill: var(--land); }
+.land2 { fill: var(--land-2); }
+.water { fill: var(--water); }
+.trail-line { fill: none; stroke: var(--trail); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 2 11; }
+.trail-line.lit { stroke: var(--trail-lit); stroke-dasharray: none; stroke-width: 6; }
+.tree { fill: var(--buddy-deep); opacity: 0.55; }
+.trunk { fill: var(--trail); }
+
+/* stars (three steps) */
+.steps { display: flex; gap: 6px; align-items: flex-end; }
+.step { display: inline-flex; flex-direction: column; align-items: center; justify-content: flex-end; min-width: 44px; padding: 4px 8px 4px; border-radius: 8px 8px 4px 4px; border: 2px solid var(--line); background: var(--card); font-size: 0.78rem; font-weight: 800; color: var(--ink); line-height: 1.15; }
+.step.s-1 { min-height: 38px; }
+.step.s-2 { min-height: 50px; }
+.step.s-3 { min-height: 62px; }
+.step.done { background: var(--accent-tint); border-color: var(--accent); color: var(--accent-ink); }
+.step.try { background: var(--hint-tint); border-color: var(--hint); color: var(--hint); border-style: dashed; }
+.step .mk { font-size: 1rem; line-height: 1; }
+
+.crumb { display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.9rem; color: var(--muted); align-items: center; }
+.crumb a { min-height: 44px; display: inline-flex; align-items: center; }
+.ch { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px; align-items: center; }
+.bigsign { background: var(--sign); color: var(--sign-ink); padding: 10px 26px 10px 16px; clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%); font-family: var(--display); font-weight: 600; display: grid; line-height: 1.1; }
+.bigsign small { font: 800 0.72rem var(--body); letter-spacing: 0.08em; text-transform: uppercase; }
+.bigsign b { font-size: 2rem; font-weight: 600; }
+.ch p { max-width: 62ch; }
+.stops { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; max-width: 860px; }
+.tstop { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 0 16px; padding-bottom: 18px; }
+.tstop:last-child { padding-bottom: 0; }
+.rail { position: relative; display: flex; justify-content: center; }
+.rail::before { content: ""; position: absolute; top: 52px; bottom: -18px; width: 0; border-left: 5px dotted var(--trail); }
+.tstop:last-child .rail::before { display: none; }
+.tstop.lit .rail::before { border-left: 6px solid var(--trail-lit); }
+.pin { width: 52px; height: 52px; border-radius: 50%; border: 4px solid var(--trail); background: var(--card); display: grid; place-items: center; font: 600 1.3rem var(--display); z-index: 1; }
+.tstop.lit .pin { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.tstop.next .pin { border-color: var(--accent); box-shadow: 0 0 0 5px var(--accent-tint); }
+.tc { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 18px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 20px; align-items: center; box-shadow: var(--shadow); }
+.tstop.next .tc { border: 2px solid var(--accent); }
+.tc h3 { font-size: 1.1rem; }
+.tc .meta { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin-top: 4px; }
+.stair { display: flex; gap: 8px; align-items: flex-end; }
+.stair a { text-decoration: none; color: var(--ink); min-width: 88px; padding: 6px 10px 8px; border: 2px solid var(--line); border-radius: 12px 12px 6px 6px; display: grid; gap: 2px; text-align: center; background: var(--card-2); font-weight: 800; font-size: 0.95rem; }
+.stair a:nth-child(1) { min-height: 64px; } .stair a:nth-child(2) { min-height: 80px; } .stair a:nth-child(3) { min-height: 96px; }
+.stair a:hover { border-color: var(--accent); }
+.stair a small { font-weight: 700; font-size: 0.78rem; color: var(--muted); }
+.stair a .st { letter-spacing: 2px; font-size: 1.05rem; color: var(--gold-ink); }
+.stair a.done { background: var(--accent-tint); border-color: var(--accent); }
+.stair a.rec { border-style: dashed; border-color: var(--accent); background: var(--card); }
+.stair .badge-rec { font-size: 0.72rem; color: var(--accent-ink); font-weight: 800; }
+.side { display: flex; flex-wrap: wrap; gap: 12px; }
+.side .card { flex: 1 1 280px; display: grid; gap: 6px; align-content: start; }
+code.wk { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700; background: var(--card-2); border: 1px solid var(--line); padding: 1px 8px; border-radius: 8px; }
+@media (max-width: 700px) {
+  .ch { grid-template-columns: 1fr; }
+  .tstop { grid-template-columns: 44px minmax(0, 1fr); gap: 0 10px; }
+  .pin { width: 44px; height: 44px; font-size: 1.1rem; }
+  .rail::before { top: 44px; }
+  .tc { grid-template-columns: 1fr; padding: 12px; }
+  .stair { width: 100%; } .stair a { flex: 1 1 0; min-width: 0; padding: 6px 4px 8px; }
+}
+</style>
+</head>
+<body data-rewards="full">
+<header class="topbar"><div class="topbar-in"><span class="brand"><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="var(--accent-tint)"/><path d="M5 20 C9 10 12 18 15 12 S21 8 23 7" fill="none" stroke="var(--trail-lit)" stroke-width="2.4" stroke-linecap="round"/><circle cx="23" cy="7" r="2.6" fill="var(--accent)"/></svg>B Quest map</span>
+<details class="menu" id="menu"><summary>Pages</summary><nav aria-label="Pages in this direction"><a href="01-home.html">Home</a><a href="02-book-index.html">Book trail</a><a href="03-chapter.html" aria-current="page">Chapter</a><a href="04-practice.html">Practice</a><a href="05-set-summary.html">Summary</a><a href="06-word-quest.html">Word Quest</a><a href="07-parent-progress.html">Parent</a></nav></details>
+<button class="tb-btn" id="themeBtn" type="button" aria-label="Switch light and dark theme">Theme: <span>Dark</span></button>
+<a class="tb-btn" href="../index.html">All directions</a></div></header>
+<main class="wrap">
+  <nav class="crumb" aria-label="Where you are"><a href="01-home.html">Home</a> / <a href="02-book-index.html">Maths trail</a> / <span aria-current="page">Unit 4</span></nav>
+  <section class="card ch">
+    <div class="bigsign" aria-label="Book page 36"><small>Book page</small><b>36</b></div>
+    <div style="display:grid;gap:8px">
+      <h1>Unit 4: Multiplication</h1>
+      <p class="muted">Six stops. At each stop you climb three steps: Easy, Medium, Challenge. Read the book page first if you like, then pick any step.</p>
+      <div><span class="chip m">Maths · 6 stops · 18 steps</span></div>
+    </div>
+    <div class="reward" style="width:96px" data-buddy="3"></div>
+  </section>
+
+  <ol class="stops" id="stops" aria-label="Stops in Multiplication, in book order"></ol>
+
+  <div class="side">
+    <section class="card"><h3>Practise on paper</h3><p class="small muted">Print a worksheet for this unit, do it with a pencil, then type the answers in.</p>
+      <p class="small">Worksheet code <code class="wk">M4-T3-MED</code></p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn ghost small" href="04-practice.html">Open worksheet</a><a class="btn ghost small" href="04-practice.html">Enter answers from paper</a></div></section>
+    <section class="card"><h3>Mixed set for the whole unit</h3><p class="small muted">Eight questions from every stop, so old ideas come round again.</p>
+      <div><a class="btn ghost small" href="04-practice.html">Start a mixed set</a></div></section>
+  </div>
+</main>
+<script>
+/* ---- sample data (docs/design/shared/sample-data.js, pasted inline) ---- */
+/* Shared invented sample data for all four design directions. No real names. Include with a script tag
+   (each page may also paste this inline: published artifacts must be self-contained). Exposes window.HB. */
+window.HB = (function () {
+  const kids = [
+    { id: 'mira', name: 'Mira', age: 8, avatar: 'M', stars: 143, level: 7, streakDays: 4, todayMin: 12, goalMin: 15 },
+    { id: 'kabir', name: 'Kabir', age: 9, avatar: 'K', stars: 61, level: 4, streakDays: 1, todayMin: 0, goalMin: 15 },
+  ];
+  const maths = [
+    [1, 'Chapter title', 1, 'done', 3], [2, 'Addition', 17, 'done', 3], [3, 'Subtraction', 26, 'done', 2],
+    [4, 'Multiplication', 36, 'going', 2], [5, 'Division', 48, 'going', 1], [6, 'Chapter title', 64, 'new', 0],
+    [7, 'Money', 80, 'new', 0], [8, 'Length', 95, 'new', 0], [9, 'Weight', 103, 'new', 0],
+    [10, 'Capacity', 108, 'new', 0], [11, 'Fraction', 115, 'new', 0], [12, 'Geometry', 129, 'new', 0],
+  ].map(([n, title, page, state, levelsDone]) => ({ n, title, page, state, levelsDone })); // levelsDone: 0-3 of Easy/Medium/Challenge
+  const reader = [
+    [1, 'Animal World', 'done', 3], [2, 'Nature Cares', 'going', 1], [3, 'Chapter title', 'new', 0], [4, 'Adventure', 'new', 0],
+  ].map(([n, title, state, levelsDone]) => ({ n, title, state, levelsDone }));
+  const practice = [
+    'Naming Words', 'Replacing Words', 'Chapter title', 'Describing Words', 'Verbs', 'Prepositions',
+    'Articles', 'Sentences', 'Chapter title', 'Chapter title', 'Writing Skills',
+  ].map((title, i) => ({ n: i + 1, title, state: i < 2 ? 'done' : i < 4 ? 'going' : 'new', levelsDone: i < 2 ? 3 : i < 4 ? 1 : 0 }));
+  const unseen = { count: 24, done: 3 };
+  /* Multiplication unit topics (real shape: topics grouped, each with Easy/Medium/Challenge) */
+  const multTopics = [
+    ['Multiplication as repeated addition', [3, 3, 1]], ['Tables of 2, 3, 4, 5', [3, 2, 0]], ['Tables of 6, 7, 8, 9', [2, 1, 0]],
+    ['Multiply a 2-digit number by 1 digit', [2, 0, 0]], ['Multiply a 3-digit number by 1 digit', [0, 0, 0]], ['Word problems', [1, 0, 0]],
+  ].map(([title, stars]) => ({ title, stars })); // stars per level 0-3
+  /* Question samples */
+  const questions = {
+    mcq: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 4, of: 8, text: 'There are 6 boxes. Each box has 8 mangoes. How many mangoes are there in all?',
+      options: ['42', '48', '54', '56'], answer: 1, hint: 'Think 6 groups of 8. Try 8 + 8 + 8 first, then keep adding.' },
+    typed: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 5, of: 8, text: '36 × 4 = ?', answer: '144', wrongTry: '124',
+      hint: 'Do the ones first: 6 × 4 = 24. Write 4, carry 2. Then 3 tens × 4 = 12 tens, plus the 2 carried.' },
+    english: { subject: 'english', unit: 'Animal World · Unseen passage', level: 'Easy', n: 2, of: 6,
+      passageTitle: 'The Clever Crow', passage: ['A thirsty crow found a jug with a little water at the bottom. Its beak could not reach.', 'The crow dropped small stones into the jug, one by one. The water rose slowly. At last the crow drank and flew away happily.'],
+      text: 'Why did the crow drop stones into the jug?', options: ['To break the jug', 'To make the water rise', 'To play a game', 'To hide the water'], answer: 1,
+      hint: 'Read the second paragraph again. What happened to the water after each stone?' },
+  };
+  const setSummary = { topic: 'Tables of 6, 7, 8, 9', level: 'Medium', got: 7, of: 8, stars: 3, minutes: 6, hintsUsed: 1, fixedOldMistake: true, triedChallenge: false, firstTry: 6 };
+  const wordQuest = { clue: 'A big grey animal with a trunk', answer: 'elephant', typedSoFar: 'eleph', wpm: 14, accuracy: 94, wordsToday: 9 };
+  /* Six weeks of history for Mira. Weekly accuracy % (null = not enough data: fewer than 10 attempts). */
+  const weeks = ['26 Aug', '2 Sep', '9 Sep', '16 Sep', '23 Sep', '30 Sep'];
+  const history = {
+    weeks,
+    overall: [48, 54, 61, 66, 71, 76],
+    maths: [50, 55, 63, 70, 75, 80],
+    english: [45, 52, 58, 61, 66, 71],
+    topics: { /* weekly accuracy for two topics: real growth vs plateau */
+      'Multiplication · Tables of 6, 7, 8, 9': [30, 38, 52, 64, 74, 81],
+      'Division · Sharing equally': [52, 55, 54, 56, 55, 57],
+      'English · Verbs': [null, 40, 48, 55, 62, 68],
+    },
+    minutes: [38, 55, 62, 70, 84, 91], days: [3, 4, 4, 5, 5, 6], sets: [5, 7, 9, 10, 12, 13],
+    baseline: { firstAttempts: 20, accuracy: 44, note: 'First 20 answers, 26 to 28 Aug' },
+    levels: { Easy: 'done in 8 of 12 maths units', Medium: 'started in 4', Challenge: 'tried in 2' },
+    typing: { wpm: [6, 8, 9, 11, 13, 14], accuracy: [81, 85, 88, 90, 93, 94], fingerGuideOff: [false, false, false, true, true, true] },
+    mistakeThemes: [['Carrying in multiplication', 9], ['Misread the question', 7], ['Spelling of plurals', 5], ['Remainders in division', 5], ['Tell time to the minute', 3]],
+    heat: { /* accuracy % per chapter, null = not tried */
+      'Maths 1 Numbers': 92, 'Maths 2 Addition': 88, 'Maths 3 Subtraction': 79, 'Maths 4 Multiplication': 74, 'Maths 5 Division': 57, 'Maths 6 Time': 49, 'Maths 7 Money': null,
+      'Reader 1 Animal World': 84, 'Reader 2 Nature Cares': 66, 'Practice Nouns': 90, 'Practice Pronouns': 82, 'Practice Describing': 71, 'Practice Verbs': 68, 'Practice Prepositions': null,
+    },
+    nextUp: ['Division · Sharing equally: 2 short Easy sets, then Medium', 'Time to the minute: re-read book page 66 together', 'Verbs: one Challenge set to stretch'],
+    exam: { portion: 'Maths units 1 to 5 (Periodic Test, 25 marks)', ready: 'Nearly there', predicted: '18 to 21 of 25', weakest: 'Division' },
+  };
+  return { kids, maths, reader, practice, unseen, multTopics, questions, setSummary, wordQuest, history };
+})();
+
+/* ---- shared helpers ---- */
+(function () {
+  var root = document.documentElement;
+  function effective() {
+    var t = root.getAttribute('data-theme');
+    if (t) return t;
+    return window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  try { var saved = localStorage.getItem('hb-b-theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+  var tb = document.getElementById('themeBtn');
+  function label() { if (tb) tb.querySelector('span').textContent = effective() === 'dark' ? 'Light' : 'Dark'; }
+  if (tb) tb.addEventListener('click', function () {
+    var next = effective() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('hb-b-theme', next); } catch (e) {}
+    label();
+    document.dispatchEvent(new Event('hb-theme'));
+  });
+  label();
+  var menu = document.getElementById('menu');
+  function fit() { if (menu) menu.open = window.matchMedia('(min-width: 1000px)').matches; }
+  fit(); window.addEventListener('resize', fit);
+})();
+
+/* Sprig, the companion. stage 1 seed, 2 sprout, 3 sapling, 4 bloom. Never sick or sad. */
+function stageFor(level) { return level >= 10 ? 4 : level >= 6 ? 3 : level >= 3 ? 2 : 1; }
+function buddySVG(o) {
+  o = o || {};
+  var st = o.stage || 3, acc = o.acc || [];
+  var rx = [26, 31, 35, 37][st - 1], ry = [24, 29, 32, 34][st - 1], cy = 104 - ry;
+  var g = '';
+  var leaf = function (d) { return '<path class="buddy-b" d="' + d + '"/>'; };
+  g += '<ellipse class="buddy-d" cx="' + (60 - rx * 0.5) + '" cy="106" rx="9" ry="5"/><ellipse class="buddy-d" cx="' + (60 + rx * 0.5) + '" cy="106" rx="9" ry="5"/>';
+  g += '<ellipse class="buddy-b" cx="60" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '"/>';
+  g += '<ellipse class="buddy-belly" cx="60" cy="' + (cy + ry * 0.35) + '" rx="' + rx * 0.55 + '" ry="' + ry * 0.5 + '"/>';
+  var top = cy - ry;
+  g += '<path class="buddy-d" d="M60 ' + (top + 3) + ' L60 ' + (top - 6) + '" stroke="none"/>';
+  g += leaf('M60 ' + (top + 2) + ' C52 ' + (top - 14) + ' 38 ' + (top - 12) + ' 36 ' + (top - 6) + ' C44 ' + (top + 2) + ' 52 ' + (top + 4) + ' 60 ' + (top + 2) + 'Z');
+  if (st >= 2) g += leaf('M60 ' + (top + 2) + ' C68 ' + (top - 18) + ' 82 ' + (top - 16) + ' 84 ' + (top - 8) + ' C76 ' + (top + 2) + ' 68 ' + (top + 4) + ' 60 ' + (top + 2) + 'Z');
+  if (st >= 3) g += leaf('M60 ' + (top + 2) + ' C58 ' + (top - 20) + ' 60 ' + (top - 26) + ' 64 ' + (top - 28) + ' C66 ' + (top - 16) + ' 64 ' + (top - 4) + ' 60 ' + (top + 2) + 'Z');
+  var ey = cy - ry * 0.12;
+  g += '<ellipse class="buddy-eye" cx="' + (60 - rx * 0.36) + '" cy="' + ey + '" rx="3.4" ry="4.2"/><ellipse class="buddy-eye" cx="' + (60 + rx * 0.36) + '" cy="' + ey + '" rx="3.4" ry="4.2"/>';
+  g += '<circle class="buddy-cheek" cx="' + (60 - rx * 0.6) + '" cy="' + (ey + 7) + '" r="4.5"/><circle class="buddy-cheek" cx="' + (60 + rx * 0.6) + '" cy="' + (ey + 7) + '" r="4.5"/>';
+  g += '<path class="buddy-mouth" d="M' + (60 - 6) + ' ' + (ey + 8) + ' Q60 ' + (ey + 14) + ' ' + (60 + 6) + ' ' + (ey + 8) + '"/>';
+  if (st >= 3 || acc.indexOf('scarf') >= 0) {
+    var sy = cy + ry * 0.62;
+    g += '<path class="buddy-scarf" d="M' + (60 - rx * 0.78) + ' ' + sy + ' Q60 ' + (sy + 14) + ' ' + (60 + rx * 0.78) + ' ' + sy + ' L' + (60 + rx * 0.7) + ' ' + (sy + 8) + ' Q60 ' + (sy + 22) + ' ' + (60 - rx * 0.7) + ' ' + (sy + 8) + 'Z"/>';
+    g += '<path class="buddy-scarf" d="M' + (60 + rx * 0.4) + ' ' + (sy + 10) + ' l8 17 l-9 2z"/>';
+  }
+  if (st >= 4 || acc.indexOf('flower') >= 0) {
+    var fx = 60, fy = top - 24;
+    for (var i = 0; i < 5; i++) { var a = i * 72 * Math.PI / 180; g += '<circle class="buddy-petal" cx="' + (fx + Math.sin(a) * 6.5).toFixed(1) + '" cy="' + (fy - Math.cos(a) * 6.5).toFixed(1) + '" r="5"/>'; }
+    g += '<circle class="buddy-gold" cx="' + fx + '" cy="' + fy + '" r="4"/>';
+  }
+  if (acc.indexOf('bud') >= 0) g += '<ellipse class="buddy-petal" cx="60" cy="' + (top - 30) + '" rx="5" ry="7"/>';
+  if (acc.indexOf('flag') >= 0) g += '<path class="buddy-pole" d="M' + (60 + rx + 6) + ' ' + (cy + 10) + ' L' + (60 + rx + 6) + ' ' + (cy - 34) + '"/><path class="buddy-gold" d="M' + (60 + rx + 6) + ' ' + (cy - 34) + ' l20 7 l-20 7z"/>';
+  var sp = '<path class="spark s1" d="M14 30 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2z"/><path class="spark s2" d="M104 24 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2z"/><path class="spark s3" d="M98 62 l1.6 4 l4 1.6 l-4 1.6 l-1.6 4 l-1.6 -4 l-4 -1.6 l4 -1.6z"/>';
+  return '<svg class="buddy ' + (o.cls || '') + '" viewBox="0 0 120 124" role="img" aria-label="' + (o.label || 'Sprig, your companion') + '"><g class="pose">' + g + '</g>' + sp + '</svg>';
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+document.querySelectorAll('[data-buddy]').forEach(function (el) {
+  var a = el.getAttribute('data-buddy').split(',');
+  el.innerHTML = buddySVG({ stage: +a[0], acc: a.slice(1).filter(Boolean) });
+});
+/* rewards setting (parent controls: full / quiet / minimal) */
+function setRewards(v) { document.body.setAttribute('data-rewards', v); }
+
+(function () {
+  var L = ['Easy', 'Medium', 'Challenge'];
+  var topics = HB.multTopics;
+  var next = 2;
+
+  function tcount(s) { return s.filter(function (x) { return x > 0; }).length; }
+  document.getElementById('stops').innerHTML = topics.map(function (t, i) {
+    var lit = t.stars.every(function (s) { return s >= 1; });
+    var rec = t.stars.findIndex(function (s) { return s < 3; });
+    var cls = (lit ? 'lit ' : '') + (i === next ? 'next' : '');
+    var stair = L.map(function (n, k) {
+      var s = t.stars[k], star = '&#9733;'.repeat(s) + '<span aria-hidden="true" style="color:var(--muted)">' + '&#9734;'.repeat(3 - s) + '</span>';
+      var r = i === next && k === rec;
+      return '<a href="04-practice.html" class="' + (s >= 3 ? 'done' : '') + (r ? ' rec' : '') + '" aria-label="' + n + ', ' + s + ' of 3 stars' + (r ? ', suggested next' : '') + '"><span>' + n + '</span><span class="st" aria-hidden="true">' + star + '</span><small>' + (s >= 3 ? 'Done' : r ? 'Try next' : s > 0 ? 'Started' : 'Not yet') + '</small></a>';
+    }).join('');
+    return '<li class="tstop ' + cls + '"><div class="rail"><div class="pin" aria-hidden="true">' + (i + 1) + '</div></div>' +
+      '<div class="tc"><div><h3>' + t.title + '</h3><div class="meta"><span class="small muted">Steps tried: ' + tcount(t.stars) + ' of 3</span>' + (i === next ? '<span class="chip">Suggested next stop</span>' : '') + '</div></div><div class="stair">' + stair + '</div></div></li>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

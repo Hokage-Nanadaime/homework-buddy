@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;700;800&display=swap">
+<title>Homework Buddy, B Quest map: Parent progress</title>
+<style>
+/* Layout: a calm map-green ground; each book is a winding trail, chapters are stops with page signposts, one companion (Sprig) grows with practice. */
+:root {
+  --ground: #eef4ef;
+  --card: #ffffff;
+  --card-2: #f4f9f6;
+  --ink: #15302c;
+  --muted: #435f58;
+  --line: #cfe0d7;
+  --accent: #1f6b52;
+  --on-accent: #ffffff;
+  --accent-ink: #17533f;
+  --accent-tint: #d8efe4;
+  --maths: #2457c5;
+  --on-maths: #ffffff;
+  --maths-ink: #1b469f;
+  --maths-tint: #dfe9ff;
+  --english: #b4430c;
+  --on-english: #ffffff;
+  --english-ink: #9a3412;
+  --english-tint: #ffe8d9;
+  --ok: #086848;
+  --ok-tint: #d6f3e6;
+  --hint: #7a4e00;
+  --hint-tint: #fff0c9;
+  --gold-fill: #ffc83d;
+  --gold-ink: #7a5000;
+  --land: #dcebe1;
+  --land-2: #c7dfd0;
+  --water: #cfe5ec;
+  --trail: #6f9283;
+  --trail-lit: #b97d00;
+  --sign: #f3dfb2;
+  --sign-ink: #4a3300;
+  --buddy: #7cc79a;
+  --buddy-deep: #3f9a68;
+  --buddy-belly: #d3f0dd;
+  --buddy-eye: #15302c;
+  --buddy-cheek: #f2a9a0;
+  --scarf: #d9582b;
+  --petal: #f4a3c0;
+  --focus: #6b2fc4;
+  --key-left: #dfe9ff;
+  --key-right: #ffe8d9;
+  --paper: #ffffff;
+  --paper-ink: #1a1a1a;
+  --shadow: 0 2px 10px color-mix(in srgb, var(--ink) 10%, transparent);
+  /* chart tokens (validated with the dataviz validator: slots 1 to 3, light and dark) */
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --grid: #d3e1da;
+  --axis: #435f58;
+  --seq-1: #cde2fb;
+  --seq-2: #86b6ef;
+  --seq-3: #256abf;
+  --seq-4: #1c5cab;
+  --seq-5: #0d366b;
+  --seq-t1: #0b1f1b;
+  --seq-t2: #0b1f1b;
+  --seq-t3: #ffffff;
+  --seq-t4: #ffffff;
+  --seq-t5: #ffffff;
+  --display: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
+  --body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ground: #0f1d1a;
+    --card: #17282a;
+    --card-2: #1d3235;
+    --ink: #e6f3ee;
+    --muted: #a9c4bb;
+    --line: #2d4742;
+    --accent: #6fd3a5;
+    --on-accent: #08241a;
+    --accent-ink: #8fe0bb;
+    --accent-tint: #1d4437;
+    --maths: #8fb0ff;
+    --on-maths: #0a1a40;
+    --maths-ink: #b3c8ff;
+    --maths-tint: #1d2c55;
+    --english: #ffa571;
+    --on-english: #2a1204;
+    --english-ink: #ffbf99;
+    --english-tint: #4a2410;
+    --ok: #4fdba0;
+    --ok-tint: #0f3b2e;
+    --hint: #ffd37a;
+    --hint-tint: #3f3112;
+    --gold-ink: #ffc83d;
+    --land: #14292a;
+    --land-2: #1a3436;
+    --water: #12303a;
+    --trail: #5f857a;
+    --trail-lit: #ffc83d;
+    --sign: #3a3020;
+    --sign-ink: #f4deb0;
+    --buddy: #7fd1a0;
+    --buddy-deep: #4aa876;
+    --buddy-belly: #bfe9cf;
+    --scarf: #f07a4f;
+    --focus: #c9a8ff;
+    --key-left: #1d2c55;
+    --key-right: #4a2410;
+    --paper: #17282a;
+    --paper-ink: #e6f3ee;
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --grid: #2d4742;
+    --axis: #a9c4bb;
+    --seq-1: #0d366b;
+    --seq-2: #184f95;
+    --seq-3: #256abf;
+    --seq-4: #5598e7;
+    --seq-5: #9ec5f4;
+    --seq-t1: #ffffff;
+    --seq-t2: #ffffff;
+    --seq-t3: #ffffff;
+    --seq-t4: #0b1f1b;
+    --seq-t5: #0b1f1b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --ground: #0f1d1a;
+  --card: #17282a;
+  --card-2: #1d3235;
+  --ink: #e6f3ee;
+  --muted: #a9c4bb;
+  --line: #2d4742;
+  --accent: #6fd3a5;
+  --on-accent: #08241a;
+  --accent-ink: #8fe0bb;
+  --accent-tint: #1d4437;
+  --maths: #8fb0ff;
+  --on-maths: #0a1a40;
+  --maths-ink: #b3c8ff;
+  --maths-tint: #1d2c55;
+  --english: #ffa571;
+  --on-english: #2a1204;
+  --english-ink: #ffbf99;
+  --english-tint: #4a2410;
+  --ok: #4fdba0;
+  --ok-tint: #0f3b2e;
+  --hint: #ffd37a;
+  --hint-tint: #3f3112;
+  --gold-ink: #ffc83d;
+  --land: #14292a;
+  --land-2: #1a3436;
+  --water: #12303a;
+  --trail: #5f857a;
+  --trail-lit: #ffc83d;
+  --sign: #3a3020;
+  --sign-ink: #f4deb0;
+  --buddy: #7fd1a0;
+  --buddy-deep: #4aa876;
+  --buddy-belly: #bfe9cf;
+  --scarf: #f07a4f;
+  --focus: #c9a8ff;
+  --key-left: #1d2c55;
+  --key-right: #4a2410;
+  --paper: #17282a;
+  --paper-ink: #e6f3ee;
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --grid: #2d4742;
+  --axis: #a9c4bb;
+  --seq-1: #0d366b;
+  --seq-2: #184f95;
+  --seq-3: #256abf;
+  --seq-4: #5598e7;
+  --seq-5: #9ec5f4;
+  --seq-t1: #ffffff;
+  --seq-t2: #ffffff;
+  --seq-t3: #ffffff;
+  --seq-t4: #0b1f1b;
+  --seq-t5: #0b1f1b;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.2; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.1rem; }
+p { margin: 0; }
+a { color: var(--accent-ink); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 24px; padding-top: 24px; }
+.muted { color: var(--muted); }
+.small { font-size: 0.9rem; }
+.eyebrow { font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; color: var(--muted); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+/* top bar */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding: 8px max(16px, env(safe-area-inset-right, 0px)) 8px max(16px, env(safe-area-inset-left, 0px));
+  background: var(--card); border-bottom: 1px solid var(--line);
+}
+.topbar-in { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-weight: 600; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; margin-right: auto; }
+.brand svg { width: 28px; height: 28px; }
+.menu > summary { list-style: none; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; padding: 0 14px; border: 2px solid var(--line); border-radius: 12px; font-weight: 800; }
+.menu > summary::-webkit-details-marker { display: none; }
+.menu nav { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 8px; }
+.menu nav a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 12px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 0.95rem; }
+.menu nav a:hover { background: var(--accent-tint); }
+.menu nav a[aria-current='page'] { background: var(--accent); color: var(--on-accent); }
+.tb-btn { min-height: 44px; min-width: 44px; padding: 0 14px; border-radius: 12px; border: 2px solid var(--line); background: var(--card); color: var(--ink); font: 800 0.95rem var(--body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+.tb-btn:hover { border-color: var(--accent); }
+@media (min-width: 1000px) {
+  .menu { order: 2; flex: 1 1 auto; }
+  .menu > summary { display: none; }
+  .menu nav { padding: 0; justify-content: center; }
+  .brand { margin-right: 0; }
+}
+@media (max-width: 999px) { .menu { flex-basis: 100%; order: 5; } }
+
+/* buttons, chips */
+.btn { min-height: 48px; padding: 0 22px; border-radius: 14px; border: 2px solid var(--accent); background: var(--accent); color: var(--on-accent); font: 800 1.05rem var(--body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+.btn:hover { filter: brightness(1.06); }
+.btn.ghost { background: transparent; color: var(--accent-ink); }
+.btn.maths { background: var(--maths); border-color: var(--maths); color: var(--on-maths); }
+.btn.english { background: var(--english); border-color: var(--english); color: var(--on-english); }
+.btn.small { min-height: 44px; padding: 0 16px; font-size: 0.95rem; }
+.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 2px 12px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); font-weight: 800; font-size: 0.85rem; }
+.chip.m { background: var(--maths-tint); color: var(--maths-ink); }
+.chip.e { background: var(--english-tint); color: var(--english-ink); }
+.chip.hint { background: var(--hint-tint); color: var(--hint); }
+.seg { display: inline-flex; flex-wrap: wrap; border: 2px solid var(--line); border-radius: 14px; background: var(--card); padding: 3px; gap: 3px; }
+.seg button, .seg a { min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: transparent; color: var(--ink); font: 800 0.95rem var(--body); cursor: pointer; display: inline-flex; align-items: center; text-decoration: none; }
+.seg [aria-pressed='true'], .seg [aria-selected='true'], .seg [aria-current='true'] { background: var(--accent); color: var(--on-accent); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); }
+.demo-panel { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 10px 14px; border: 2px dashed var(--line); border-radius: 16px; background: var(--card-2); }
+.demo-panel .lbl { font-weight: 800; font-size: 0.85rem; color: var(--muted); }
+
+/* companion */
+.buddy { display: block; width: 100%; height: auto; overflow: visible; }
+.buddy .pose { transform-origin: 60px 100px; transform-box: view-box; }
+.buddy-b { fill: var(--buddy); stroke: var(--buddy-deep); stroke-width: 2.5; }
+.buddy-d { fill: var(--buddy-deep); }
+.buddy-belly { fill: var(--buddy-belly); }
+.buddy-eye { fill: var(--buddy-eye); }
+.buddy-cheek { fill: var(--buddy-cheek); opacity: 0.8; }
+.buddy-mouth { fill: none; stroke: var(--buddy-eye); stroke-width: 2.4; stroke-linecap: round; }
+.buddy-scarf { fill: var(--scarf); }
+.buddy-gold { fill: var(--gold-fill); }
+.buddy-petal { fill: var(--petal); }
+.buddy-pole { stroke: var(--sign-ink); stroke-width: 3; stroke-linecap: round; }
+.buddy .spark { fill: var(--gold-fill); opacity: 0; }
+@keyframes nod { 0%,100% { transform: translateY(0); } 40% { transform: translateY(4px); } }
+@keyframes tilt { 0% { transform: rotate(0); } 50%,100% { transform: rotate(-11deg); } }
+@keyframes twinkle { 0% { opacity: 0; transform: scale(0.4); } 40% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+@keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+.react-nod .pose { animation: nod 0.5s ease-out 1; }
+.react-nod .spark { animation: twinkle 0.55s ease-out 1; }
+.react-tilt .pose { animation: tilt 0.45s ease-out 1 forwards; }
+.react-nod .spark.s2 { animation-delay: 0.08s; }
+.react-nod .spark.s3 { animation-delay: 0.16s; }
+.calm-off .react-nod .pose, .calm-off .react-nod .spark, .calm-off .react-tilt .pose { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .react-nod .pose, .react-nod .spark, .react-tilt .pose { animation: none; }
+  .react-tilt .pose { transform: rotate(-8deg); }
+  .react-nod .spark { opacity: 1; }
+  * { scroll-behavior: auto !important; transition: none !important; }
+}
+body[data-rewards='minimal'] .reward { display: none !important; }
+body[data-rewards='quiet'] .reward.loud { display: none !important; }
+
+/* map scenery */
+.land { fill: var(--land); }
+.land2 { fill: var(--land-2); }
+.water { fill: var(--water); }
+.trail-line { fill: none; stroke: var(--trail); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 2 11; }
+.trail-line.lit { stroke: var(--trail-lit); stroke-dasharray: none; stroke-width: 6; }
+.tree { fill: var(--buddy-deep); opacity: 0.55; }
+.trunk { fill: var(--trail); }
+
+/* stars (three steps) */
+.steps { display: flex; gap: 6px; align-items: flex-end; }
+.step { display: inline-flex; flex-direction: column; align-items: center; justify-content: flex-end; min-width: 44px; padding: 4px 8px 4px; border-radius: 8px 8px 4px 4px; border: 2px solid var(--line); background: var(--card); font-size: 0.78rem; font-weight: 800; color: var(--ink); line-height: 1.15; }
+.step.s-1 { min-height: 38px; }
+.step.s-2 { min-height: 50px; }
+.step.s-3 { min-height: 62px; }
+.step.done { background: var(--accent-tint); border-color: var(--accent); color: var(--accent-ink); }
+.step.try { background: var(--hint-tint); border-color: var(--hint); color: var(--hint); border-style: dashed; }
+.step .mk { font-size: 1rem; line-height: 1; }
+
+/* Parent area: sober, no map decoration. Same tokens, flatter surfaces. */
+.card { box-shadow: none; border-radius: 14px; }
+.ph { display: flex; flex-wrap: wrap; gap: 12px 20px; justify-content: space-between; align-items: end; }
+.ph .tools { display: flex; flex-wrap: wrap; gap: 10px; }
+.avs { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-tint); color: var(--accent-ink); font: 600 0.9rem var(--display); margin-right: 8px; }
+.seg [aria-pressed='true'] .avs { background: var(--on-accent); color: var(--accent); }
+.rephead { display: none; border-bottom: 2px solid var(--paper-ink); padding-bottom: 8px; }
+body.report .rephead { display: block; }
+body.report { background: var(--paper); color: var(--paper-ink); }
+body.report .topbar, body.report .nodemo { display: none; }
+body.report .card { border-color: var(--line); background: var(--paper); }
+.hist { display: grid; gap: 4px; }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.tile { display: grid; gap: 6px; }
+.tile .big { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.tile .big b { font: 600 2.2rem/1 var(--display); }
+.tile .arr { color: var(--muted); font-weight: 800; }
+.tile .gain { font-weight: 800; color: var(--ok); }
+.twocol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
+figcaption.t { font: 600 1.15rem var(--display); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.9rem; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.viz svg { display: block; width: 100%; height: auto; overflow: visible; }
+.viz text { font-family: var(--body); }
+.tbl { display: none; overflow-x: auto; }
+body[data-tables='on'] .tbl { display: block; }
+body[data-tables='on'] .viz, body[data-tables='on'] .legend { display: none; }
+table.t { border-collapse: collapse; width: 100%; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+table.t th, table.t td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+table.t th { color: var(--muted); font-weight: 800; }
+.note-small { font-size: 0.9rem; color: var(--muted); }
+.callouts { display: flex; flex-wrap: wrap; gap: 8px; }
+.callouts .chip { font-weight: 800; }
+.heatgrp { display: grid; gap: 8px; }
+.heat { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.cell { border-radius: 10px; padding: 8px 12px; display: grid; gap: 0; min-height: 70px; align-content: center; border: 2px solid transparent; font-size: 0.85rem; }
+.cell b { font: 600 1.5rem/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.cell.b1 { background: var(--seq-1); color: var(--seq-t1); } .cell.b2 { background: var(--seq-2); color: var(--seq-t2); }
+.cell.b3 { background: var(--seq-3); color: var(--seq-t3); } .cell.b4 { background: var(--seq-4); color: var(--seq-t4); }
+.cell.b5 { background: var(--seq-5); color: var(--seq-t5); }
+.cell.nt { background: repeating-linear-gradient(135deg, var(--card-2) 0 6px, var(--line) 6px 8px); color: var(--ink); border: 2px dashed var(--trail); }
+.swatches { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.85rem; }
+.swatches i { display: inline-block; width: 22px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 5px; }
+.swatches i.b1 { background: var(--seq-1); } .swatches i.b2 { background: var(--seq-2); } .swatches i.b3 { background: var(--seq-3); } .swatches i.b4 { background: var(--seq-4); } .swatches i.b5 { background: var(--seq-5); }
+.swatches i.nt { background: repeating-linear-gradient(135deg, var(--card-2) 0 4px, var(--line) 4px 6px); border: 1px dashed var(--trail); }
+.lv { display: grid; gap: 12px; }
+.lv .r { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.lv .track { height: 18px; background: var(--grid); border-radius: 4px; overflow: hidden; }
+.lv .track i { display: block; height: 100%; background: var(--s1); border-radius: 0 4px 4px 0; }
+.habit { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.ex { display: grid; gap: 10px; }
+.band { display: grid; gap: 6px; }
+.band .scale { position: relative; height: 22px; background: var(--grid); border-radius: 4px; }
+.band .scale i { position: absolute; top: 0; bottom: 0; background: var(--s1); border-radius: 4px; }
+.band .ticks { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.badge-later { display: inline-flex; align-items: center; gap: 6px; padding: 2px 12px; min-height: 28px; border-radius: 999px; border: 2px dashed var(--hint); color: var(--hint); background: var(--hint-tint); font-weight: 800; font-size: 0.85rem; }
+.ph-box { border: 2px dashed var(--trail); border-radius: 14px; padding: 16px 18px; display: grid; gap: 10px; background: var(--card-2); }
+.ph-bars { display: grid; gap: 8px; }
+.ph-bars .r { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) 2rem; gap: 10px; align-items: center; font-size: 0.92rem; }
+.ph-bars .bar { height: 16px; border-radius: 3px; background: repeating-linear-gradient(135deg, var(--trail) 0 5px, transparent 5px 9px); border: 1px solid var(--trail); }
+.next { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+.next li::marker { font-weight: 800; }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 14px; font-size: 0.95rem; }
+.kv b { font-variant-numeric: tabular-nums; }
+.empty { text-align: left; display: grid; gap: 10px; }
+.tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--card); border-radius: 10px; padding: 8px 12px; font-size: 0.88rem; line-height: 1.4; max-width: 240px; box-shadow: var(--shadow); }
+.tip b { display: block; }
+body.report .tip { display: none; }
+@media (max-width: 999px) { .twocol, .tiles, .habit { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .lv .r { grid-template-columns: 70px minmax(0, 1fr) auto; } .ph-bars .r { grid-template-columns: minmax(0, 8rem) minmax(0, 1fr) 1.6rem; } }
+@media print { .topbar, .nodemo { display: none; } body { background: var(--paper); color: var(--paper-ink); } .card { break-inside: avoid; } }
+</style>
+</head>
+<body data-rewards="full" data-tables="off">
+<header class="topbar"><div class="topbar-in"><span class="brand"><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="var(--accent-tint)"/><path d="M5 20 C9 10 12 18 15 12 S21 8 23 7" fill="none" stroke="var(--trail-lit)" stroke-width="2.4" stroke-linecap="round"/><circle cx="23" cy="7" r="2.6" fill="var(--accent)"/></svg>B Quest map</span>
+<details class="menu" id="menu"><summary>Pages</summary><nav aria-label="Pages in this direction"><a href="01-home.html">Home</a><a href="02-book-index.html">Book trail</a><a href="03-chapter.html">Chapter</a><a href="04-practice.html">Practice</a><a href="05-set-summary.html">Summary</a><a href="06-word-quest.html">Word Quest</a><a href="07-parent-progress.html" aria-current="page">Parent</a></nav></details>
+<button class="tb-btn" id="themeBtn" type="button" aria-label="Switch light and dark theme">Theme: <span>Dark</span></button>
+<a class="tb-btn" href="../index.html">All directions</a></div></header>
+<main class="wrap" id="main">
+  <header class="rephead"><h2>Homework Buddy · Progress report</h2><p id="repsub"></p></header>
+  <div class="ph nodemo">
+    <div><p class="eyebrow">Parent area</p><h1>Progress for <span id="kn">Mira</span></h1></div>
+    <div class="tools">
+      <div class="seg" id="kids" role="group" aria-label="Choose a child"></div>
+      <div class="seg" id="tv" role="group" aria-label="Chart or table view"><button type="button" data-v="off" aria-pressed="true">Charts</button><button type="button" data-v="on" aria-pressed="false">Tables</button></div>
+      <button class="tb-btn" id="repbtn" type="button" aria-pressed="false">Printable report look</button>
+    </div>
+  </div>
+  <div class="hist card" id="hist"></div>
+
+  <div id="miraOnly" style="display:grid;gap:24px">
+  <section class="tiles" aria-label="Where they started and where they are now" id="tiles"></section>
+
+  <section class="card" aria-labelledby="aH">
+    <figure id="figA"><figcaption class="t" id="aH">Weekly accuracy: Maths and English</figcaption>
+      <p class="note-small">Share of answers right each week. Only weeks with at least 10 answers are drawn.</p>
+      <div class="legend" id="legA"></div><div class="viz" id="chartA"></div><div class="tbl" id="tblA"></div></figure>
+  </section>
+
+  <section class="card" aria-labelledby="bH">
+    <figure id="figB"><figcaption class="t" id="bH">Growth and a plateau, topic by topic</figcaption>
+      <div class="callouts" id="callB"></div>
+      <div class="legend" id="legB"></div><div class="viz" id="chartB"></div><div class="tbl" id="tblB"></div>
+      <p class="note-small" id="capB"></p></figure>
+  </section>
+
+  <section class="card" aria-labelledby="hH" style="display:grid;gap:12px">
+    <h2 id="hH" style="font-size:1.15rem">Chapter heat map: accuracy by chapter</h2>
+    <div class="swatches" id="swH" aria-label="Key"></div>
+    <div class="viz" id="heat" style="display:grid;gap:14px"></div>
+    <div class="tbl" id="tblH"></div>
+  </section>
+
+  <div class="twocol">
+    <section class="card" aria-labelledby="lH" style="display:grid;gap:12px;align-content:start">
+      <h2 id="lH" style="font-size:1.15rem">Level progress, Maths units</h2>
+      <div class="lv" id="lv"></div>
+      <p class="note-small">Easy first, then Medium, then Challenge. Out of 12 units.</p>
+    </section>
+    <section class="card ex" id="exam" aria-labelledby="eH">
+      <h2 id="eH" style="font-size:1.15rem">Exam readiness</h2>
+      <p id="exPortion"></p>
+      <div class="band" id="exBand"></div>
+      <div class="callouts" id="exChips"></div>
+    </section>
+  </div>
+
+  <section class="card" aria-labelledby="hbH">
+    <figure id="figH"><figcaption class="t" id="hbH">Habit: days, minutes and sets each week</figcaption>
+      <div class="habit viz" id="habit"></div><div class="tbl" id="tblHb"></div></figure>
+  </section>
+
+  <section class="card" aria-labelledby="tyH">
+    <figure id="figT"><figcaption class="t" id="tyH">Typing growth in Word Quest</figcaption>
+      <div class="twocol viz" id="typing"></div><div class="tbl" id="tblT"></div>
+      <p class="note-small">Words a minute and accuracy come from each typing session (words, letters, seconds, mistakes). Keyboard help is always on today, so this growth is with help.</p></figure>
+  </section>
+
+  <div class="twocol">
+    <section class="card" aria-labelledby="mH" style="display:grid;gap:12px;align-content:start">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between"><h2 id="mH" style="font-size:1.15rem">Mistake themes</h2><span class="badge-later">Coming later</span></div>
+      <div class="ph-box"><p class="small"><b>Sample content, not live data.</b> Mistake kinds are not recorded yet. This shows the idea: a few themes to practise, never a score.</p><div class="ph-bars" id="mt"></div></div>
+    </section>
+    <section class="card" aria-labelledby="wH" style="display:grid;gap:12px;align-content:start">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between"><h2 id="wH" style="font-size:1.15rem">Written answers</h2><span class="chip hint">Sample figures</span></div>
+      <p class="small muted">Claude suggests a mark. A grown-up always decides what counts.</p>
+      <div class="kv"><span>Questions marked this month</span><b>12</b><span>Suggested mark accepted unchanged</span><b>9</b><span>Changed by a grown-up</span><b>3</b></div>
+    </section>
+  </div>
+
+  <div class="twocol">
+    <section class="card" aria-labelledby="nH" style="display:grid;gap:12px;align-content:start">
+      <h2 id="nH" style="font-size:1.15rem">What to practise next</h2>
+      <ol class="next" id="next"></ol>
+    </section>
+    <section class="card" aria-labelledby="rwH" style="display:grid;gap:12px;align-content:start">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between"><h2 id="rwH" style="font-size:1.15rem">Rewards at a glance</h2><span class="badge-later">Design intent</span></div>
+      <p class="small muted">Not stored yet. Shows how the setting would work: Sprig, stars and the daily goal can be turned down to quiet or minimal.</p>
+      <div class="seg" role="group" aria-label="Reward level (design preview)"><button type="button" aria-pressed="true">Full</button><button type="button" aria-pressed="false">Quiet</button><button type="button" aria-pressed="false">Minimal</button></div>
+      <p class="small">Never lost: stars, level, or days in a row. A rest day token pauses the count instead of resetting it.</p>
+    </section>
+  </div>
+  </div>
+
+  <section class="card empty" id="kabirOnly" hidden>
+    <h2 style="font-size:1.15rem">Not enough data yet</h2>
+    <p id="kabMsg"></p>
+    <p class="note-small">Trends need at least two weeks with 10 or more answers each. Until then this page shows only simple totals, never a comparison.</p>
+  </section>
+  <p class="note-small">Each child is compared only with their own earlier weeks. There is no ranking between children.</p>
+</main>
+<div class="tip" id="tip" hidden></div>
+<script>
+/* ---- sample data (docs/design/shared/sample-data.js, pasted inline) ---- */
+/* Shared invented sample data for all four design directions. No real names. Include with a script tag
+   (each page may also paste this inline: published artifacts must be self-contained). Exposes window.HB. */
+window.HB = (function () {
+  const kids = [
+    { id: 'mira', name: 'Mira', age: 8, avatar: 'M', stars: 143, level: 7, streakDays: 4, todayMin: 12, goalMin: 15 },
+    { id: 'kabir', name: 'Kabir', age: 9, avatar: 'K', stars: 61, level: 4, streakDays: 1, todayMin: 0, goalMin: 15 },
+  ];
+  const maths = [
+    [1, 'Chapter title', 1, 'done', 3], [2, 'Addition', 17, 'done', 3], [3, 'Subtraction', 26, 'done', 2],
+    [4, 'Multiplication', 36, 'going', 2], [5, 'Division', 48, 'going', 1], [6, 'Chapter title', 64, 'new', 0],
+    [7, 'Money', 80, 'new', 0], [8, 'Length', 95, 'new', 0], [9, 'Weight', 103, 'new', 0],
+    [10, 'Capacity', 108, 'new', 0], [11, 'Fraction', 115, 'new', 0], [12, 'Geometry', 129, 'new', 0],
+  ].map(([n, title, page, state, levelsDone]) => ({ n, title, page, state, levelsDone })); // levelsDone: 0-3 of Easy/Medium/Challenge
+  const reader = [
+    [1, 'Animal World', 'done', 3], [2, 'Nature Cares', 'going', 1], [3, 'Chapter title', 'new', 0], [4, 'Adventure', 'new', 0],
+  ].map(([n, title, state, levelsDone]) => ({ n, title, state, levelsDone }));
+  const practice = [
+    'Naming Words', 'Replacing Words', 'Chapter title', 'Describing Words', 'Verbs', 'Prepositions',
+    'Articles', 'Sentences', 'Chapter title', 'Chapter title', 'Writing Skills',
+  ].map((title, i) => ({ n: i + 1, title, state: i < 2 ? 'done' : i < 4 ? 'going' : 'new', levelsDone: i < 2 ? 3 : i < 4 ? 1 : 0 }));
+  const unseen = { count: 24, done: 3 };
+  /* Multiplication unit topics (real shape: topics grouped, each with Easy/Medium/Challenge) */
+  const multTopics = [
+    ['Multiplication as repeated addition', [3, 3, 1]], ['Tables of 2, 3, 4, 5', [3, 2, 0]], ['Tables of 6, 7, 8, 9', [2, 1, 0]],
+    ['Multiply a 2-digit number by 1 digit', [2, 0, 0]], ['Multiply a 3-digit number by 1 digit', [0, 0, 0]], ['Word problems', [1, 0, 0]],
+  ].map(([title, stars]) => ({ title, stars })); // stars per level 0-3
+  /* Question samples */
+  const questions = {
+    mcq: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 4, of: 8, text: 'There are 6 boxes. Each box has 8 mangoes. How many mangoes are there in all?',
+      options: ['42', '48', '54', '56'], answer: 1, hint: 'Think 6 groups of 8. Try 8 + 8 + 8 first, then keep adding.' },
+    typed: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 5, of: 8, text: '36 × 4 = ?', answer: '144', wrongTry: '124',
+      hint: 'Do the ones first: 6 × 4 = 24. Write 4, carry 2. Then 3 tens × 4 = 12 tens, plus the 2 carried.' },
+    english: { subject: 'english', unit: 'Animal World · Unseen passage', level: 'Easy', n: 2, of: 6,
+      passageTitle: 'The Clever Crow', passage: ['A thirsty crow found a jug with a little water at the bottom. Its beak could not reach.', 'The crow dropped small stones into the jug, one by one. The water rose slowly. At last the crow drank and flew away happily.'],
+      text: 'Why did the crow drop stones into the jug?', options: ['To break the jug', 'To make the water rise', 'To play a game', 'To hide the water'], answer: 1,
+      hint: 'Read the second paragraph again. What happened to the water after each stone?' },
+  };
+  const setSummary = { topic: 'Tables of 6, 7, 8, 9', level: 'Medium', got: 7, of: 8, stars: 3, minutes: 6, hintsUsed: 1, fixedOldMistake: true, triedChallenge: false, firstTry: 6 };
+  const wordQuest = { clue: 'A big grey animal with a trunk', answer: 'elephant', typedSoFar: 'eleph', wpm: 14, accuracy: 94, wordsToday: 9 };
+  /* Six weeks of history for Mira. Weekly accuracy % (null = not enough data: fewer than 10 attempts). */
+  const weeks = ['26 Aug', '2 Sep', '9 Sep', '16 Sep', '23 Sep', '30 Sep'];
+  const history = {
+    weeks,
+    overall: [48, 54, 61, 66, 71, 76],
+    maths: [50, 55, 63, 70, 75, 80],
+    english: [45, 52, 58, 61, 66, 71],
+    topics: { /* weekly accuracy for two topics: real growth vs plateau */
+      'Multiplication · Tables of 6, 7, 8, 9': [30, 38, 52, 64, 74, 81],
+      'Division · Sharing equally': [52, 55, 54, 56, 55, 57],
+      'English · Verbs': [null, 40, 48, 55, 62, 68],
+    },
+    minutes: [38, 55, 62, 70, 84, 91], days: [3, 4, 4, 5, 5, 6], sets: [5, 7, 9, 10, 12, 13],
+    baseline: { firstAttempts: 20, accuracy: 44, note: 'First 20 answers, 26 to 28 Aug' },
+    levels: { Easy: 'done in 8 of 12 maths units', Medium: 'started in 4', Challenge: 'tried in 2' },
+    typing: { wpm: [6, 8, 9, 11, 13, 14], accuracy: [81, 85, 88, 90, 93, 94], fingerGuideOff: [false, false, false, true, true, true] },
+    mistakeThemes: [['Carrying in multiplication', 9], ['Misread the question', 7], ['Spelling of plurals', 5], ['Remainders in division', 5], ['Tell time to the minute', 3]],
+    heat: { /* accuracy % per chapter, null = not tried */
+      'Maths 1 Numbers': 92, 'Maths 2 Addition': 88, 'Maths 3 Subtraction': 79, 'Maths 4 Multiplication': 74, 'Maths 5 Division': 57, 'Maths 6 Time': 49, 'Maths 7 Money': null,
+      'Reader 1 Animal World': 84, 'Reader 2 Nature Cares': 66, 'Practice Nouns': 90, 'Practice Pronouns': 82, 'Practice Describing': 71, 'Practice Verbs': 68, 'Practice Prepositions': null,
+    },
+    nextUp: ['Division · Sharing equally: 2 short Easy sets, then Medium', 'Time to the minute: re-read book page 66 together', 'Verbs: one Challenge set to stretch'],
+    exam: { portion: 'Maths units 1 to 5 (Periodic Test, 25 marks)', ready: 'Nearly there', predicted: '18 to 21 of 25', weakest: 'Division' },
+  };
+  return { kids, maths, reader, practice, unseen, multTopics, questions, setSummary, wordQuest, history };
+})();
+
+/* ---- shared helpers ---- */
+(function () {
+  var root = document.documentElement;
+  function effective() {
+    var t = root.getAttribute('data-theme');
+    if (t) return t;
+    return window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  try { var saved = localStorage.getItem('hb-b-theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+  var tb = document.getElementById('themeBtn');
+  function label() { if (tb) tb.querySelector('span').textContent = effective() === 'dark' ? 'Light' : 'Dark'; }
+  if (tb) tb.addEventListener('click', function () {
+    var next = effective() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('hb-b-theme', next); } catch (e) {}
+    label();
+    document.dispatchEvent(new Event('hb-theme'));
+  });
+  label();
+  var menu = document.getElementById('menu');
+  function fit() { if (menu) menu.open = window.matchMedia('(min-width: 1000px)').matches; }
+  fit(); window.addEventListener('resize', fit);
+})();
+
+/* Sprig, the companion. stage 1 seed, 2 sprout, 3 sapling, 4 bloom. Never sick or sad. */
+function stageFor(level) { return level >= 10 ? 4 : level >= 6 ? 3 : level >= 3 ? 2 : 1; }
+function buddySVG(o) {
+  o = o || {};
+  var st = o.stage || 3, acc = o.acc || [];
+  var rx = [26, 31, 35, 37][st - 1], ry = [24, 29, 32, 34][st - 1], cy = 104 - ry;
+  var g = '';
+  var leaf = function (d) { return '<path class="buddy-b" d="' + d + '"/>'; };
+  g += '<ellipse class="buddy-d" cx="' + (60 - rx * 0.5) + '" cy="106" rx="9" ry="5"/><ellipse class="buddy-d" cx="' + (60 + rx * 0.5) + '" cy="106" rx="9" ry="5"/>';
+  g += '<ellipse class="buddy-b" cx="60" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '"/>';
+  g += '<ellipse class="buddy-belly" cx="60" cy="' + (cy + ry * 0.35) + '" rx="' + rx * 0.55 + '" ry="' + ry * 0.5 + '"/>';
+  var top = cy - ry;
+  g += '<path class="buddy-d" d="M60 ' + (top + 3) + ' L60 ' + (top - 6) + '" stroke="none"/>';
+  g += leaf('M60 ' + (top + 2) + ' C52 ' + (top - 14) + ' 38 ' + (top - 12) + ' 36 ' + (top - 6) + ' C44 ' + (top + 2) + ' 52 ' + (top + 4) + ' 60 ' + (top + 2) + 'Z');
+  if (st >= 2) g += leaf('M60 ' + (top + 2) + ' C68 ' + (top - 18) + ' 82 ' + (top - 16) + ' 84 ' + (top - 8) + ' C76 ' + (top + 2) + ' 68 ' + (top + 4) + ' 60 ' + (top + 2) + 'Z');
+  if (st >= 3) g += leaf('M60 ' + (top + 2) + ' C58 ' + (top - 20) + ' 60 ' + (top - 26) + ' 64 ' + (top - 28) + ' C66 ' + (top - 16) + ' 64 ' + (top - 4) + ' 60 ' + (top + 2) + 'Z');
+  var ey = cy - ry * 0.12;
+  g += '<ellipse class="buddy-eye" cx="' + (60 - rx * 0.36) + '" cy="' + ey + '" rx="3.4" ry="4.2"/><ellipse class="buddy-eye" cx="' + (60 + rx * 0.36) + '" cy="' + ey + '" rx="3.4" ry="4.2"/>';
+  g += '<circle class="buddy-cheek" cx="' + (60 - rx * 0.6) + '" cy="' + (ey + 7) + '" r="4.5"/><circle class="buddy-cheek" cx="' + (60 + rx * 0.6) + '" cy="' + (ey + 7) + '" r="4.5"/>';
+  g += '<path class="buddy-mouth" d="M' + (60 - 6) + ' ' + (ey + 8) + ' Q60 ' + (ey + 14) + ' ' + (60 + 6) + ' ' + (ey + 8) + '"/>';
+  if (st >= 3 || acc.indexOf('scarf') >= 0) {
+    var sy = cy + ry * 0.62;
+    g += '<path class="buddy-scarf" d="M' + (60 - rx * 0.78) + ' ' + sy + ' Q60 ' + (sy + 14) + ' ' + (60 + rx * 0.78) + ' ' + sy + ' L' + (60 + rx * 0.7) + ' ' + (sy + 8) + ' Q60 ' + (sy + 22) + ' ' + (60 - rx * 0.7) + ' ' + (sy + 8) + 'Z"/>';
+    g += '<path class="buddy-scarf" d="M' + (60 + rx * 0.4) + ' ' + (sy + 10) + ' l8 17 l-9 2z"/>';
+  }
+  if (st >= 4 || acc.indexOf('flower') >= 0) {
+    var fx = 60, fy = top - 24;
+    for (var i = 0; i < 5; i++) { var a = i * 72 * Math.PI / 180; g += '<circle class="buddy-petal" cx="' + (fx + Math.sin(a) * 6.5).toFixed(1) + '" cy="' + (fy - Math.cos(a) * 6.5).toFixed(1) + '" r="5"/>'; }
+    g += '<circle class="buddy-gold" cx="' + fx + '" cy="' + fy + '" r="4"/>';
+  }
+  if (acc.indexOf('bud') >= 0) g += '<ellipse class="buddy-petal" cx="60" cy="' + (top - 30) + '" rx="5" ry="7"/>';
+  if (acc.indexOf('flag') >= 0) g += '<path class="buddy-pole" d="M' + (60 + rx + 6) + ' ' + (cy + 10) + ' L' + (60 + rx + 6) + ' ' + (cy - 34) + '"/><path class="buddy-gold" d="M' + (60 + rx + 6) + ' ' + (cy - 34) + ' l20 7 l-20 7z"/>';
+  var sp = '<path class="spark s1" d="M14 30 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2z"/><path class="spark s2" d="M104 24 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2z"/><path class="spark s3" d="M98 62 l1.6 4 l4 1.6 l-4 1.6 l-1.6 4 l-1.6 -4 l-4 -1.6 l4 -1.6z"/>';
+  return '<svg class="buddy ' + (o.cls || '') + '" viewBox="0 0 120 124" role="img" aria-label="' + (o.label || 'Sprig, your companion') + '"><g class="pose">' + g + '</g>' + sp + '</svg>';
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+document.querySelectorAll('[data-buddy]').forEach(function (el) {
+  var a = el.getAttribute('data-buddy').split(',');
+  el.innerHTML = buddySVG({ stage: +a[0], acc: a.slice(1).filter(Boolean) });
+});
+/* rewards setting (parent controls: full / quiet / minimal) */
+function setRewards(v) { document.body.setAttribute('data-rewards', v); }
+
+(function () {
+  var H = HB.history, W = H.weeks, kids = HB.kids, cur = 0;
+  var $ = function (id) { return document.getElementById(id); };
+  var tip = $('tip');
+  function showTip(html, x, y) { tip.innerHTML = html; tip.hidden = false; var r = tip.getBoundingClientRect(); var nx = Math.min(Math.max(8, x + 14), innerWidth - r.width - 8); var ny = Math.max(8, y - r.height - 10); tip.style.left = nx + 'px'; tip.style.top = ny + 'px'; }
+  function hideTip() { tip.hidden = true; }
+  document.addEventListener('pointerover', function (e) { var t = e.target.closest('[data-tip]'); if (t) showTip(t.getAttribute('data-tip'), e.clientX, e.clientY); });
+  document.addEventListener('pointermove', function (e) { var t = e.target.closest('[data-tip]'); if (t) showTip(t.getAttribute('data-tip'), e.clientX, e.clientY); });
+  document.addEventListener('pointerout', function (e) { if (e.target.closest('[data-tip]')) hideTip(); });
+  document.addEventListener('focusin', function (e) { var t = e.target.closest('[data-tip]'); if (t) { var r = t.getBoundingClientRect(); showTip(t.getAttribute('data-tip'), r.left + r.width / 2, r.top); } });
+  document.addEventListener('focusout', hideTip);
+
+  function shape(kind, x, y, fill, r) {
+    r = r || 5;
+    var st = ' stroke="var(--card)" stroke-width="2"';
+    if (kind === 'sq') return '<rect x="' + (x - r) + '" y="' + (y - r) + '" width="' + 2 * r + '" height="' + 2 * r + '" rx="1.5" fill="' + fill + '"' + st + '/>';
+    if (kind === 'di') return '<polygon points="' + x + ',' + (y - r - 1.5) + ' ' + (x + r + 1.5) + ',' + y + ' ' + x + ',' + (y + r + 1.5) + ' ' + (x - r - 1.5) + ',' + y + '" fill="' + fill + '"' + st + '/>';
+    return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + fill + '"' + st + '/>';
+  }
+  function swatch(s) { return '<svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true"><line x1="0" y1="7" x2="20" y2="7" stroke="' + s.color + '" stroke-width="3"' + (s.dash ? ' stroke-dasharray="4 3"' : '') + '/>' + shape(s.shape, 10, 7, s.color, 4) + '</svg>'; }
+  function legend(host, series) { host.innerHTML = series.map(function (s) { return '<span>' + swatch(s) + s.name + '</span>'; }).join(''); }
+  function table(host, head, rows) { host.innerHTML = '<table class="t"><thead><tr>' + head.map(function (h) { return '<th scope="col">' + h + '</th>'; }).join('') + '</tr></thead><tbody>' + rows.map(function (r) { return '<tr>' + r.map(function (c, i) { return i ? '<td>' + c + '</td>' : '<th scope="row">' + c + '</th>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>'; }
+
+  /* line chart with crosshair + tooltip; null = not enough data (line breaks, open marker on the axis) */
+  function lineChart(host, o) {
+    function draw() {
+      var Wd = Math.max(300, host.clientWidth), Ht = Wd < 560 ? 250 : 290, narrow = Wd < 560;
+      var pl = 40, pr = narrow ? 14 : (o.rlab ? 142 : 22), pt = 14, pb = 34, iw = Wd - pl - pr, ih = Ht - pt - pb, n = o.weeks.length;
+      var X = function (i) { return pl + iw * i / (n - 1); }, Y = function (v) { return pt + ih * (1 - (v - o.min) / (o.max - o.min)); };
+      var s = '<svg viewBox="0 0 ' + Wd + ' ' + Ht + '" role="group" tabindex="0" aria-label="' + o.aria + ' Use left and right arrow keys to read each week."><g>';
+      for (var v = o.min; v <= o.max; v += o.step) s += '<line x1="' + pl + '" x2="' + (Wd - pr) + '" y1="' + Y(v) + '" y2="' + Y(v) + '" stroke="var(--grid)" stroke-width="1"/><text x="' + (pl - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end" font-size="12" fill="var(--axis)">' + v + (o.unit || '') + '</text>';
+      o.weeks.forEach(function (w, i) { if (!narrow || i === 0 || i === 2 || i === n - 1) s += '<text x="' + X(i) + '" y="' + (Ht - 10) + '" text-anchor="' + (i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle') + '" font-size="12" fill="var(--axis)">' + w + '</text>'; });
+      (o.refs || []).forEach(function (r) { s += '<line x1="' + pl + '" x2="' + (Wd - pr) + '" y1="' + Y(r.y) + '" y2="' + Y(r.y) + '" stroke="var(--axis)" stroke-width="1.5" stroke-dasharray="5 4"/><text x="' + (Wd - pr - 4) + '" y="' + (Y(r.y) + 16) + '" text-anchor="end" font-size="12" fill="var(--axis)">' + r.label + '</text>'; });
+      var ends = [];
+      o.series.forEach(function (se) {
+        var d = '', pen = false;
+        se.data.forEach(function (v, i) { if (v == null) { pen = false; return; } d += (pen ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1); pen = true; });
+        s += '<path d="' + d + '" fill="none" stroke="' + se.color + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"' + (se.dash ? ' stroke-dasharray="7 5"' : '') + '/>';
+        se.data.forEach(function (v, i) { if (v == null) s += '<circle cx="' + X(i) + '" cy="' + Y(o.min) + '" r="5" fill="var(--card)" stroke="' + se.color + '" stroke-width="2"/>'; else s += shape(se.shape, X(i), Y(v), se.color); });
+        var last = se.data[n - 1]; if (last != null) ends.push({ y: Y(last), s: se, v: last });
+      });
+      if (!narrow && o.rlab) {
+        ends.sort(function (a, b) { return a.y - b.y; });
+        for (var i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 16) ends[i].y = ends[i - 1].y + 16;
+        ends.forEach(function (e) { s += '<text x="' + (X(n - 1) + 14) + '" y="' + (e.y + 4) + '" font-size="13" font-weight="800" fill="var(--ink)">' + e.s.short + ' ' + e.v + '%</text>'; });
+      }
+      s += '<line id="xh" x1="0" x2="0" y1="' + pt + '" y2="' + (pt + ih) + '" stroke="var(--ink)" stroke-width="1" visibility="hidden"/>';
+      s += '<rect x="' + pl + '" y="' + pt + '" width="' + iw + '" height="' + ih + '" fill="transparent" class="hit"/></g></svg>';
+      host.innerHTML = s;
+      var svg = host.querySelector('svg'), xh = svg.querySelector('#xh'), hit = svg.querySelector('.hit'), idx = -1;
+      function show(i, cx, cy) {
+        idx = i; xh.setAttribute('x1', X(i)); xh.setAttribute('x2', X(i)); xh.setAttribute('visibility', 'visible');
+        var h = '<b>' + o.weeks[i] + '</b>' + o.series.map(function (se) { var v = se.data[i]; return se.short + ': ' + (v == null ? 'not enough data yet' : v + '%'); }).join('<br>');
+        showTip(h, cx, cy);
+      }
+      hit.addEventListener('pointermove', function (e) { var r = svg.getBoundingClientRect(), k = Wd / r.width; var i = Math.max(0, Math.min(n - 1, Math.round(((e.clientX - r.left) * k - pl) / iw * (n - 1)))); show(i, e.clientX, e.clientY); e.stopPropagation(); });
+      hit.addEventListener('pointerleave', function () { xh.setAttribute('visibility', 'hidden'); hideTip(); });
+      svg.addEventListener('keydown', function (e) { if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return; e.preventDefault(); var i = Math.max(0, Math.min(n - 1, (idx < 0 ? (e.key === 'ArrowRight' ? -1 : n) : idx) + (e.key === 'ArrowRight' ? 1 : -1))); var r = svg.getBoundingClientRect(); show(i, r.left + X(i) * r.width / Wd, r.top + 30); });
+      svg.addEventListener('blur', function () { xh.setAttribute('visibility', 'hidden'); hideTip(); });
+    }
+    draw(); host._redraw = draw;
+  }
+
+  function barChart(host, o) {
+    var Wd = Math.max(220, host.clientWidth), Ht = 190, pl = 6, pr = 6, pt = 22, pb = 26, n = o.vals.length, iw = Wd - pl - pr, ih = Ht - pt - pb, bw = Math.min(34, iw / n * 0.62);
+    var s = '<svg viewBox="0 0 ' + Wd + ' ' + Ht + '" role="img" aria-label="' + o.aria + '"><line x1="' + pl + '" x2="' + (Wd - pr) + '" y1="' + (pt + ih) + '" y2="' + (pt + ih) + '" stroke="var(--axis)"/>';
+    o.vals.forEach(function (v, i) {
+      var cx = pl + iw * (i + 0.5) / n, h = ih * v / o.max, x = cx - bw / 2, y = pt + ih - h, r = Math.min(4, h);
+      s += '<path tabindex="0" data-tip="<b>' + o.weeks[i] + '</b>' + v + ' ' + o.unit + '" d="M' + x + ' ' + (pt + ih) + 'V' + (y + r) + 'Q' + x + ' ' + y + ' ' + (x + r) + ' ' + y + 'H' + (x + bw - r) + 'Q' + (x + bw) + ' ' + y + ' ' + (x + bw) + ' ' + (y + r) + 'V' + (pt + ih) + 'Z" fill="var(--s1)"/>';
+      s += '<text x="' + cx + '" y="' + (y - 6) + '" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">' + v + '</text><text x="' + cx + '" y="' + (Ht - 8) + '" text-anchor="middle" font-size="11" fill="var(--axis)">' + o.weeks[i].replace(' ', ' ') + '</text>';
+    });
+    host.innerHTML = '<div style="display:grid;gap:4px"><b style="font-family:var(--display);font-weight:600">' + o.title + '</b>' + s + '</svg></div>';
+  }
+
+  var band = function (v) { return v < 50 ? 1 : v < 65 ? 2 : v < 75 ? 3 : v < 85 ? 4 : 5; };
+  var bandName = ['', 'under 50', '50 to 64', '65 to 74', '75 to 84', '85 and over'];
+
+  function renderAll() {
+    var k = kids[cur];
+    $('kn').textContent = k.name;
+    $('miraOnly').hidden = cur !== 0; $('kabirOnly').hidden = cur === 0;
+    $('hist').innerHTML = cur === 0 ?
+      '<p><b>History starts on 26 Aug.</b> Six dated weeks follow. A week needs at least 10 answers, otherwise it says "not enough data yet".</p><p class="note-small">Before logging: 212 answers and 9 sets were counted before 26 Aug. They are one total, not split by week (sample figures). The first 20 answers on each topic are kept as its baseline.</p>' :
+      '<p><b>History starts on 11 Oct.</b> ' + k.name + ' is new to Homework Buddy.</p>';
+    $('repsub').textContent = k.name + ' · 26 Aug to 30 Sep · compared only with ' + k.name + "'s own earlier weeks";
+    if (cur !== 0) { $('kabMsg').textContent = k.name + ' has ' + k.stars + ' stars, is on level ' + k.level + ' and practised ' + k.streakDays + ' day so far. That is too little to show growth.'; return; }
+
+    var f = function (a) { return a[0] + '% to ' + a[a.length - 1] + '%'; };
+    $('tiles').innerHTML = [
+      ['Overall', H.baseline.accuracy, H.overall[5], 'Baseline: first ' + H.baseline.firstAttempts + ' answers (' + H.baseline.note.replace('First 20 answers, ', '') + ')'],
+      ['Maths', H.maths[0], H.maths[5], 'First week to last week'],
+      ['English', H.english[0], H.english[5], 'First week to last week'],
+    ].map(function (t) { return '<div class="card tile"><span class="eyebrow">' + t[0] + '</span><div class="big"><b>' + t[1] + '%</b><span class="arr" aria-label="to">&rarr;</span><b>' + t[2] + '%</b><span class="gain">+' + (t[2] - t[1]) + ' points</span></div><span class="note-small">' + t[3] + '</span></div>'; }).join('');
+
+    var A = [
+      { name: 'Maths', short: 'Maths', data: H.maths, color: 'var(--s1)', shape: 'ci' },
+      { name: 'English', short: 'English', data: H.english, color: 'var(--s2)', shape: 'sq' },
+      { name: 'Overall', short: 'Overall', data: H.overall, color: 'var(--ink)', shape: 'di', dash: true },
+    ];
+    legend($('legA'), A);
+    lineChart($('chartA'), { weeks: W, series: A, min: 0, max: 100, step: 25, unit: '%', rlab: true, refs: [{ y: H.baseline.accuracy, label: 'Baseline ' + H.baseline.accuracy + '%' }], aria: 'Line chart of weekly accuracy for Maths, English and Overall over six weeks, all rising.' });
+    table($('tblA'), ['Week', 'Maths', 'English', 'Overall'], W.map(function (w, i) { return [w, H.maths[i] + '%', H.english[i] + '%', H.overall[i] + '%']; }));
+
+    var tk = Object.keys(H.topics);
+    var B = [
+      { name: 'Multiplication, tables of 6 to 9', short: 'Multiplication', data: H.topics[tk[0]], color: 'var(--s1)', shape: 'ci' },
+      { name: 'Division, sharing equally', short: 'Division', data: H.topics[tk[1]], color: 'var(--s3)', shape: 'sq' },
+      { name: 'English, Verbs', short: 'Verbs', data: H.topics[tk[2]], color: 'var(--s2)', shape: 'di' },
+    ];
+    $('callB').innerHTML = '<span class="chip m">Growing: Multiplication ' + f(B[0].data) + '</span><span class="chip hint">Plateau: Division ' + f(B[1].data) + ' in 5 weeks</span>';
+    legend($('legB'), B);
+    lineChart($('chartB'), { weeks: W, series: B, min: 0, max: 100, step: 25, unit: '%', rlab: true, aria: 'Line chart of three topics. Multiplication climbs from 30 to 81. Division stays between 52 and 57. Verbs has no result in the first week.' });
+    $('capB').textContent = 'Open circle on the bottom line: not enough data yet (Verbs, 26 Aug, fewer than 10 answers). Division has had steady practice but is not moving, so it is first on the list below.';
+    table($('tblB'), ['Week'].concat(B.map(function (b) { return b.short; })), W.map(function (w, i) { return [w].concat(B.map(function (b) { return b.data[i] == null ? 'not enough data yet' : b.data[i] + '%'; })); }));
+
+    $('swH').innerHTML = [1, 2, 3, 4, 5].map(function (b) { return '<span><i class="b' + b + '"></i>' + bandName[b] + '%</span>'; }).join('') + '<span><i class="nt"></i>Not tried yet</span>';
+    var groups = { 'Maths': [], 'English Reader': [], 'English Practice Book': [] };
+    Object.keys(H.heat).forEach(function (key) { var g = key.indexOf('Maths') === 0 ? 'Maths' : key.indexOf('Reader') === 0 ? 'English Reader' : 'English Practice Book'; groups[g].push([key.replace(/^(Maths|Reader|Practice) /, ''), H.heat[key]]); });
+    $('heat').innerHTML = Object.keys(groups).map(function (g) { return '<div class="heatgrp"><h3 style="font-size:1rem">' + g + '</h3><div class="heat">' + groups[g].map(function (c) {
+      var v = c[1]; return v == null ? '<div class="cell nt" tabindex="0" data-tip="<b>' + c[0] + '</b>Not tried yet"><span>' + c[0] + '</span><b>&ndash;</b><span>Not tried yet</span></div>' :
+        '<div class="cell b' + band(v) + '" tabindex="0" data-tip="<b>' + c[0] + '</b>' + v + '% right"><span>' + c[0] + '</span><b>' + v + '%</b></div>'; }).join('') + '</div></div>'; }).join('');
+    table($('tblH'), ['Chapter', 'Accuracy'], Object.keys(H.heat).map(function (key) { return [key, H.heat[key] == null ? 'Not tried yet' : H.heat[key] + '%']; }));
+
+    var lv = [['Easy', 8], ['Medium', 4], ['Challenge', 2]];
+    $('lv').innerHTML = lv.map(function (l) { return '<div class="r"><b>' + l[0] + '</b><div class="track" role="img" aria-label="' + l[1] + ' of 12 units"><i style="width:' + (l[1] / 12 * 100) + '%"></i></div><span class="small">' + H.levels[l[0]] + '</span></div>'; }).join('');
+
+    $('exPortion').innerHTML = '<b>' + H.exam.portion + '</b>';
+    $('exBand').innerHTML = '<div class="scale" role="img" aria-label="Predicted ' + H.exam.predicted + '"><i style="left:' + (18 / 25 * 100) + '%;width:' + (3 / 25 * 100) + '%"></i></div><div class="ticks"><span>0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25 marks</span></div><p>Predicted <b>' + H.exam.predicted + '</b> marks. A range, because this is an estimate from practice, not a result.</p>';
+    $('exChips').innerHTML = '<span class="chip">&#9650; ' + H.exam.ready + '</span><span class="chip hint">Weakest: ' + H.exam.weakest + '</span>';
+
+    var hb = $('habit'); hb.innerHTML = '<div id="h1"></div><div id="h2"></div><div id="h3"></div>';
+    barChart($('h1'), { vals: H.days, weeks: W, max: 7, unit: 'days', title: 'Days practised (of 7)', aria: 'Days practised each week: ' + H.days.join(', ') });
+    barChart($('h2'), { vals: H.minutes, weeks: W, max: 100, unit: 'minutes', title: 'Minutes', aria: 'Minutes each week: ' + H.minutes.join(', ') });
+    barChart($('h3'), { vals: H.sets, weeks: W, max: 14, unit: 'sets', title: 'Sets finished', aria: 'Sets finished each week: ' + H.sets.join(', ') });
+    table($('tblHb'), ['Week', 'Days', 'Minutes', 'Sets'], W.map(function (w, i) { return [w, H.days[i], H.minutes[i], H.sets[i]]; }));
+
+    var ty = $('typing'); ty.innerHTML = '<div><b style="font-family:var(--display);font-weight:600">Words a minute</b><div id="t1"></div></div><div><b style="font-family:var(--display);font-weight:600">Letters right</b><div id="t2"></div></div>';
+    lineChart($('t1'), { weeks: W, series: [{ name: 'Words a minute', short: 'Speed', data: H.typing.wpm, color: 'var(--s1)', shape: 'ci' }], min: 0, max: 20, step: 5, unit: '', rlab: false, aria: 'Typing speed rose from 6 to 14 words a minute.' });
+    lineChart($('t2'), { weeks: W, series: [{ name: 'Accuracy', short: 'Accuracy', data: H.typing.accuracy, color: 'var(--s1)', shape: 'ci' }], min: 50, max: 100, step: 25, unit: '%', rlab: false, aria: 'Typing accuracy rose from 81 to 94 percent.' });
+    table($('tblT'), ['Week', 'Words a minute', 'Letters right'], W.map(function (w, i) { return [w, H.typing.wpm[i], H.typing.accuracy[i] + '%']; }));
+
+    $('mt').innerHTML = H.mistakeThemes.map(function (m) { return '<div class="r"><span>' + m[0] + '</span><span class="bar" style="width:' + (m[1] / 9 * 100) + '%"></span><b>' + m[1] + '</b></div>'; }).join('');
+    $('next').innerHTML = H.nextUp.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+    [].forEach.call($('kids').children, function (b, i) { b.setAttribute('aria-pressed', i === cur); });
+  }
+  $('kids').innerHTML = kids.map(function (k, i) { return '<button type="button" data-i="' + i + '" aria-pressed="' + (i === 0) + '"><span class="avs">' + k.avatar + '</span>' + k.name + '</button>'; }).join('');
+  $('kids').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { cur = +b.dataset.i; renderAll(); } });
+  $('tv').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; document.body.setAttribute('data-tables', b.dataset.v); [].forEach.call(this.children, function (x) { x.setAttribute('aria-pressed', x === b); }); });
+  $('repbtn').addEventListener('click', function () { var on = document.body.classList.toggle('report'); this.setAttribute('aria-pressed', on); this.textContent = on ? 'Back to normal view' : 'Printable report look'; renderAll(); });
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(renderAll, 120); });
+  renderAll();
+})();
+</script>
+</body>
+</html>

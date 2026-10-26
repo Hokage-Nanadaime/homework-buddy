@@ -1,0 +1,21 @@
+# Dependencies and build output
+node_modules/
+dist/
+
+# Local secrets and environment
+.env
+.env.*
+
+# Private test material (kids' photos) - never commit
+samples/
+
+# Rendered book page images (the book PDF itself lives in books/)
+books/**/pages/
+*.heic
+*.jpg
+*.jpeg
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,241 @@
+/* The Mix look: chalk-green paper, leaf-green accent, pebble shapes. Maths blue and English orange name the subject.
+   Names are kept from before (--maths and friends are the subject colour, --accent is the interface colour). */
+:root {
+  --ink: #14272a;
+  --ink2: #3a4f53;
+  --muted: #52666a;
+  --ground: #e8efed;
+  --card: #ffffff;
+  --card2: #f2f7f5;
+  --book: #fffefa;
+  --line: #c4d2cf;
+  --line2: #dce6e3;
+  --line-strong: #74898d;
+  --accent: #17705a;
+  --accent-ink: #0d4d3c;
+  --accent-tint: #d8efe5;
+  --on-accent: #ffffff;
+  --maths: #1f5fae;
+  --on-maths: #ffffff;
+  --maths-ink: #1f5fae;
+  --maths-tint: #dbe8f8;
+  --english: #a24d0b;
+  --english-tint: #fbe4cc;
+  --english-ink: #a24d0b;
+  --on-english: #ffffff;
+  --evs: #4a7410;
+  --evs-ink: #4a7410;
+  --evs-tint: #e4f0cc;
+  --on-evs: #ffffff;
+  --exam: #5b49b8;
+  --exam-tint: #e6e2f8;
+  --note: #fbefd2;
+  --note-line: #a9751b;
+  --note-ink: #573700;
+  --focus: #1b5fd0;
+  --ok: #0d6b4c;
+  --ok-tint: #d8efe5;
+  --bad: #8f3a0b;
+  --bad-tint: #fbefd2;
+  --scrim: rgba(20, 39, 42, 0.5);
+  --pip-body: #f4c76a; --pip-leaf: #3f9d6b; --pip-bloom: #e9728f; --pip-soil: #8a6a4a; --pip-cheek: #f08a6b; --pip-line: #14272a; --pip-trunk: #9a7048; --pip-fruit: #e4572e;
+  --st-line: #14272a; --st-face: #fffdf3; --st-orange: #f0a24b; --st-brown: #b98a5c; --st-grey: #b4c3c7; --st-dgrey: #5d6f74; --st-yellow: #f6d046; --st-green: #79c47f; --st-pink: #f5a5b8;
+  --sk1: #bcd7f5; --sk2: #f7cfa6; --sk3: #f6e08f; --sk4: #c4e8bf; --sk5: #f4c3d6; --sk6: #d0c8f2; --sk7: #b7e2e6;
+  --gold: #f2c94c;
+  --f1: #f9d6e0; --f2: #fbdcc2; --f3: #f6eaa6; --f4: #cbeacb;
+  --s1: #2a6fc2; --s2: #c4601a; --s3: #a03a7c; --grid: #e3ebe8; --axis: #9fb1ae;
+  --h1: #7dbfa5; --h1t: #14272a; --h2: #4fa387; --h2t: #0a1d17; --h3: #2c7c62; --h3t: #ffffff; --h4: #1a5a47; --h4t: #ffffff; --h5: #0d3a2e; --h5t: #ffffff; --hnone: #eef3f1;
+  --paper-ink: #1a1a1a;
+  --paper-grey: #d8dcee;
+  --paper-blue: #1639b8;
+  --paper-white: #ffffff;
+  --paper-muted: #4b5280;
+  --paper-tint: #dde6ff;
+  --paper-orange: #c2410c;
+  --paper-orange-tint: #ffe4d0;
+  --paper-green: #4a7410;
+  --paper-green-tint: #e4f0cc;
+  --paper-dash: #b9bfe6;
+  --paper-track: #eef0fb;
+  --paper-gold: #ffc83d;
+  --paper-bad: #b42318;
+  --paper-bad-tint: #fde4e1;
+  --paper-ok: #0b7a55;
+  --paper-ok-tint: #d6f3e6;
+  --track: #dce6e3;
+  --dash: #9fb1ae;
+  --book-ink: #2a2a2a;
+  --book-paper: #fffef8;
+  --book-edge: #e9dfc8;
+  --star: #8a5c00;
+  --shadow: 0 1px 0 rgba(20, 39, 42, 0.06), 0 6px 18px -10px rgba(20, 39, 42, 0.28);
+  --display: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
+  --body: 'Andika', 'Segoe UI', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ink: #e8f0ed;
+    --ink2: #bdcdc9;
+    --muted: #9db1ad;
+    --ground: #0f191c;
+    --card: #172226;
+    --card2: #1d2b30;
+    --book: #1b2a2e;
+    --line: #33474d;
+    --line2: #27383d;
+    --line-strong: #6f878c;
+    --accent: #62c7a2;
+    --accent-ink: #c3ecdc;
+    --accent-tint: #1e3b32;
+    --on-accent: #0a1d16;
+    --maths: #8fbff4;
+    --on-maths: #0a1d33;
+    --maths-ink: #8fbff4;
+    --maths-tint: #1d3045;
+    --english: #f2a96c;
+    --english-ink: #f2a96c;
+    --english-tint: #3b2b1b;
+    --on-english: #2a1204;
+  --evs: #a8d664;
+  --evs-ink: #a8d664;
+  --evs-tint: #27351a;
+  --on-evs: #142208;
+    --evs: #a8d664;
+    --evs-ink: #a8d664;
+    --evs-tint: #27351a;
+    --on-evs: #142208;
+    --exam: #b5a9f6;
+    --exam-tint: #2b2850;
+    --note: #3a2f1c;
+    --note-line: #b48a36;
+    --note-ink: #f2dba9;
+    --focus: #93bbff;
+    --ok: #62c7a2;
+    --ok-tint: #1e3b32;
+    --bad: #f2c27a;
+    --bad-tint: #3a2f1c;
+    --star: #ffc83d;
+    --track: #27383d;
+    --dash: #4d6469;
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 6px 18px -10px rgba(0, 0, 0, 0.7);
+    --scrim: rgba(0, 0, 0, 0.62);
+    --pip-body: #e5b95c; --pip-leaf: #5cb585; --pip-bloom: #e07d97; --pip-soil: #6b5340; --pip-cheek: #e3866a; --pip-line: #0f191c; --pip-trunk: #8d6a48; --pip-fruit: #ef7a56;
+    --st-line: #14272a; --st-face: #f3efe2; --st-orange: #e8a04a; --st-brown: #b08157; --st-grey: #a3b4b8; --st-dgrey: #5d7278; --st-yellow: #ecc53c; --st-green: #62b86d; --st-pink: #e792a8;
+    --sk1: #5c9ae0; --sk2: #e08c4a; --sk3: #cfae3a; --sk4: #5fb77a; --sk5: #d77fa6; --sk6: #9a8fe0; --sk7: #4fb3bc;
+    --gold: #e0b030;
+    --f1: #5a3040; --f2: #5b3d23; --f3: #55501f; --f4: #2a4b30;
+    --s1: #4f92dd; --s2: #d4702f; --s3: #d0609c; --grid: #27373c; --axis: #4d6469;
+    --h1: #2a7a63; --h1t: #ffffff; --h2: #4a9f84; --h2t: #0a1d17; --h3: #72c0a3; --h3t: #0a1d17; --h4: #a2dcc4; --h4t: #0a1d17; --h5: #d2f2e3; --h5t: #0a1d17; --hnone: #1d2b30;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --ink: #e8f0ed;
+  --ink2: #bdcdc9;
+  --muted: #9db1ad;
+  --ground: #0f191c;
+  --card: #172226;
+  --card2: #1d2b30;
+  --book: #1b2a2e;
+  --line: #33474d;
+  --line2: #27383d;
+  --line-strong: #6f878c;
+  --accent: #62c7a2;
+  --accent-ink: #c3ecdc;
+  --accent-tint: #1e3b32;
+  --on-accent: #0a1d16;
+  --maths: #8fbff4;
+  --on-maths: #0a1d33;
+  --maths-ink: #8fbff4;
+  --maths-tint: #1d3045;
+  --english: #f2a96c;
+  --english-ink: #f2a96c;
+  --english-tint: #3b2b1b;
+  --on-english: #2a1204;
+  --exam: #b5a9f6;
+  --exam-tint: #2b2850;
+  --note: #3a2f1c;
+  --note-line: #b48a36;
+  --note-ink: #f2dba9;
+  --focus: #93bbff;
+  --ok: #62c7a2;
+  --ok-tint: #1e3b32;
+  --bad: #f2c27a;
+  --bad-tint: #3a2f1c;
+  --star: #ffc83d;
+  --track: #27383d;
+  --dash: #4d6469;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 6px 18px -10px rgba(0, 0, 0, 0.7);
+  --scrim: rgba(0, 0, 0, 0.62);
+  --pip-body: #e5b95c; --pip-leaf: #5cb585; --pip-bloom: #e07d97; --pip-soil: #6b5340; --pip-cheek: #e3866a; --pip-line: #0f191c; --pip-trunk: #8d6a48; --pip-fruit: #ef7a56;
+  --st-line: #14272a; --st-face: #f3efe2; --st-orange: #e8a04a; --st-brown: #b08157; --st-grey: #a3b4b8; --st-dgrey: #5d7278; --st-yellow: #ecc53c; --st-green: #62b86d; --st-pink: #e792a8;
+  --sk1: #5c9ae0; --sk2: #e08c4a; --sk3: #cfae3a; --sk4: #5fb77a; --sk5: #d77fa6; --sk6: #9a8fe0; --sk7: #4fb3bc;
+  --gold: #e0b030;
+  --f1: #5a3040; --f2: #5b3d23; --f3: #55501f; --f4: #2a4b30;
+  --s1: #4f92dd; --s2: #d4702f; --s3: #d0609c; --grid: #27373c; --axis: #4d6469;
+  --h1: #2a7a63; --h1t: #ffffff; --h2: #4a9f84; --h2t: #0a1d17; --h3: #72c0a3; --h3t: #0a1d17; --h4: #a2dcc4; --h4t: #0a1d17; --h5: #d2f2e3; --h5t: #0a1d17; --hnone: #1d2b30;
+  color-scheme: dark;
+}
+
+/* Calm: bright fills become plain paper and nothing animates. */
+:root[data-calm='1'] {
+  --accent-tint: var(--card2);
+  --maths-tint: var(--card2);
+  --english-tint: var(--card2);
+  --evs-tint: var(--card2);
+  --exam-tint: var(--card2);
+  --note: var(--card2);
+  --ok-tint: var(--card2);
+  --bad-tint: var(--card2);
+  --pip-body: var(--card2); --pip-leaf: var(--accent-tint); --pip-bloom: var(--card2); --pip-cheek: var(--line); --pip-fruit: var(--card2); --pip-trunk: var(--line-strong); --gold: var(--card2);
+  --st-orange: var(--st-grey); --st-yellow: var(--st-face); --st-green: var(--st-grey); --st-pink: var(--st-face); --st-brown: var(--st-grey);
+  --sk1: var(--card2); --sk2: var(--card2); --sk3: var(--card2); --sk4: var(--card2); --sk5: var(--card2); --sk6: var(--card2); --sk7: var(--card2);
+}
+:root[data-calm='1'] *, :root[data-calm='1'] *::before, :root[data-calm='1'] *::after { animation: none !important; transition: none !important; }
+
+/* English is named by orange: the subject colour follows the book the child is in. */
+:root[data-subject='english'],
+[data-subject='english'] {
+  --maths: var(--english);
+  --maths-ink: var(--english-ink);
+  --maths-tint: var(--english-tint);
+  --on-maths: var(--on-english);
+}
+
+/* EVS is named by green. */
+:root[data-subject='evs'],
+[data-subject='evs'] {
+  --maths: var(--evs);
+  --maths-ink: var(--evs-ink);
+  --maths-tint: var(--evs-tint);
+  --on-maths: var(--on-evs);
+}
+
+/* Paper is always light. Pictures, printed sheets, saved PDFs and HTML files re-declare every token they use with the
+   light paper values, so dark mode never reaches them. A test checks that every var(--x) in picture code is listed here. */
+.pic,
+.hb-sheet,
+.paper-scope {
+  color-scheme: light;
+  color: var(--paper-ink);
+  --ink: var(--paper-ink);
+  --muted: var(--paper-muted);
+  --maths: var(--paper-blue);
+  --maths-ink: var(--paper-blue);
+  --maths-tint: var(--paper-tint);
+  --english: var(--paper-orange);
+  --english-tint: var(--paper-orange-tint);
+  --evs: var(--paper-green);
+  --evs-tint: var(--paper-green-tint);
+  --line: var(--paper-grey);
+  --card: var(--paper-white);
+  --ground: var(--paper-white);
+  --dash: var(--paper-dash);
+  --track: var(--paper-track);
+  --gold: var(--paper-gold);
+  --bad: var(--paper-bad);
+  --bad-tint: var(--paper-bad-tint);
+  --ok: var(--paper-ok);
+  --ok-tint: var(--paper-ok-tint);
+  --on-maths: var(--paper-white);
+}

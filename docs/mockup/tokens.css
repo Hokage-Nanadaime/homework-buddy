@@ -1,0 +1,43 @@
+:root {
+  /* Core brand */
+  --ink: #1B2150;
+  --muted: #565C8A;
+  --ground: #F4F6FF;
+  --card: #FFFFFF;
+  --line: #DDE1F5;
+
+  /* Subjects: blue = Maths, orange = English (always paired with a text label) */
+  --maths: #2E5BFF;
+  --maths-ink: #1639B8;
+  --maths-tint: #DDE6FF;
+
+  --english: #C2410C;
+  --english-tint: #FFE4D0;
+
+  /* Feedback and rewards */
+  --ok: #0B7A55;
+  --ok-tint: #D6F3E6;
+  --gold: #FFC83D;
+
+  /* Printed worksheet pages (black on white so it prints well) */
+  --paper-ink: #1A1A1A;
+  --paper-grey: #D8DCEE;
+
+  /* Small UI parts */
+  --track: #EEF0FB;
+  --dash: #B9BFE6;
+
+  /* Word Quest keyboard */
+  --keyboard: #262D6A;
+  --key-left: #E6EAFF;
+  --key-right: #FFE9D6;
+
+  /* The photographed book page in the English screen */
+  --book-ink: #2A2A2A;
+  --book-paper: #FFFEF8;
+  --book-edge: #E9DFC8;
+
+  /* Type */
+  --display: 'Fredoka', system-ui, sans-serif;
+  --body: 'Nunito', system-ui, sans-serif;
+}

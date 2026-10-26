@@ -1,0 +1,70 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-10-11T06:00:00Z" },
+  "title": "Kids Homework Buddy – App Mockup",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1280, "h": 960, "title": "1 · Home – pick a subject", "expand": "fill" },
+    "MathsMaker.dc.html": { "x": 1360, "y": 0, "w": 1280, "h": 960, "title": "2 · Maths – make a worksheet", "expand": "fill", "is_interactive": true },
+    "EnglishScan.dc.html": { "x": 2720, "y": 0, "w": 1280, "h": 960, "title": "3 · English – from a book page", "expand": "fill", "is_interactive": true },
+    "Worksheet.dc.html": { "x": 0, "y": 1080, "w": 1280, "h": 1340, "title": "4 · Worksheet – print or do on screen", "expand": "fill", "is_interactive": true },
+    "WordQuest.dc.html": { "x": 1360, "y": 1080, "w": 1280, "h": 1000, "title": "5 · Word Quest – typing game", "expand": "fill" },
+    "Progress.dc.html": { "x": 2720, "y": 1080, "w": 1280, "h": 1000, "title": "6 · Progress – parent view", "expand": "fill" },
+    "MathsIndex.dc.html": { "x": 0, "y": 2800, "w": 1280, "h": 1000, "title": "7 · Maths – the book's index", "expand": "fill", "is_interactive": true },
+    "MathsChapter.dc.html": { "x": 1360, "y": 2800, "w": 1280, "h": 1000, "title": "8 · Maths – one unit: topics, levels, unit test", "expand": "fill", "is_interactive": true },
+    "MathsWorksheet.dc.html": { "x": 2720, "y": 2800, "w": 1280, "h": 1300, "title": "9 · Maths – exam-style worksheet", "expand": "fill", "is_interactive": true },
+    "MathsPractice.dc.html": { "x": 0, "y": 4220, "w": 1280, "h": 1000, "title": "10 · Maths – answering on screen", "expand": "fill", "is_interactive": true },
+    "MathsPrintPreview.dc.html": { "x": 1360, "y": 4220, "w": 1280, "h": 1700, "title": "11 · Maths – print preview (whole worksheet)", "expand": "fill", "is_interactive": true },
+    "MathsAnswerSheet.dc.html": { "x": 0, "y": 6040, "w": 1280, "h": 1300, "title": "12 · Maths – enter answers from paper", "expand": "fill", "is_interactive": true },
+    "MathsExamSetup.dc.html": { "x": 2720, "y": 6040, "w": 1280, "h": 1100, "title": "13 · Maths – exam preparation setup", "expand": "fill", "is_interactive": true },
+    "MathsExamPaper.dc.html": { "x": 0, "y": 7460, "w": 1280, "h": 1500, "title": "14 · Maths – school-style exam paper preview", "expand": "fill", "is_interactive": true },
+    "TopBar.dc.html": { "x": 4080, "y": 0, "w": 1280, "h": 72, "title": "Shared top bar (used on every screen)", "expand": "fill" }
+  },
+  "order": [
+    "Main.dc.html",
+    "MathsMaker.dc.html",
+    "EnglishScan.dc.html",
+    "Worksheet.dc.html",
+    "WordQuest.dc.html",
+    "Progress.dc.html",
+    "MathsIndex.dc.html",
+    "MathsChapter.dc.html",
+    "MathsWorksheet.dc.html",
+    "MathsPractice.dc.html",
+    "MathsPrintPreview.dc.html",
+    "MathsAnswerSheet.dc.html",
+    "MathsExamSetup.dc.html",
+    "MathsExamPaper.dc.html",
+    "TopBar.dc.html"
+  ],
+  "notes": {
+    "title": { "x": 0, "y": -260, "text": "Homework Buddy – first look", "kind": "title1", "maxW": 4000 },
+    "titleMaths": { "x": 0, "y": 2540, "text": "Maths, unit by unit (new)", "kind": "title1", "maxW": 4000 },
+    "printNote": {
+      "x": 2720, "y": 4220, "w": 420, "fill": "orange", "size": "m",
+      "text": "Print always prints the WHOLE worksheet, never just the question on screen. The button says how many questions, and a print preview always opens first. Drawing questions are tap-to-answer on screen and real draw-it questions on paper."
+    },
+    "examNote": {
+      "x": 1360, "y": 7460, "w": 420, "fill": "blue", "size": "m",
+      "text": "Exam papers copy the school's real Periodic Test: header, instructions, boxed sections with marks on the right (MCQ 3x1, One word 2x1, Short answer 3x2, Long answer 3x3, Fill in the blanks 5x1 = 25 marks, 60 min). The Term Exam (50 marks, 2.5 hours) pattern is a proposal to confirm. Parents choose the units; questions come only from those."
+    },
+    "paperNote": {
+      "x": 1360, "y": 6040, "w": 420, "fill": "green", "size": "m",
+      "text": "Paper first, then the app. Print the worksheet, do the rough work in a copy, then enter just the answers here. Every printed sheet has a code in its footer, and the app remembers the sheets you printed, so the same questions come back."
+    },
+    "mathsNote": {
+      "x": 4080, "y": 2800, "w": 420, "fill": "green", "size": "m",
+      "text": "Units come from the real book contents (12 units). Unit 1 topics are an example from its first pages; the real topic list for every unit is read from the book and checked so no question type is missed."
+    },
+    "sample": {
+      "x": 4080, "y": 192, "w": 420, "fill": "blue", "size": "m",
+      "text": "Sample data only. Names, words, chapters and scores are placeholders.\n\nColour code: blue = Maths, orange = English. Every colour also has a text label."
+    },
+    "open": {
+      "x": 4560, "y": 192, "w": 420, "fill": "orange", "size": "m",
+      "text": "Still open (see chat): web app vs tablet app, where the AI runs, one kid or many, print vs on-screen answers, age and school board."
+    }
+  },
+  "designSystems": []
+}

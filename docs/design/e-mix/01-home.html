@@ -1,0 +1,972 @@
+<!doctype html>
+<!--
+DIRECTION E "MIX": design rationale and token plan (this comment is the single source for all 8 pages)
+
+IDEA  A school book you can also grow. Pages are printed paper (A: shelf, contents page, dotted leaders, ink marks),
+      answers are quiet (C: tick or "?" plus a word, 150 ms fade, nothing moves), growth is one small companion that
+      changes only when a set ends (B: Pip), effort stamps are collected in an album (A), and two switches keep the
+      child and the parent in control (D: Calm for the child, Full / Light / Minimal for the parent).
+
+PALETTE (one, named by job)
+  paper/bg   --bg --card --card2 --paper : cool chalk-green greys, never pure white page, white cards (dark: ink-teal)
+  ink        --ink --ink2 --muted        : deep teal-black, all text >= 4.5:1 on its surface
+  accent     --accent (leaf green)       : primary buttons, progress, focus of attention. One accent only.
+  subjects   --maths (blue) --english (orange, burnt for text) --exam (violet) + a -soft tint each: blue = Maths, orange = English kept from today's app
+  feedback   --ok-* (green tint) --note-* (amber tint): right is a green tint + tick + "Correct"; not quite is amber + "?" + "Not quite". Never red.
+  companion  --pip-* (body honey, leaf green, bloom rose, soil) : Pip only
+  stamps     --stamp (violet ink) : the album
+  charts     --s1 blue #2a6fc2 / --s2 orange #c4601a / --s3 plum #a03a7c (dark: #4f92dd / #d4702f / #d0609c). Validated all-pairs, light and dark.
+  heat map   --h1..--h5 one-hue green ramp (light #7dbfa5 > #0d3a2e, dark #2a7a63 > #d2f2e3), number in every cell. Validated as an ordinal ramp.
+  fingers    --f1..--f6 pastel tints, always with a finger name beside them (Word Quest)
+  Calm mode overrides the bright tokens (pip, stamps, tints) with paper tones; reward level Minimal removes Pip and stamps from the DOM flow.
+
+TYPE   Fredoka (display, headings, big numbers, friendly round forms for an 8 year old) + Andika (body, forms, tables: made for early readers, plain zeros and clear a, g, 1, l; Atkinson was tried and dropped because its slashed zero reads badly in maths).
+       Scale 13 label / 15 small / 18 body / 20 h3 / 26 h2 / 30-44 h1. Tabular figures wherever digits line up.
+
+SHAPE  Pebbles: 14 px cards, pill buttons and segments (999), 8 px for small blocks. Printed pages use hairlines and dotted leaders instead of boxes.
+SPACE  4 8 12 16 24 32 48. Gutter 16 min. Targets 44 min (buttons 48, primary 56).
+ICONS  One style: 2 to 3 px ink outline, round joins, flat tinted fill. Level marks: Easy small dot, Medium big dot, Challenge diamond (filled = done).
+       Words always beside marks: Done / Reading / New.
+COMPANION  Pip: a round seed-bean with two dot eyes and a smile in a ink outline. Stages Seed, Sprout, Sapling, Bloom add a stem, leaves, then a six-petal flower.
+       Always smiling. Grows only on the set summary (05); home shows it; practice shows a 44 px static copy. A 0.4 s nod at the answer only in Full, never in Calm or Minimal.
+MOTION Nothing moves while thinking. Feedback fade 150 ms. Pip nod 0.4 s, stamp press 0.5 s, growth 0.6 s, all removed by Calm and prefers-reduced-motion.
+-->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Home · Homework Buddy · E Mix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+/* ===== Tokens ===== */
+:root{
+  --bg:#e8efed; --card:#ffffff; --card2:#f2f7f5; --paper:#fffefa;
+  --ink:#14272a; --ink2:#3a4f53; --muted:#52666a;
+  --line:#c4d2cf; --line2:#dce6e3; --line-strong:#74898d;
+  --accent:#17705a; --accent-soft:#d8efe5; --on-accent:#ffffff;
+  --maths:#1f5fae; --maths-soft:#dbe8f8; --english:#a24d0b; --english-soft:#fbe4cc; --exam:#5b49b8; --exam-soft:#e6e2f8;
+  --stamp:#5b49b8; --stamp-soft:#e6e2f8;
+  --ok-bg:#d8efe5; --ok-line:#17705a; --ok-ink:#0d4d3c;
+  --note-bg:#fbefd2; --note-line:#a9751b; --note-ink:#573700;
+  --focus:#1b5fd0; --shadow:0 1px 0 rgba(20,39,42,.06),0 6px 18px -10px rgba(20,39,42,.28);
+  --pip-body:#f4c76a; --pip-leaf:#3f9d6b; --pip-bloom:#e9728f; --pip-soil:#8a6a4a; --pip-cheek:#f08a6b; --pip-line:#14272a;
+  --s1:#2a6fc2; --s2:#c4601a; --s3:#a03a7c; --grid:#e3ebe8; --axis:#9fb1ae;
+  --h1:#7dbfa5; --h1t:#14272a; --h2:#4fa387; --h2t:#0a1d17; --h3:#2c7c62; --h3t:#ffffff; --h4:#1a5a47; --h4t:#ffffff; --h5:#0d3a2e; --h5t:#ffffff; --hnone:#eef3f1;
+  --f1:#f9d6e0; --f2:#fbdcc2; --f3:#f6eaa6; --f4:#cbeacb; --f5:#c9ddf6; --f6:#e1d7f5;
+  --f-display:"Fredoka","Trebuchet MS",system-ui,sans-serif; --f-body:"Andika","Segoe UI",system-ui,sans-serif;
+  /* spacing scale 4 8 12 16 24 32 48; radius 8 / 14 / 999 */
+  --r1:8px; --r2:14px; --r3:999px;
+  --scrim:rgba(20,39,42,.5); --gold:#f2c94c; --pip-trunk:#9a7048; --pip-fruit:#e4572e;
+  --st-line:#14272a; --st-face:#fffdf3; --st-orange:#f0a24b; --st-brown:#b98a5c; --st-grey:#b4c3c7; --st-dgrey:#5d6f74; --st-yellow:#f6d046; --st-green:#79c47f; --st-pink:#f5a5b8;
+  --sk1:#bcd7f5; --sk2:#f7cfa6; --sk3:#f6e08f; --sk4:#c4e8bf; --sk5:#f4c3d6; --sk6:#d0c8f2; --sk7:#b7e2e6;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f191c; --card:#172226; --card2:#1d2b30; --paper:#1b2a2e;
+  --ink:#e8f0ed; --ink2:#bdcdc9; --muted:#9db1ad;
+  --line:#33474d; --line2:#27383d; --line-strong:#6f878c;
+  --accent:#62c7a2; --accent-soft:#1e3b32; --on-accent:#0a1d16;
+  --maths:#8fbff4; --maths-soft:#1d3045; --english:#f2a96c; --english-soft:#3b2b1b; --exam:#b5a9f6; --exam-soft:#2b2850;
+  --stamp:#b5a9f6; --stamp-soft:#2b2850;
+  --ok-bg:#1e3b32; --ok-line:#62c7a2; --ok-ink:#c3ecdc;
+  --note-bg:#3a2f1c; --note-line:#b48a36; --note-ink:#f2dba9;
+  --focus:#93bbff; --shadow:0 1px 0 rgba(0,0,0,.4),0 6px 18px -10px rgba(0,0,0,.7);
+  --pip-body:#e5b95c; --pip-leaf:#5cb585; --pip-bloom:#e07d97; --pip-soil:#6b5340; --pip-cheek:#e3866a; --pip-line:#0f191c;
+  --s1:#4f92dd; --s2:#d4702f; --s3:#d0609c; --grid:#27373c; --axis:#4d6469;
+  --h1:#2a7a63; --h1t:#ffffff; --h2:#4a9f84; --h2t:#0a1d17; --h3:#72c0a3; --h3t:#0a1d17; --h4:#a2dcc4; --h4t:#0a1d17; --h5:#d2f2e3; --h5t:#0a1d17; --hnone:#1d2b30;
+  --f1:#5a3040; --f2:#5b3d23; --f3:#55501f; --f4:#2a4b30; --f5:#25415f; --f6:#40356a;
+  --scrim:rgba(0,0,0,.62); --gold:#e0b030; --pip-trunk:#8d6a48; --pip-fruit:#ef7a56;
+  --st-line:#14272a; --st-face:#f3efe2; --st-orange:#e8a04a; --st-brown:#b08157; --st-grey:#a3b4b8; --st-dgrey:#5d7278; --st-yellow:#ecc53c; --st-green:#62b86d; --st-pink:#e792a8;
+  --sk1:#5c9ae0; --sk2:#e08c4a; --sk3:#cfae3a; --sk4:#5fb77a; --sk5:#d77fa6; --sk6:#9a8fe0; --sk7:#4fb3bc;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f191c; --card:#172226; --card2:#1d2b30; --paper:#1b2a2e;
+  --ink:#e8f0ed; --ink2:#bdcdc9; --muted:#9db1ad;
+  --line:#33474d; --line2:#27383d; --line-strong:#6f878c;
+  --accent:#62c7a2; --accent-soft:#1e3b32; --on-accent:#0a1d16;
+  --maths:#8fbff4; --maths-soft:#1d3045; --english:#f2a96c; --english-soft:#3b2b1b; --exam:#b5a9f6; --exam-soft:#2b2850;
+  --stamp:#b5a9f6; --stamp-soft:#2b2850;
+  --ok-bg:#1e3b32; --ok-line:#62c7a2; --ok-ink:#c3ecdc;
+  --note-bg:#3a2f1c; --note-line:#b48a36; --note-ink:#f2dba9;
+  --focus:#93bbff; --shadow:0 1px 0 rgba(0,0,0,.4),0 6px 18px -10px rgba(0,0,0,.7);
+  --pip-body:#e5b95c; --pip-leaf:#5cb585; --pip-bloom:#e07d97; --pip-soil:#6b5340; --pip-cheek:#e3866a; --pip-line:#0f191c;
+  --s1:#4f92dd; --s2:#d4702f; --s3:#d0609c; --grid:#27373c; --axis:#4d6469;
+  --h1:#2a7a63; --h1t:#ffffff; --h2:#4a9f84; --h2t:#0a1d17; --h3:#72c0a3; --h3t:#0a1d17; --h4:#a2dcc4; --h4t:#0a1d17; --h5:#d2f2e3; --h5t:#0a1d17; --hnone:#1d2b30;
+  --f1:#5a3040; --f2:#5b3d23; --f3:#55501f; --f4:#2a4b30; --f5:#25415f; --f6:#40356a;
+  --scrim:rgba(0,0,0,.62); --gold:#e0b030; --pip-trunk:#8d6a48; --pip-fruit:#ef7a56;
+  --st-line:#14272a; --st-face:#f3efe2; --st-orange:#e8a04a; --st-brown:#b08157; --st-grey:#a3b4b8; --st-dgrey:#5d7278; --st-yellow:#ecc53c; --st-green:#62b86d; --st-pink:#e792a8;
+  --sk1:#5c9ae0; --sk2:#e08c4a; --sk3:#cfae3a; --sk4:#5fb77a; --sk5:#d77fa6; --sk6:#9a8fe0; --sk7:#4fb3bc;
+  color-scheme:dark}
+/* Calm: bright fills become plain paper, companion goes quiet, nothing animates */
+:root[data-calm="1"]{
+  --pip-body:var(--card2); --pip-leaf:var(--accent-soft); --pip-bloom:var(--card2); --pip-cheek:var(--line);
+  --stamp-soft:var(--card2); --accent-soft:var(--card2); --ok-bg:var(--card2); --note-bg:var(--card2);
+  --maths-soft:var(--card2); --english-soft:var(--card2); --exam-soft:var(--card2);
+  --pip-fruit:var(--card2); --pip-trunk:var(--line-strong); --gold:var(--card2);
+  --st-orange:var(--st-grey); --st-yellow:var(--st-face); --st-green:var(--st-grey); --st-pink:var(--st-face); --st-brown:var(--st-grey);
+  --sk1:var(--card2); --sk2:var(--card2); --sk3:var(--card2); --sk4:var(--card2); --sk5:var(--card2); --sk6:var(--card2); --sk7:var(--card2);
+}
+/* ===== Base ===== */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.5}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:500;line-height:1.15;margin:0;text-wrap:balance;letter-spacing:0}
+h1{font-size:clamp(30px,4.2vw,44px)} h2{font-size:26px} h3{font-size:20px} h4{font-size:17px}
+p{margin:0} a{color:inherit}
+[hidden]{display:none!important}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1200px;margin:0 auto}
+main{padding-block:32px 72px}
+.stack{display:grid;gap:24px}
+.stack>*{min-width:0}
+.label{font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.muted{color:var(--muted)} .small{font-size:15px} .num{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+.row{display:flex;gap:8px 16px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media(max-width:900px){.grid2,.grid3{grid-template-columns:minmax(0,1fr)}}
+/* ===== Top bar ===== */
+.skip{position:absolute;left:-9999px;top:8px;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:var(--r1);z-index:30;font-weight:700}
+.skip:focus{left:8px}
+.topbar{background:var(--card);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:4px 12px;flex-wrap:wrap;min-height:56px;padding-block:4px}
+.brand{font-family:var(--f-display);font-weight:600;font-size:19px;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;gap:8px;padding-right:8px}
+.brand svg{width:26px;height:26px}
+.nav-wide{display:flex;gap:0;flex-wrap:wrap;flex:1;min-width:0}
+.nav-wide a,.tb-link,.tb-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 9px;font-size:15px;color:var(--ink2);text-decoration:none;border-radius:var(--r1);gap:6px}
+.nav-wide a b{font-weight:700;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-wide a:hover,.tb-link:hover,.tb-btn:hover{background:var(--card2);color:var(--ink)}
+.nav-wide a[aria-current="page"]{color:var(--ink);font-weight:700;box-shadow:inset 0 -3px 0 var(--accent);border-radius:0}
+.tb-btn{border:1px solid var(--line-strong);background:transparent;font:inherit;font-size:15px;cursor:pointer;color:var(--ink)}
+.tb-btn[aria-checked="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tb-btn .dot{width:12px;height:12px;border-radius:50%;border:2px solid currentColor;display:inline-block}
+.tb-btn[aria-checked="true"] .dot{background:currentColor}
+.tb-right{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.nav-narrow{display:none}
+.nav-narrow summary{list-style:none;cursor:pointer;min-height:44px;display:inline-flex;align-items:center;padding:0 14px;font-size:15px;color:var(--ink);border:1px solid var(--line-strong);border-radius:var(--r1)}
+.nav-narrow summary::-webkit-details-marker{display:none}
+.nav-narrow div{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding-top:6px;width:100%}
+.nav-narrow a{display:flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;text-decoration:none;color:var(--ink2);font-size:16px;border-radius:var(--r1)}
+.nav-narrow a[aria-current="page"]{font-weight:700;color:var(--ink);background:var(--card2)}
+@media(max-width:1020px){.nav-wide,.tb-right .tb-link{display:none}.nav-narrow{display:block}.nav-narrow[open]{flex-basis:100%;order:5}.tb-right{margin-left:auto}}
+@media(max-width:480px){.tb-btn{padding:0 10px;font-size:14px}.brand{font-size:17px}}
+/* ===== Controls ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:var(--r3);border:2px solid var(--ink);background:transparent;color:var(--ink);font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.quiet{border-color:var(--line-strong);font-weight:400;color:var(--ink2)}
+.btn:hover{filter:brightness(1.07)} .btn[disabled]{opacity:.55;cursor:default}
+.btn.big{min-height:56px;font-size:20px;padding:0 30px;font-family:var(--f-display);font-weight:500}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px}
+.seg button,.seg a{min-height:44px;min-width:44px;padding:0 16px;border:1.5px solid var(--line-strong);background:var(--card);color:var(--ink2);border-radius:var(--r3);font:inherit;font-size:16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.seg [aria-pressed="true"],.seg [aria-current="true"],.seg [aria-checked="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+.linkbtn{display:inline-flex;align-items:center;min-height:44px;color:var(--ink);font-weight:700;text-underline-offset:3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:24px;box-shadow:var(--shadow)}
+.card.flat{box-shadow:none}
+.panel{background:var(--card2);border:1px solid var(--line2);border-radius:var(--r2);padding:16px 20px}
+.tag{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 12px;border-radius:var(--r3);border:1.5px dashed var(--line-strong);font-size:14px;font-weight:700;color:var(--ink2);background:var(--card)}
+.pbar{height:10px;background:var(--line2);border:1px solid var(--line);border-radius:var(--r3);overflow:hidden}
+.pbar>i{display:block;height:100%;background:var(--accent);border-radius:var(--r3)}
+.pbar.m>i{background:var(--maths)} .pbar.e>i{background:var(--english)}
+@media(max-width:700px){body{font-size:17px}main{padding-block:20px 56px}.card{padding:18px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+:root[data-calm="1"] *{animation:none!important}
+@media print{.topbar,.noprint{display:none!important}body{background:var(--card)}}
+/* ===== Reward levels: Full / Light / Minimal ===== */
+:root[data-reward="light"] .rw-full{display:none!important}
+:root[data-reward="minimal"] .rw-full,:root[data-reward="minimal"] .rw{display:none!important}
+.rw-min{display:none}
+:root[data-reward="minimal"] .rw-min{display:block}
+:root[data-calm="1"] .no-calm{display:none!important}
+.calm-only{display:none}
+:root[data-calm="1"] .calm-only{display:inline-flex}
+/* ===== Ink marks (levels) and words ===== */
+.ink{display:inline-flex;gap:3px;align-items:center;vertical-align:middle}
+.ink svg{width:18px;height:18px;display:block}
+.ink .sh{fill:none;stroke:var(--ink);stroke-width:2}
+.ink .on .sh{fill:var(--ink)}
+.word{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;min-width:74px}
+.word::before{content:"";width:14px;height:14px;display:inline-block;flex:none;box-sizing:border-box;border:2px solid var(--ink)}
+.word.done::before{background:var(--ink);border-radius:50%;border-color:var(--ink)}
+.word.going::before{border-radius:50%;background:linear-gradient(90deg,var(--ink) 50%,transparent 50%)}
+.word.new::before{border-radius:3px;border-style:dotted}
+.legend{display:flex;gap:8px 20px;flex-wrap:wrap;font-size:15px;color:var(--ink2);align-items:center}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+/* ===== Pip and stamps ===== */
+.pip{display:block;width:100%;height:auto;max-width:170px}
+.pip .o{stroke:var(--pip-line);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.pip-body{fill:var(--pip-body)} .pip-leaf{fill:var(--pip-leaf)} .pip-bloom{fill:var(--pip-bloom)} .pip-soil{fill:var(--pip-soil);stroke:none!important}
+.pip-eye{fill:var(--pip-line)} .pip-cheek{fill:var(--pip-cheek);opacity:.55} .pip-stem{fill:none}
+.pip-core{fill:var(--pip-body)}
+.pip.mini{width:44px;max-width:44px}
+@keyframes nod{0%{transform:translateY(0)}40%{transform:translateY(4px) rotate(-3deg)}100%{transform:translateY(0)}}
+@keyframes grow{from{transform:scale(.88)}to{transform:scale(1)}}
+.nod{animation:nod .4s ease-out 1;transform-origin:50% 90%}
+.grow{animation:grow .6s ease-out 1;transform-origin:50% 100%}
+.stamps{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+.stamp{display:grid;justify-items:center;gap:6px;text-align:center;padding:12px 8px}
+.stamp svg{width:92px;height:92px}
+.stamp .ring{fill:var(--stamp-soft);stroke:var(--stamp);stroke-width:3;stroke-dasharray:2 5;stroke-linecap:round}
+.stamp .rim{fill:none;stroke:var(--stamp);stroke-width:3}
+.stamp .ic{fill:none;stroke:var(--stamp);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.stamp.locked .ring,.stamp.locked .rim,.stamp.locked .ic{stroke:var(--line-strong);fill:none;stroke-dasharray:none}
+.stamp.locked .ring{stroke-dasharray:3 6}
+.stamp .txt{display:grid;gap:2px}
+.stamp b{font-size:16px;line-height:1.25} .stamp small{font-size:14px;color:var(--muted)}
+.stamp.new svg{animation:grow .5s ease-out 1}
+.stamp-plain{display:none}
+:root[data-calm="1"] .stamp svg{display:none}
+:root[data-calm="1"] .stamp{grid-template-columns:auto 1fr;justify-items:start;text-align:left;border-bottom:1px solid var(--line2);padding:8px 0}
+:root[data-calm="1"] .stamps{grid-template-columns:1fr;gap:0}
+:root[data-calm="1"] .stamp-plain{display:inline-flex;width:26px;height:26px;border:2px solid var(--ink);border-radius:50%;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+:root[data-calm="1"] .stamp.locked .stamp-plain{border-style:dashed;color:var(--muted);border-color:var(--line-strong)}
+:root[data-calm="1"] .stamp .txt{display:grid;gap:0}
+.ring-bg{stroke:var(--line);fill:none} .ring-fg{stroke:var(--accent);fill:none;stroke-linecap:round}
+.token{display:inline-flex;align-items:center;gap:8px}
+.token svg{width:26px;height:26px}
+
+/* ===== Pip ladder parts ===== */
+.pip-trunk{fill:var(--pip-trunk)} .pip-fruit{fill:var(--pip-fruit)} .pip-gold{fill:var(--gold)}
+.pip-sil *{fill:var(--line)!important;stroke:var(--line-strong)!important} .pip-sil .pip-stem{fill:none!important} .pip-sil .det{display:none} .pip-sil .pip-soil{fill:var(--line2)!important;stroke:none!important}
+.pip.mini2{max-width:84px}
+/* ===== Stamp art ===== */
+.stampart{display:block;width:100%;height:auto}
+.stampart .so{stroke:var(--st-line);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.stampart .sl{fill:none;stroke:var(--st-line);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.stampart .sl.gl{stroke-width:2.2} .stampart .sl.gf{fill:var(--st-face);stroke-width:2}
+.stampart .sf,.stampart .f-face{fill:var(--st-face)} .stampart .f-orange{fill:var(--st-orange)} .stampart .f-brown{fill:var(--st-brown)} .stampart .f-grey{fill:var(--st-grey)} .stampart .f-dgrey{fill:var(--st-dgrey)}
+.stampart .f-yellow{fill:var(--st-yellow)} .stampart .f-green{fill:var(--st-green)} .stampart .f-pink,.stampart .f-ear{fill:var(--st-pink)}
+.stampart .sd{fill:var(--st-line);stroke:none} .stampart .sw{fill:var(--st-face);stroke:none} .stampart .sc{fill:var(--pip-cheek);opacity:.6;stroke:none}
+.stampart .sbadge{fill:var(--st-face)} .stampart .gx{fill:var(--st-line);font-family:var(--f-display);font-weight:500;stroke:none}
+.stampart .so.gold{fill:var(--gold)}
+.stampart .sb{fill:var(--sk1)} .stampart.sk2 .sb{fill:var(--sk2)} .stampart.sk3 .sb{fill:var(--sk3)} .stampart.sk4 .sb{fill:var(--sk4)} .stampart.sk5 .sb{fill:var(--sk5)} .stampart.sk6 .sb{fill:var(--sk6)} .stampart.sk7 .sb{fill:var(--sk7)} .stampart.gold .sb{fill:var(--gold)}
+.stampart.sil *{fill:var(--line)!important;stroke:var(--line-strong)!important} .stampart.sil .det{display:none} .stampart.sil .sb{fill:var(--line2)!important;stroke-dasharray:5 5} .stampart.sil .sbadge{fill:var(--line2)!important}
+/* ===== Album tiles ===== */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px}
+.tile{position:relative;display:grid;gap:6px;justify-items:center;align-content:start;padding:10px 6px 8px;min-height:44px;border:2px solid transparent;border-radius:var(--r2);background:transparent;color:var(--ink);font:inherit;cursor:pointer;text-align:center}
+.tile:hover{background:var(--card2)} .tile[aria-pressed="true"]{border-color:var(--ink);background:var(--card2)}
+.tile .tart{width:92px;display:block}
+.tile .tn{font-size:14px;line-height:1.25;font-weight:700} .tile.locked .tn{color:var(--muted);font-weight:400}
+.tile .newdot{position:absolute;top:4px;left:4px;display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;background:var(--ink);color:var(--bg);border-radius:var(--r3);padding:1px 8px 1px 5px}
+.tile .newdot i{width:8px;height:8px;border-radius:50%;background:var(--bg);display:inline-block}
+.tile .rare{position:absolute;top:4px;right:4px;font-size:12px;font-weight:700;border:1.5px solid var(--ink);border-radius:var(--r3);padding:0 7px;background:var(--gold);color:var(--st-line)}
+.plainl{margin:0;padding-left:20px;display:grid;gap:6px}
+/* ===== Popups ===== */
+.pop-layer{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:16px;background:var(--scrim);pointer-events:auto}
+.pop-layer[hidden]{display:none}
+.pop{width:min(440px,100%);background:var(--paper);border:3px solid var(--ink);border-radius:var(--r2);box-shadow:var(--shadow);padding:20px 20px 14px;display:grid;gap:12px;text-align:center}
+.pop h2{font-size:26px} .pop p{color:var(--ink2)}
+.pop-art{position:relative;width:170px;margin:4px auto 6px}
+.pop-art.wide{width:min(300px,100%);display:grid;grid-template-columns:1fr;justify-items:center}
+.pop-art.wide .pb,.pop-art.wide .pa{grid-area:1/1;width:62%;display:block}
+.pop-foot{display:flex;gap:12px;align-items:center;justify-content:space-between}
+.pop-time{flex:1;height:6px;border-radius:3px;background:var(--line2);overflow:hidden;border:1px solid var(--line)}
+.pop-time i{display:block;height:100%;width:100%;background:var(--accent);transform-origin:left;animation:countdown 3.2s linear forwards}
+@keyframes countdown{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.ink-ring{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;border:4px solid var(--st-line);opacity:0;pointer-events:none}
+.stamping .stampart{animation:stampDown .6s cubic-bezier(.2,.9,.3,1.15) both}
+.stamping .ink-ring{animation:inkRing .6s .22s ease-out both}
+.stamping h2,.stamping p{animation:fade .15s .5s ease-out both}
+.stamping.isgold .stampart{animation-duration:.75s}
+@keyframes stampDown{0%{transform:scale(2.1) rotate(-16deg);opacity:0}55%{transform:scale(.9) rotate(3deg);opacity:1}100%{transform:scale(1) rotate(-3deg);opacity:1}}
+@keyframes inkRing{0%{transform:scale(.7);opacity:.5}100%{transform:scale(1.35);opacity:0}}
+.growing .pb{animation:pipOut .45s .35s ease-in both} .growing .pa{animation:pipIn .9s .6s cubic-bezier(.2,1.5,.4,1) both}
+.growing h2,.growing p{animation:fade .15s .9s ease-out both}
+@keyframes pipOut{from{transform:scale(1);opacity:1}to{transform:scale(.8);opacity:0}}
+@keyframes pipIn{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.spk{position:absolute;width:12px;height:12px;background:var(--gold);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:0;left:50%;top:50%;pointer-events:none}
+[data-mode="full"] .spk{animation:spark .9s .45s ease-out both}
+.spk.s1{--x:-86px;--y:-70px}.spk.s2{--x:88px;--y:-64px}.spk.s3{--x:-96px;--y:10px}.spk.s4{--x:100px;--y:18px}.spk.s5{--x:-60px;--y:82px}.spk.s6{--x:66px;--y:80px}
+@keyframes spark{0%{transform:translate(0,0) scale(.2);opacity:0}40%{opacity:1}100%{transform:translate(var(--x),var(--y)) scale(1.2);opacity:0}}
+.quietbox{border:2px dashed var(--line-strong);border-radius:var(--r2);padding:12px 16px;display:grid;gap:4px}
+.chcard{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;border:2px solid var(--ink);border-radius:var(--r2);padding:14px 18px;background:var(--card)}
+.chcard[hidden]{display:none}
+.pip-row{display:flex;gap:8px;align-items:center}
+@media(max-width:480px){.tiles{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.tile .tart{width:70px}.tile .tn{font-size:13px}}
+
+[data-rm="1"] *{animation:none!important;transition:none!important}
+
+
+.hero{display:flex;justify-content:space-between;gap:16px 32px;flex-wrap:wrap;align-items:end}
+.hero p{font-size:20px;color:var(--ink2);margin-top:8px}
+.cont{display:grid;gap:16px;border-left:10px solid var(--maths)}
+.cont.e{border-left-color:var(--english)}
+.cont .t{font-family:var(--f-display);font-size:clamp(26px,3vw,34px);line-height:1.15}
+.cont .meta{display:flex;gap:8px 16px;align-items:center;flex-wrap:wrap;color:var(--ink2)}
+.subj{display:inline-flex;align-items:center;min-height:28px;padding:0 12px;border-radius:var(--r3);font-weight:700;font-size:14px;background:var(--maths-soft);color:var(--maths);border:1.5px solid var(--maths)}
+.subj.e{background:var(--english-soft);color:var(--english);border-color:var(--english)}
+.shelf{display:flex;gap:10px;align-items:flex-end;overflow-x:auto;padding:8px 4px 0;border-bottom:8px solid var(--line-strong);border-radius:2px}
+.spine{display:flex;flex-direction:column;justify-content:space-between;gap:8px;min-width:112px;min-height:168px;flex:1;padding:12px 10px;text-decoration:none;border:2px solid var(--ink);border-bottom:0;border-radius:10px 10px 0 0;background:var(--maths-soft);color:var(--ink)}
+.spine:nth-child(2),.spine:nth-child(3){background:var(--english-soft);min-height:184px}
+.spine:nth-child(4){background:var(--english-soft);min-height:156px}
+.spine:nth-child(5){background:var(--exam-soft);min-height:172px}
+.spine b{font-family:var(--f-display);font-weight:500;font-size:19px;line-height:1.15}
+.spine>span{display:grid;gap:6px}
+.spine small{font-size:14px;color:var(--ink2)}
+.spine:hover{filter:brightness(.97);transform:none}
+.spine .bar{height:6px;background:var(--card);border:1px solid var(--ink);border-radius:3px;overflow:hidden}
+.spine .bar i{display:block;height:100%;background:var(--ink)}
+.pipcard{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center}
+.pipcard .say{font-family:var(--f-display);font-size:22px;line-height:1.2}
+.weekstrip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;text-align:center;font-size:13px;color:var(--muted)}
+.weekstrip div{display:grid;gap:4px;justify-items:center}
+.wd{width:30px;height:30px;border-radius:50%;border:2px dashed var(--line-strong);display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--ink)}
+.wd.p{border:2px solid var(--ink);background:var(--ink);color:var(--bg)}
+.wd.r{border:2px solid var(--stamp);color:var(--stamp);background:var(--stamp-soft)}
+.goal{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+.tok{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1.5px dashed var(--stamp);border-radius:var(--r2);background:var(--stamp-soft)}
+.tok p{font-size:15px}
+.nexts{margin-top:12px;border-top:1px dotted var(--line-strong);padding-top:12px;display:grid;gap:4px}
+.plain{font-family:var(--f-display);font-size:22px}
+@media(max-width:560px){.pipcard{grid-template-columns:110px minmax(0,1fr)}}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the page content</a><header class="topbar gut" id="topbar"><div class="wrap">
+  <a class="brand" href="01-home.html"><svg viewBox="0 0 26 26" aria-hidden="true"><ellipse cx="13" cy="16" rx="8.5" ry="7.5" fill="var(--pip-body)" stroke="var(--pip-line)" stroke-width="2"/><path d="M13 9V4" stroke="var(--pip-line)" stroke-width="2" stroke-linecap="round"/><path d="M13 5.5C16 2 20 3 20 3c0 4-3 5-7 2.5z" fill="var(--pip-leaf)" stroke="var(--pip-line)" stroke-width="1.6" stroke-linejoin="round"/></svg>E Mix</a>
+  <nav class="nav-wide" aria-label="Pages in direction E"><a href="01-home.html" aria-current="page"><b>01</b>Home</a><a href="02-book-index.html"><b>02</b>Books</a><a href="03-chapter.html"><b>03</b>Chapter</a><a href="04-practice.html"><b>04</b>Practice</a><a href="05-set-summary.html"><b>05</b>Summary</a><a href="06-word-quest.html"><b>06</b>Word Quest</a><a href="07-parent-progress.html"><b>07</b>Parent</a><a href="08-rewards-settings.html"><b>08</b>Rewards</a><a href="09-stamp-album.html"><b>09</b>Stamps</a><a href="10-pip-ladder.html"><b>10</b>Pip</a></nav>
+  <details class="nav-narrow"><summary>Pages</summary><div><a href="01-home.html" aria-current="page"><b>01</b>Home</a><a href="02-book-index.html"><b>02</b>Books</a><a href="03-chapter.html"><b>03</b>Chapter</a><a href="04-practice.html"><b>04</b>Practice</a><a href="05-set-summary.html"><b>05</b>Summary</a><a href="06-word-quest.html"><b>06</b>Word Quest</a><a href="07-parent-progress.html"><b>07</b>Parent</a><a href="08-rewards-settings.html"><b>08</b>Rewards</a><a href="09-stamp-album.html"><b>09</b>Stamps</a><a href="10-pip-ladder.html"><b>10</b>Pip</a><a href="../index.html">All directions</a></div></details>
+  <div class="tb-right"><a class="tb-link" href="../index.html">All directions</a>
+  <button class="tb-btn" id="calmBtn" type="button" role="switch" aria-checked="false"><span class="dot"></span><span class="t">Calm: off</span></button>
+  <button class="tb-btn" id="themeBtn" type="button">Dark mode</button></div>
+</div></header>
+<main class="gut" id="main"><div class="wrap">
+
+<div class="stack">
+<section class="hero" aria-labelledby="hi"><div>
+  <h1 id="hi">Hello, <span id="kname">Mira</span></h1>
+  <p id="hisub">Pick up where you stopped, or choose a book.</p></div>
+  <div class="row"><span class="label">Who is practising</span><span id="ksw"></span></div>
+</section>
+
+<div class="grid2">
+ <div class="stack">
+  <section class="card cont" id="cont" aria-labelledby="ct"></section>
+
+  <section class="card" aria-labelledby="shl">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px"><h2 id="shl">Your books</h2><a class="linkbtn" href="02-book-index.html">Open the contents pages</a></div>
+    <div class="shelf" id="shelf" role="list"></div>
+  </section>
+
+  <section class="card rw" aria-labelledby="alb">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 id="alb">Recent stamps</h2><a class="linkbtn" href="09-stamp-album.html" id="albl">Open the album</a></div>
+    <div class="row" style="gap:16px;align-items:flex-start;flex-wrap:nowrap"><div class="tiles" id="recent" style="flex:1"></div></div>
+    <div class="nexts" id="nexts"></div>
+  </section>
+ </div>
+
+ <div class="stack">
+  <section class="card rw" aria-labelledby="pp">
+    <div class="pipcard"><div id="pipbox"></div>
+      <div style="display:grid;gap:10px"><span class="label" id="pp">Your companion</span>
+        <p class="say" id="pipsay"></p>
+        <p class="small" id="pipnote"></p>
+        <div id="pipbar"></div><p class="small muted" id="pipmeter"></p></div>
+    </div>
+    <p class="small muted" style="margin-top:12px"><a class="linkbtn" href="10-pip-ladder.html">See all ten stages</a></p>
+  </section>
+
+  <section class="card" aria-labelledby="gl">
+    <h2 id="gl" style="margin-bottom:12px">Today</h2>
+    <div class="goal"><span id="ring" class="rw"></span><div style="display:grid;gap:4px"><p class="plain" id="goaltxt"></p><p class="small muted" id="goalnote"></p></div></div>
+    <div style="margin-top:16px" class="weekstrip" id="week"></div>
+    <div class="legend small" style="margin-top:10px"><span><i class="wd p" style="width:20px;height:20px;font-size:11px">&#10003;</i>Practised</span><span><i class="wd r" style="width:20px;height:20px;font-size:11px">z</i>Rest day</span><span><i class="wd" style="width:20px;height:20px"></i>No practice</span></div>
+    <div class="tok" style="margin-top:16px"><span class="token" id="tokico"></span><p id="toktxt"></p></div>
+  </section>
+ </div>
+</div>
+</div>
+
+</div></main>
+<script>
+/* Sample data (invented) */
+window.HB = (function () {
+  const kids = [
+    { id: 'mira', name: 'Mira', age: 8, avatar: 'M', stars: 143, level: 7, streakDays: 4, todayMin: 12, goalMin: 15 },
+    { id: 'kabir', name: 'Kabir', age: 9, avatar: 'K', stars: 61, level: 4, streakDays: 1, todayMin: 0, goalMin: 15 },
+  ];
+  const maths = [
+    [1, 'Chapter title', 1, 'done', 3], [2, 'Addition', 17, 'done', 3], [3, 'Subtraction', 26, 'done', 2],
+    [4, 'Multiplication', 36, 'going', 2], [5, 'Division', 48, 'going', 1], [6, 'Chapter title', 64, 'new', 0],
+    [7, 'Money', 80, 'new', 0], [8, 'Length', 95, 'new', 0], [9, 'Weight', 103, 'new', 0],
+    [10, 'Capacity', 108, 'new', 0], [11, 'Fraction', 115, 'new', 0], [12, 'Geometry', 129, 'new', 0],
+  ].map(([n, title, page, state, levelsDone]) => ({ n, title, page, state, levelsDone })); // levelsDone: 0-3 of Easy/Medium/Challenge
+  const reader = [
+    [1, 'Animal World', 'done', 3], [2, 'Nature Cares', 'going', 1], [3, 'Chapter title', 'new', 0], [4, 'Adventure', 'new', 0],
+  ].map(([n, title, state, levelsDone]) => ({ n, title, state, levelsDone }));
+  const practice = [
+    'Naming Words', 'Replacing Words', 'Chapter title', 'Describing Words', 'Verbs', 'Prepositions',
+    'Articles', 'Sentences', 'Chapter title', 'Chapter title', 'Writing Skills',
+  ].map((title, i) => ({ n: i + 1, title, state: i < 2 ? 'done' : i < 4 ? 'going' : 'new', levelsDone: i < 2 ? 3 : i < 4 ? 1 : 0 }));
+  const unseen = { count: 24, done: 3 };
+  /* Multiplication unit topics (real shape: topics grouped, each with Easy/Medium/Challenge) */
+  const multTopics = [
+    ['Multiplication as repeated addition', [3, 3, 1]], ['Tables of 2, 3, 4, 5', [3, 2, 0]], ['Tables of 6, 7, 8, 9', [2, 1, 0]],
+    ['Multiply a 2-digit number by 1 digit', [2, 0, 0]], ['Multiply a 3-digit number by 1 digit', [0, 0, 0]], ['Word problems', [1, 0, 0]],
+  ].map(([title, stars]) => ({ title, stars })); // stars per level 0-3
+  /* Question samples */
+  const questions = {
+    mcq: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 4, of: 8, text: 'There are 6 boxes. Each box has 8 mangoes. How many mangoes are there in all?',
+      options: ['42', '48', '54', '56'], answer: 1, hint: 'Think 6 groups of 8. Try 8 + 8 + 8 first, then keep adding.' },
+    typed: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 5, of: 8, text: '36 × 4 = ?', answer: '144', wrongTry: '124',
+      hint: 'Do the ones first: 6 × 4 = 24. Write 4, carry 2. Then 3 tens × 4 = 12 tens, plus the 2 carried.' },
+    english: { subject: 'english', unit: 'Animal World · Unseen passage', level: 'Easy', n: 2, of: 6,
+      passageTitle: 'The Clever Crow', passage: ['A thirsty crow found a jug with a little water at the bottom. Its beak could not reach.', 'The crow dropped small stones into the jug, one by one. The water rose slowly. At last the crow drank and flew away happily.'],
+      text: 'Why did the crow drop stones into the jug?', options: ['To break the jug', 'To make the water rise', 'To play a game', 'To hide the water'], answer: 1,
+      hint: 'Read the second paragraph again. What happened to the water after each stone?' },
+  };
+  const setSummary = { topic: 'Tables of 6, 7, 8, 9', level: 'Medium', got: 7, of: 8, stars: 3, minutes: 6, hintsUsed: 1, fixedOldMistake: true, triedChallenge: false, firstTry: 6 };
+  const wordQuest = { clue: 'A big grey animal with a trunk', answer: 'elephant', typedSoFar: 'eleph', wpm: 14, accuracy: 94, wordsToday: 9 };
+  /* Six weeks of history for Mira. Weekly accuracy % (null = not enough data: fewer than 10 attempts). */
+  const weeks = ['26 Aug', '2 Sep', '9 Sep', '16 Sep', '23 Sep', '30 Sep'];
+  const history = {
+    weeks,
+    overall: [48, 54, 61, 66, 71, 76],
+    maths: [50, 55, 63, 70, 75, 80],
+    english: [45, 52, 58, 61, 66, 71],
+    topics: { /* weekly accuracy for two topics: real growth vs plateau */
+      'Multiplication · Tables of 6, 7, 8, 9': [30, 38, 52, 64, 74, 81],
+      'Division · Sharing equally': [52, 55, 54, 56, 55, 57],
+      'English · Verbs': [null, 40, 48, 55, 62, 68],
+    },
+    minutes: [38, 55, 62, 70, 84, 91], days: [3, 4, 4, 5, 5, 6], sets: [5, 7, 9, 10, 12, 13],
+    baseline: { firstAttempts: 20, accuracy: 44, note: 'First 20 answers, 26 to 28 Aug' },
+    levels: { Easy: 'done in 8 of 12 maths units', Medium: 'started in 4', Challenge: 'tried in 2' },
+    typing: { wpm: [6, 8, 9, 11, 13, 14], accuracy: [81, 85, 88, 90, 93, 94], fingerGuideOff: [false, false, false, true, true, true] },
+    mistakeThemes: [['Carrying in multiplication', 9], ['Misread the question', 7], ['Spelling of plurals', 5], ['Remainders in division', 5], ['Tell time to the minute', 3]],
+    heat: { /* accuracy % per chapter, null = not tried */
+      'Maths 1 Numbers': 92, 'Maths 2 Addition': 88, 'Maths 3 Subtraction': 79, 'Maths 4 Multiplication': 74, 'Maths 5 Division': 57, 'Maths 6 Time': 49, 'Maths 7 Money': null,
+      'Reader 1 Animal World': 84, 'Reader 2 Nature Cares': 66, 'Practice Nouns': 90, 'Practice Pronouns': 82, 'Practice Describing': 71, 'Practice Verbs': 68, 'Practice Prepositions': null,
+    },
+    nextUp: ['Division · Sharing equally: 2 short Easy sets, then Medium', 'Time to the minute: re-read book page 66 together', 'Verbs: one Challenge set to stretch'],
+    exam: { portion: 'Maths units 1 to 5 (Periodic Test, 25 marks)', ready: 'Nearly there', predicted: '18 to 21 of 25', weakest: 'Division' },
+  };
+  return { kids, maths, reader, practice, unseen, multTopics, questions, setSummary, wordQuest, history };
+})();
+
+</script>
+<script>
+/* ===== Extra sample values (invented) ===== */
+var EX = {
+  readerPages: [5, 21, 40, 58],
+  practicePages: [1, 9, 16, 24, 33, 41, 48, 55, 62, 70, 78],
+  unseen: ['The Clever Crow', 'A Day at the Market', 'The Little Seed', 'Rain at Last', 'My Pet Rabbit', 'The Lost Kite', 'A Walk in the Park', 'The Brave Ant', 'Grandmother’s Garden', 'The School Fair', 'A Boat on the River', 'The Sleepy Owl', 'Bunty and the Bell', 'Planting Day', 'The Train Journey', 'A Birthday Surprise', 'The Kind Shopkeeper', 'Our Class Pet', 'The Rainbow', 'A Visit to the Zoo', 'Helping at Home', 'The Moon and the Pond', 'The Village Well', 'Sunday Morning'],
+  defaults: { mira: { reward: 'full', calm: '0', sound: '0', goal: '15' }, kabir: { reward: 'light', calm: '0', sound: '0', goal: '10' } },
+  startedAt: { mira: '26 Aug', kabir: '14 Sep' },
+  restTokens: { mira: 1, kabir: 1 }
+};
+
+/* ===== Settings: URL parameters first, then sessionStorage (both optional) ===== */
+var HBS = (function () {
+  var store = {}, listeners = [];
+  try { store = JSON.parse(sessionStorage.getItem('hbEmix') || '{}') || {}; } catch (e) { store = {}; }
+  store.per = store.per || {};
+  var q = new URLSearchParams(location.search);
+  var kid = q.get('kid') === 'kabir' ? 'kabir' : (q.get('kid') === 'mira' ? 'mira' : (store.kid || 'mira'));
+  var theme = q.get('theme') || store.theme || '';
+  var rmFlag = q.get('rm') !== null ? q.get('rm') === '1' : !!store.rm;
+  function per(k) { return Object.assign({}, EX.defaults[k], store.per[k] || {}); }
+  var fromUrl = {};
+  ['reward', 'calm', 'sound', 'goal'].forEach(function (key) { if (q.get(key) !== null) fromUrl[key] = q.get(key); });
+  if (Object.keys(fromUrl).length) store.per[kid] = Object.assign(per(kid), fromUrl);
+  function save() { try { sessionStorage.setItem('hbEmix', JSON.stringify({ kid: kid, theme: theme, rm: rmFlag, per: store.per })); } catch (e) {} }
+  function get(key) { return per(kid)[key]; }
+  function query() {
+    var p = per(kid), u = new URLSearchParams();
+    u.set('kid', kid); u.set('reward', p.reward); u.set('calm', p.calm); u.set('sound', p.sound); u.set('goal', p.goal);
+    if (theme) u.set('theme', theme);
+    if (rmFlag) u.set('rm', '1');
+    return u;
+  }
+  function rewire() {
+    var base = query();
+    [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
+      var h0 = a.getAttribute('data-h0'); if (h0 === null) { h0 = a.getAttribute('href'); a.setAttribute('data-h0', h0); }
+      if (!/^[a-z0-9-]+\.html(\?.*)?$/i.test(h0) && !/^\.\.\/index\.html$/.test(h0)) return;
+      var parts = h0.split('?'), u = new URLSearchParams(parts[1] || '');
+      base.forEach(function (v, k) { if (!u.has(k)) u.set(k, v); });
+      a.setAttribute('href', parts[0] + '?' + u.toString());
+    });
+  }
+  function apply() {
+    var r = document.documentElement, p = per(kid);
+    r.setAttribute('data-reward', p.reward); r.setAttribute('data-calm', p.calm === '1' ? '1' : '0'); r.setAttribute('data-kid', kid);
+    if (theme) r.setAttribute('data-theme', theme);
+    r.setAttribute('data-rm', rmFlag ? '1' : '0');
+    var cb = document.getElementById('calmBtn');
+    if (cb) { cb.setAttribute('aria-checked', p.calm === '1'); cb.querySelector('.t').textContent = p.calm === '1' ? 'Calm: on' : 'Calm: off'; }
+    var tb = document.getElementById('themeBtn');
+    if (tb) { var dark = r.getAttribute('data-theme') ? r.getAttribute('data-theme') === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; tb.textContent = dark ? 'Light mode' : 'Dark mode'; }
+    rewire();
+  }
+  function set(key, val) { store.per[kid] = Object.assign(per(kid), (function (o) { o[key] = String(val); return o; })({})); save(); apply(); listeners.forEach(function (f) { f(key, val); }); }
+  function setKid(k) { kid = k; save(); apply(); listeners.forEach(function (f) { f('kid', k); }); }
+  function toggleTheme() {
+    var r = document.documentElement, cur = r.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    theme = cur === 'dark' ? 'light' : 'dark'; save(); apply(); listeners.forEach(function (f) { f('theme', theme); });
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var cb = document.getElementById('calmBtn'); if (cb) cb.addEventListener('click', function () { set('calm', get('calm') === '1' ? '0' : '1'); });
+    var tb = document.getElementById('themeBtn'); if (tb) tb.addEventListener('click', toggleTheme);
+    apply();
+  });
+  apply();
+  function setRm(v) { rmFlag = !!v; save(); apply(); listeners.forEach(function (f) { f('rm', v); }); }
+  return { rm: function () { return rmFlag; }, setRm: setRm, get: get, set: set, kid: function () { return kid; }, setKid: setKid, on: function (f) { listeners.push(f); }, apply: apply, query: query, rewire: rewire };
+})();
+
+/* ===== Helpers ===== */
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+/*PIP*/
+/* Level ink marks: Easy small dot, Medium big dot, Challenge diamond. Filled = done. Words in aria-label. */
+function inkMarks(n) {
+  var flags = Array.isArray(n) ? n : [n > 0, n > 1, n > 2];
+  var names = ['Easy', 'Medium', 'Challenge'];
+  var shapes = ['<circle class="sh" cx="9" cy="9" r="4"/>', '<circle class="sh" cx="9" cy="9" r="7"/>', '<path class="sh" d="M9 1.5L16.5 9L9 16.5L1.5 9Z"/>'];
+  var lab = names.map(function (nm, i) { return nm + (flags[i] ? ' done' : ' not yet'); }).join(', ');
+  return '<span class="ink" role="img" aria-label="' + lab + '">' + shapes.map(function (sh, i) { return '<svg viewBox="0 0 18 18" class="' + (flags[i] ? 'on' : '') + '" aria-hidden="true">' + sh + '</svg>'; }).join('') + '</span>';
+}
+function inkOne(i, on) {
+  var shapes = ['<circle class="sh" cx="9" cy="9" r="4"/>', '<circle class="sh" cx="9" cy="9" r="7"/>', '<path class="sh" d="M9 1.5L16.5 9L9 16.5L1.5 9Z"/>'];
+  return '<span class="ink" aria-hidden="true"><svg viewBox="0 0 18 18" class="' + (on ? 'on' : '') + '">' + shapes[i] + '</svg></span>';
+}
+function stateWord(s) { return { done: 'Done', going: 'Reading', new: 'New' }[s]; }
+function wordTag(s) { return '<span class="word ' + s + '">' + stateWord(s) + '</span>'; }
+/*STAMPALBUM*/
+function ringSVG(done, goal, size) {
+  var r = 44, c = 2 * Math.PI * r, f = Math.min(1, done / goal);
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 110 110" role="img" aria-label="' + done + ' of ' + goal + ' minutes today">' +
+    '<circle class="ring-bg" cx="55" cy="55" r="' + r + '" stroke-width="10"/>' +
+    '<circle class="ring-fg" cx="55" cy="55" r="' + r + '" stroke-width="10" transform="rotate(-90 55 55)" stroke-dasharray="' + (c * f) + ' ' + c + '"/>' +
+    '<text x="55" y="58" text-anchor="middle" font-family="var(--f-display)" font-size="28" fill="var(--ink)">' + done + '</text>' +
+    '<text x="55" y="76" text-anchor="middle" font-size="12" fill="var(--muted)">of ' + goal + ' min</text></svg>';
+}
+function restToken() {
+  return '<svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="var(--stamp-soft)" stroke="var(--stamp)" stroke-width="2.5"/><path d="M17 15.5A5.5 5.5 0 1 1 11 8a4.5 4.5 0 0 0 6 7.5z" fill="none" stroke="var(--stamp)" stroke-width="2" stroke-linejoin="round"/></svg>';
+}
+function kidSwitch(id) {
+  return '<div class="seg" id="' + (id || 'kidSw') + '" role="group" aria-label="Child">' +
+    HB.kids.map(function (k) { return '<button type="button" data-k="' + k.id + '" aria-pressed="' + (HBS.kid() === k.id) + '">' + k.name + '</button>'; }).join('') + '</div>';
+}
+function wireKidSwitch(id, cb) {
+  var el = document.getElementById(id || 'kidSw'); if (!el) return;
+  el.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; HBS.setKid(b.dataset.k); [].forEach.call(el.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === b); }); if (cb) cb(b.dataset.k); });
+}
+/* quiet sound: only when the parent turned sound on */
+function softTone(freq) {
+  if (HBS.get('sound') !== '1') return;
+  try { var A = window.AudioContext || window.webkitAudioContext, c = new A(), o = c.createOscillator(), g = c.createGain(); o.frequency.value = freq || 660; g.gain.value = 0.04; o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + 0.12); } catch (e) {}
+}
+var PIPMARK = '<svg viewBox="0 0 26 26" aria-hidden="true"><ellipse cx="13" cy="16" rx="8.5" ry="7.5" fill="var(--pip-body)" stroke="var(--pip-line)" stroke-width="2"/><path d="M13 9V4" stroke="var(--pip-line)" stroke-width="2" stroke-linecap="round"/><path d="M13 5.5C16 2 20 3 20 3c0 4-3 5-7 2.5z" fill="var(--pip-leaf)" stroke="var(--pip-line)" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+
+var SETS = [{"id":"maths","name":"Maths friends","border":"scallop","fill":"sk1","blurb":"One friend for each Maths unit. Finish the unit to meet them."},{"id":"reader","name":"Reader friends","border":"squircle","fill":"sk2","blurb":"One friend for each English Reader lesson."},{"id":"practice","name":"Practice Book friends","border":"hex","fill":"sk3","blurb":"One friend for each Practice Book section."},{"id":"try","name":"Try-hard","border":"circle","fill":"sk4","blurb":"For trying, fixing and coming back. Not only for being right."},{"id":"habit","name":"Habit","border":"pebble","fill":"sk5","blurb":"For turning up. A day off never undoes a stamp."},{"id":"typing","name":"Typing","border":"keycap","fill":"sk6","blurb":"For Word Quest."},{"id":"exam","name":"Exam hero","border":"shield","fill":"sk7","blurb":"For practice exams. You only race your own best."},{"id":"book","name":"Book finisher","border":"burst","fill":"gold","blurb":"For finishing a whole book. Rare and golden."}];
+var STAMP_DEFS = [{"id":"mf1","name":"Big Number Bear","set":"maths","rarity":"common","species":"bear","glyph":"num9","plain":"Finish Unit 1, Chapter title: pass Easy and Medium on every topic.","why":"You finished Unit 1, Chapter title."},{"id":"mf2","name":"Plus Panda","set":"maths","rarity":"common","species":"panda","glyph":"plus","plain":"Finish Unit 2, Addition: pass Easy and Medium on every topic.","why":"You finished Unit 2, Addition."},{"id":"mf3","name":"Minus Mouse","set":"maths","rarity":"common","species":"mouse","glyph":"minus","plain":"Finish Unit 3, Subtraction: pass Easy and Medium on every topic.","why":"You finished Unit 3, Subtraction."},{"id":"mf4","name":"Times Turtle","set":"maths","rarity":"common","species":"turtle","glyph":"times","plain":"Finish Unit 4, Multiplication: pass Easy and Medium on every topic.","why":"You finished Unit 4, Multiplication."},{"id":"mf5","name":"Divide Duck","set":"maths","rarity":"common","species":"duck","glyph":"divide","plain":"Finish Unit 5, Division: pass Easy and Medium on every topic.","why":"You finished Unit 5, Division."},{"id":"mf6","name":"Tick-Tock Owl","set":"maths","rarity":"common","species":"owl","glyph":"clock","plain":"Finish Unit 6, Chapter title: pass Easy and Medium on every topic.","why":"You finished Unit 6, Chapter title."},{"id":"mf7","name":"Rupee Rabbit","set":"maths","rarity":"common","species":"rabbit","glyph":"rupee","plain":"Finish Unit 7, Money: pass Easy and Medium on every topic.","why":"You finished Unit 7, Money."},{"id":"mf8","name":"Long Giraffe","set":"maths","rarity":"common","species":"giraffe","glyph":"ruler","plain":"Finish Unit 8, Length: pass Easy and Medium on every topic.","why":"You finished Unit 8, Length."},{"id":"mf9","name":"Heavy Hippo","set":"maths","rarity":"common","species":"hippo","glyph":"scale","plain":"Finish Unit 9, Weight: pass Easy and Medium on every topic.","why":"You finished Unit 9, Weight."},{"id":"mf10","name":"Pour Penguin","set":"maths","rarity":"common","species":"penguin","glyph":"jug","plain":"Finish Unit 10, Capacity: pass Easy and Medium on every topic.","why":"You finished Unit 10, Capacity."},{"id":"mf11","name":"Slice Fox","set":"maths","rarity":"common","species":"fox","glyph":"pie","plain":"Finish Unit 11, Fraction: pass Easy and Medium on every topic.","why":"You finished Unit 11, Fraction."},{"id":"mf12","name":"Shape Tiger","set":"maths","rarity":"common","species":"tiger","glyph":"triangle","plain":"Finish Unit 12, Geometry: pass Easy and Medium on every topic.","why":"You finished Unit 12, Geometry."},{"id":"rf1","name":"Zoo Elephant","set":"reader","rarity":"common","species":"elephant","glyph":"paw","plain":"Finish Reader lesson 1, Animal World: pass Easy and Medium on every topic.","why":"You finished Reader lesson 1, Animal World."},{"id":"rf2","name":"Leafy Koala","set":"reader","rarity":"common","species":"koala","glyph":"leaf","plain":"Finish Reader lesson 2, Nature Cares: pass Easy and Medium on every topic.","why":"You finished Reader lesson 2, Nature Cares."},{"id":"rf3","name":"Kind Cat","set":"reader","rarity":"common","species":"cat","glyph":"heart","plain":"Finish Reader lesson 3, Chapter title: pass Easy and Medium on every topic.","why":"You finished Reader lesson 3, Chapter title."},{"id":"rf4","name":"Brave Dragon","set":"reader","rarity":"common","species":"dragon","glyph":"star","plain":"Finish Reader lesson 4, Adventure: pass Easy and Medium on every topic.","why":"You finished Reader lesson 4, Adventure."},{"id":"pf1","name":"Noun Frog","set":"practice","rarity":"common","species":"frog","glyph":"tagN","plain":"Finish Practice Book section 1, Naming Words: pass Easy and Medium on every topic.","why":"You finished Practice Book section 1, Naming Words."},{"id":"pf2","name":"Swap Monkey","set":"practice","rarity":"common","species":"monkey","glyph":"swap","plain":"Finish Practice Book section 2, Replacing Words: pass Easy and Medium on every topic.","why":"You finished Practice Book section 2, Replacing Words."},{"id":"pf3","name":"Tally Cow","set":"practice","rarity":"common","species":"cow","glyph":"n123","plain":"Finish Practice Book section 3, Chapter title: pass Easy and Medium on every topic.","why":"You finished Practice Book section 3, Chapter title."},{"id":"pf4","name":"Bright Lion","set":"practice","rarity":"common","species":"lion","glyph":"sparkle","plain":"Finish Practice Book section 4, Describing Words: pass Easy and Medium on every topic.","why":"You finished Practice Book section 4, Describing Words."},{"id":"pf5","name":"Busy Bee","set":"practice","rarity":"common","species":"bee","glyph":"run","plain":"Finish Practice Book section 5, Verbs: pass Easy and Medium on every topic.","why":"You finished Practice Book section 5, Verbs."},{"id":"pf6","name":"Over Pig","set":"practice","rarity":"common","species":"pig","glyph":"over","plain":"Finish Practice Book section 6, Prepositions: pass Easy and Medium on every topic.","why":"You finished Practice Book section 6, Prepositions."},{"id":"pf7","name":"Article Snail","set":"practice","rarity":"common","species":"snail","glyph":"letterA","plain":"Finish Practice Book section 7, Articles: pass Easy and Medium on every topic.","why":"You finished Practice Book section 7, Articles."},{"id":"pf8","name":"Full Stop Dog","set":"practice","rarity":"common","species":"dog","glyph":"fullstop","plain":"Finish Practice Book section 8, Sentences: pass Easy and Medium on every topic.","why":"You finished Practice Book section 8, Sentences."},{"id":"pf9","name":"Split Robot","set":"practice","rarity":"common","species":"robot","glyph":"split","plain":"Finish Practice Book section 9, Chapter title: pass Easy and Medium on every topic.","why":"You finished Practice Book section 9, Chapter title."},{"id":"pf10","name":"Story Sheep","set":"practice","rarity":"common","species":"sheep","glyph":"openbook","plain":"Finish Practice Book section 10, Chapter title: pass Easy and Medium on every topic.","why":"You finished Practice Book section 10, Chapter title."},{"id":"pf11","name":"Pen Seal","set":"practice","rarity":"common","species":"seal","glyph":"pencil","plain":"Finish Practice Book section 11, Writing Skills: pass Easy and Medium on every topic.","why":"You finished Practice Book section 11, Writing Skills."},{"id":"t_set","name":"First Set Pip","set":"try","rarity":"common","species":"pip","glyph":"flag","plain":"Finish your first practice set.","why":"You finished your first set."},{"id":"t_challenge","name":"Brave Pip","set":"try","rarity":"common","species":"pip","glyph":"diamond","plain":"Try a Challenge set. You do not have to get it right.","why":"You tried a Challenge set. That takes courage."},{"id":"t_fixed","name":"Fix-It Pip","set":"try","rarity":"common","species":"pip","glyph":"loop","plain":"Get a question right that you got wrong before.","why":"You got a question right that you missed before."},{"id":"t_hint","name":"Clever Pip","set":"try","rarity":"common","species":"pip","glyph":"bulb","plain":"Ask for a hint and then finish the set well.","why":"You asked for a hint, then finished the set well."},{"id":"t_back","name":"Welcome Back Pip","set":"try","rarity":"common","species":"pip","glyph":"house","plain":"Come back after three or more days away.","why":"You came back after a break. Welcome back."},{"id":"t_gold","name":"Golden Leaf Pip","set":"try","rarity":"gold","species":"pip","glyph":"goldleaf","plain":"Pass Challenge on every topic of one chapter.","why":"You passed Challenge on every topic of a chapter."},{"id":"h_3","name":"Three-Day Hedgehog","set":"habit","rarity":"common","species":"hedgehog","glyph":"cal3","plain":"Practise on 3 different days in one week.","why":"You practised on 3 days this week."},{"id":"h_5","name":"Five-Day Otter","set":"habit","rarity":"common","species":"otter","glyph":"cal5","plain":"Practise on 5 different days in one week.","why":"You practised on 5 days this week."},{"id":"h_run7","name":"Seven-Day Squirrel","set":"habit","rarity":"common","species":"squirrel","glyph":"sun","plain":"Practise on 7 days in a row. One day off in between is allowed.","why":"You practised 7 days in a run."},{"id":"h_15","name":"Quarter-Hour Tortoise","set":"habit","rarity":"common","species":"turtle","glyph":"clock15","plain":"Practise for 15 minutes in one day.","why":"You practised for 15 minutes in one day."},{"id":"h_run30","name":"Thirty-Day Squirrel","set":"habit","rarity":"gold","species":"squirrel","glyph":"crown","plain":"Practise on 30 days in a row. One day off in between is allowed.","why":"You practised 30 days in a run."},{"id":"q_first","name":"Keys Parrot","set":"typing","rarity":"common","species":"parrot","glyph":"keys","plain":"Play Word Quest for the first time.","why":"You played Word Quest for the first time."},{"id":"q_10","name":"Ten-Word Cat","set":"typing","rarity":"common","species":"cat","glyph":"ten","plain":"Type 10 words in one Word Quest.","why":"You typed 10 words in one Word Quest."},{"id":"q_wpm","name":"Speedy Rabbit","set":"typing","rarity":"common","species":"rabbit","glyph":"speed","plain":"Type at 10 words a minute or faster in one Word Quest.","why":"You typed 10 words a minute or faster."},{"id":"q_acc","name":"Careful Owl","set":"typing","rarity":"common","species":"owl","glyph":"target","plain":"Type with 95 right letters in every 100.","why":"You typed with 95 right letters in every 100."},{"id":"e_first","name":"First Exam Penguin","set":"exam","rarity":"common","species":"penguin","glyph":"sheet","plain":"Finish a practice exam, on screen or typed in from paper.","why":"You finished a practice exam."},{"id":"e_80","name":"Steady Bear","set":"exam","rarity":"common","species":"bear","glyph":"n80","plain":"Get 80 marks in every 100 in a practice exam.","why":"You got 80 marks in every 100."},{"id":"e_sec","name":"Full Section Tiger","set":"exam","rarity":"common","species":"tiger","glyph":"star","plain":"Get every mark in one section of a practice exam.","why":"You got every mark in one section."},{"id":"e_90","name":"Exam Hero Owl","set":"exam","rarity":"gold","species":"owl","glyph":"trophy","plain":"Get 90 marks in every 100 in a practice exam of 25 marks or more.","why":"You got 90 marks in every 100."},{"id":"b_maths","name":"Maths Master Bear","set":"book","rarity":"gold","species":"bear","glyph":"book12","plain":"Finish all 12 Maths units.","why":"You finished all 12 Maths units."},{"id":"b_reader","name":"Reader Master Elephant","set":"book","rarity":"gold","species":"elephant","glyph":"bookR","plain":"Finish all 4 Reader lessons.","why":"You finished all 4 Reader lessons."},{"id":"b_practice","name":"Practice Master Frog","set":"book","rarity":"gold","species":"frog","glyph":"bookP","plain":"Finish all 11 Practice Book sections.","why":"You finished all 11 Practice Book sections."}];
+/* ===== Stamp art generator: one parameterised drawing system =====
+   stamp = border (by set) + character (species: ears, face, marks, fur) + accessory badge (glyph).
+   Same language as Pip: 3 px ink outline, flat fills, round joins. All colours are tokens (--st-*). */
+var SA = (function () {
+  var P = function (d, c) { return '<path class="so ' + (c || 'sf') + '" d="' + d + '"/>'; };
+  var E = function (cx, cy, rx, ry, c, rot) { return '<ellipse class="so ' + (c || 'sf') + '" cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '"' + (rot ? ' transform="rotate(' + rot + ' ' + cx + ' ' + cy + ')"' : '') + '/>'; };
+  var C = function (cx, cy, r, c) { return '<circle class="so ' + (c || 'sf') + '" cx="' + cx + '" cy="' + cy + '" r="' + r + '"/>'; };
+  var LN = function (d) { return '<path class="sl det" d="' + d + '"/>'; };
+  var FUR = { face: 'f-face', orange: 'f-orange', brown: 'f-brown', grey: 'f-grey', dgrey: 'f-dgrey', yellow: 'f-yellow', green: 'f-green', pink: 'f-pink' };
+  var SP = {
+    bear: { fur: 'brown', ear: 'round', face: 'muzzle' }, panda: { fur: 'face', ear: 'rounddark', mark: 'patches', face: 'muzzle', dark: 1 },
+    mouse: { fur: 'grey', ear: 'biground', face: 'tiny', whisk: 1 }, turtle: { sp: 'turtle' }, duck: { fur: 'yellow', ear: 'tuft', face: 'beak' },
+    owl: { fur: 'brown', ear: 'tufts', mark: 'rings', face: 'beakyellow' }, rabbit: { fur: 'face', ear: 'long', face: 'tiny', whisk: 1 },
+    giraffe: { fur: 'yellow', ear: 'horn', mark: 'spots', face: 'muzzle', tall: 1 }, hippo: { fur: 'grey', ear: 'smallround', face: 'snout', wide: 1 },
+    penguin: { sp: 'penguin' }, fox: { fur: 'orange', ear: 'point', mark: 'ruff', face: 'muzzle' }, tiger: { fur: 'orange', ear: 'round', mark: 'stripes', face: 'muzzle' },
+    elephant: { fur: 'grey', ear: 'big', face: 'trunk' }, koala: { fur: 'grey', ear: 'fluffround', face: 'bignose' }, cat: { fur: 'grey', ear: 'point', mark: 'stripes2', face: 'tiny', whisk: 1 },
+    dragon: { fur: 'green', ear: 'hornsmall', mark: 'spikes', face: 'muzzle' }, frog: { fur: 'green', ear: 'eyes', face: 'wide' },
+    monkey: { fur: 'brown', ear: 'sideround', mark: 'facepatch', face: 'muzzle' }, cow: { fur: 'face', ear: 'floppydark', mark: 'patches2', face: 'snout', cowhorn: 1 },
+    lion: { fur: 'yellow', ear: 'round', mark: 'mane', face: 'muzzle' }, bee: { fur: 'yellow', ear: 'antenna', mark: 'beestripes', face: 'tiny' },
+    pig: { fur: 'pink', ear: 'pointsmall', face: 'snout' }, snail: { sp: 'snail' }, dog: { fur: 'face', ear: 'floppydark', mark: 'eyepatch', face: 'muzzle' },
+    robot: { fur: 'grey', ear: 'antenna', face: 'none', boxy: 1 }, sheep: { fur: 'grey', ear: 'floppydark', mark: 'wool', face: 'tiny' }, seal: { fur: 'grey', ear: 'none', face: 'tiny', whisk: 1, wide: 1 },
+    pip: { sp: 'pip' }, hedgehog: { fur: 'face', ear: 'none', mark: 'hedge', face: 'tiny', wide: 1 }, otter: { fur: 'brown', ear: 'smallround', mark: 'otterface', face: 'tiny', whisk: 1 },
+    squirrel: { fur: 'brown', ear: 'point', mark: 'tail', face: 'tiny' }, parrot: { fur: 'green', ear: 'crest', face: 'beakhook' }
+  };
+  function eyes(dark) { return (dark ? '<circle class="sw det" cx="47" cy="56" r="5.5"/><circle class="sw det" cx="73" cy="56" r="5.5"/>' : '') + '<circle class="sd det" cx="47" cy="56" r="3.4"/><circle class="sd det" cx="73" cy="56" r="3.4"/><circle class="sc det" cx="38" cy="67" r="4.4"/><circle class="sc det" cx="82" cy="67" r="4.4"/>'; }
+  var smile = '<path class="sl det" d="M53 71Q60 78 67 71"/>';
+  function ears(sp, fur) {
+    var f = FUR[fur] || 'f-face';
+    switch (sp.ear) {
+      case 'round': return C(35, 36, 11, f) + C(85, 36, 11, f) + C(35, 36, 5, 'f-ear det') + C(85, 36, 5, 'f-ear det');
+      case 'rounddark': return C(35, 35, 11, 'sd') + C(85, 35, 11, 'sd');
+      case 'biground': return C(32, 38, 15, f) + C(88, 38, 15, f) + C(32, 38, 8, 'f-ear det') + C(88, 38, 8, 'f-ear det');
+      case 'smallround': return C(39, 33, 8, f) + C(81, 33, 8, f);
+      case 'point': return P('M33 46L36 20L54 36Z', f) + P('M87 46L84 20L66 36Z', f) + P('M38 40L39 28L47 36Z', 'f-ear det') + P('M82 40L81 28L73 36Z', 'f-ear det');
+      case 'pointsmall': return P('M34 42L30 24L50 33Z', f) + P('M86 42L90 24L70 33Z', f);
+      case 'long': return E(45, 22, 8, 22, f, -6) + E(75, 22, 8, 22, f, 6) + E(45, 22, 3.5, 15, 'f-ear det', -6) + E(75, 22, 3.5, 15, 'f-ear det', 6);
+      case 'floppydark': return E(30, 56, 9, 19, 'sd', 14) + E(90, 56, 9, 19, 'sd', -14);
+      case 'big': return C(25, 58, 18, f) + C(95, 58, 18, f) + C(25, 58, 10, 'f-ear det') + C(95, 58, 10, 'f-ear det');
+      case 'horn': return LN('M48 33L45 20M72 33L75 20') + C(45, 18, 4, 'sd') + C(75, 18, 4, 'sd') + E(31, 44, 8, 5, f, -30) + E(89, 44, 8, 5, f, 30);
+      case 'hornsmall': return P('M42 36L38 16L52 30Z', 'f-yellow') + P('M78 36L82 16L68 30Z', 'f-yellow');
+      case 'tuft': return LN('M54 32Q52 22 58 18M62 32Q62 20 68 18');
+      case 'tufts': return P('M36 42L32 18L54 32Z', f) + P('M84 42L88 18L66 32Z', f);
+      case 'sideround': return C(26, 60, 12, f) + C(94, 60, 12, f) + C(26, 60, 6, 'f-ear det') + C(94, 60, 6, 'f-ear det');
+      case 'fluffround': return C(30, 40, 16, f) + C(90, 40, 16, f) + C(30, 40, 8, 'f-face det') + C(90, 40, 8, 'f-face det');
+      case 'antenna': return LN('M50 33L42 14M70 33L78 14') + C(41, 12, 4.5, 'sd') + C(79, 12, 4.5, 'sd');
+      case 'eyes': return C(43, 33, 11, f) + C(77, 33, 11, f) + '<circle class="sw det" cx="43" cy="33" r="6"/><circle class="sw det" cx="77" cy="33" r="6"/><circle class="sd det" cx="43" cy="33" r="3.2"/><circle class="sd det" cx="77" cy="33" r="3.2"/>';
+      case 'crest': return P('M52 34L48 14L58 28L62 10L66 28L76 16L70 34Z', 'f-orange');
+      default: return '';
+    }
+  }
+  function head(sp, fur) {
+    var f = FUR[fur] || 'f-face';
+    if (sp.boxy) return '<rect class="so ' + f + '" x="30" y="30" width="60" height="56" rx="12"/>';
+    if (sp.tall) return E(60, 58, 24, 32, f);
+    if (sp.wide) return E(60, 60, 35, 26, f);
+    return E(60, 58, 30, 27, f);
+  }
+  function marks(sp, fur) {
+    var m = sp.mark, s = '';
+    if (m === 'patches') s += E(46, 56, 8, 10, 'sd det', 15) + E(74, 56, 8, 10, 'sd det', -15);
+    if (m === 'rings') s += C(46, 55, 11, 'f-face det') + C(74, 55, 11, 'f-face det');
+    if (m === 'spots') s += '<circle class="sd det" cx="50" cy="36" r="3"/><circle class="sd det" cx="70" cy="40" r="3.4"/><circle class="sd det" cx="64" cy="28" r="2.6"/><circle class="sd det" cx="76" cy="30" r="2.6"/>';
+    if (m === 'ruff') s += P('M32 62L50 76L36 80Z', 'f-face det') + P('M88 62L70 76L84 80Z', 'f-face det');
+    if (m === 'stripes') s += LN('M52 32L56 42M68 32L64 42M60 30V40M32 52L40 54M88 52L80 54M33 62L41 62M87 62L79 62');
+    if (m === 'stripes2') s += LN('M54 33L56 41M66 33L64 41M60 31V40');
+    if (m === 'beestripes') s += '<path class="sd det" d="M33 48Q60 40 87 48L86 54Q60 46 34 54Z"/>' + '<path class="sd det" d="M30 66Q60 58 90 66L88 72Q60 64 32 72Z"/>';
+    if (m === 'facepatch') s += P('M60 50Q48 44 42 54Q38 72 60 78Q82 72 78 54Q72 44 60 50Z', 'f-face det');
+    if (m === 'patches2') s += E(44, 44, 9, 7, 'sd det', -20) + E(78, 62, 7, 9, 'sd det', 10);
+    if (m === 'eyepatch') s += E(47, 56, 9, 10, 'f-brown det', 0);
+    if (m === 'otterface') s += E(60, 70, 19, 12, 'f-face det');
+    return s;
+  }
+  function behind(sp, fur) {
+    var m = sp.mark, s = '';
+    if (m === 'mane') for (var i = 0; i < 10; i++) { var a = i * 36 * Math.PI / 180; s += C((60 + 36 * Math.cos(a)).toFixed(1), (58 + 33 * Math.sin(a)).toFixed(1), 10.5, 'f-orange'); }
+    if (m === 'wool') for (var j = 0; j < 9; j++) { var b = j * 40 * Math.PI / 180; s += C((60 + 33 * Math.cos(b)).toFixed(1), (56 + 30 * Math.sin(b)).toFixed(1), 11, 'f-face'); }
+    if (m === 'spikes') s += P('M32 44L24 30L40 38L38 22L50 34L56 16L62 32L72 18L74 36L86 26L82 42Z', 'f-orange');
+    if (m === 'hedge') { var p = 'M26 62'; for (var k = 0; k <= 9; k++) { var t = Math.PI + k * Math.PI / 9, r1 = k % 2 ? 40 : 30; p += 'L' + (60 + r1 * Math.cos(t)).toFixed(1) + ' ' + (62 + (r1 - 2) * Math.sin(t)).toFixed(1); } s += P(p + 'L94 62Z', 'f-dgrey'); }
+    if (m === 'tail') s += E(96, 52, 13, 27, 'f-brown', 22) + E(96, 54, 6, 17, 'f-face det', 22);
+    return s;
+  }
+  function face(sp) {
+    var f = sp.face, s = '';
+    var nose = '<ellipse class="sd det" cx="60" cy="65" rx="4.2" ry="3"/>';
+    if (f === 'muzzle') s += E(60, 71, 13, 9, 'f-face det') + nose + smile.replace('M53 71Q60 78 67 71', 'M54 74Q60 80 66 74');
+    if (f === 'tiny') s += '<circle class="sd det" cx="60" cy="65" r="2.8"/>' + smile;
+    if (f === 'beak') s += P('M50 63H70L60 76Z', 'f-orange');
+    if (f === 'beakyellow') s += P('M54 62H66L60 76Z', 'f-yellow');
+    if (f === 'beakhook') s += P('M50 62Q60 56 70 62Q70 76 60 78Q56 70 50 62Z', 'f-orange');
+    if (f === 'snout') s += E(60, 72, 17, 10, 'f-pink') + '<circle class="sd det" cx="54" cy="72" r="2.4"/><circle class="sd det" cx="66" cy="72" r="2.4"/>';
+    if (f === 'trunk') s += P('M52 66Q48 96 66 96Q76 94 72 86Q64 92 64 68Z', 'f-grey');
+    if (f === 'bignose') s += E(60, 66, 9, 12, 'sd') + smile.replace('M53 71Q60 78 67 71', 'M52 80Q60 86 68 80');
+    if (f === 'wide') s += LN('M38 70Q60 90 82 70');
+    if (f === 'none') s += LN('M50 74H70');
+    if (sp.whisk) s += LN('M30 66L18 63M30 70L18 72M90 66L102 63M90 70L102 72');
+    if (sp.cowhorn) s += '';
+    return s;
+  }
+  function special(sp, name) {
+    if (sp.sp === 'turtle') return E(60, 70, 36, 25, 'f-green') + LN('M36 70Q60 50 84 70M60 46V95M44 58L40 84M76 58L80 84') + E(34, 90, 9, 6, 'f-green') + E(86, 90, 9, 6, 'f-green') + C(60, 38, 17, 'f-green') + '<circle class="sd det" cx="54" cy="36" r="3"/><circle class="sd det" cx="66" cy="36" r="3"/><path class="sl det" d="M54 44Q60 50 66 44"/><circle class="sc det" cx="48" cy="43" r="3.4"/><circle class="sc det" cx="72" cy="43" r="3.4"/>';
+    if (sp.sp === 'penguin') return E(60, 60, 31, 36, 'f-dgrey') + E(60, 70, 19, 25, 'f-face det') + E(30, 66, 8, 20, 'f-dgrey', 12) + E(90, 66, 8, 20, 'f-dgrey', -12) + '<circle class="sw det" cx="49" cy="46" r="6"/><circle class="sw det" cx="71" cy="46" r="6"/><circle class="sd det" cx="49" cy="46" r="3"/><circle class="sd det" cx="71" cy="46" r="3"/>' + P('M53 56H67L60 66Z', 'f-orange') + '<path class="sl det" d="M54 70Q60 74 66 70"/>' + E(48, 94, 9, 4, 'f-orange') + E(72, 94, 9, 4, 'f-orange');
+    if (sp.sp === 'snail') return E(56, 88, 34, 10, 'f-face') + C(30, 68, 13, 'f-face') + LN('M26 58L22 42M34 58L38 42') + C(21, 40, 4.5, 'f-face') + C(39, 40, 4.5, 'f-face') + '<circle class="sd det" cx="21" cy="40" r="2"/><circle class="sd det" cx="39" cy="40" r="2"/><path class="sl det" d="M24 72Q30 78 36 72"/>' + C(72, 58, 27, 'f-orange') + '<path class="sl det" d="M72 58m0 0a4 4 0 1 1 5 4a10 10 0 1 1-12-12a16 16 0 1 1 20 20"/>';
+    if (sp.sp === 'pip') return P('M60 38V24', 'sl') + P('M60 30C52 22 44 24 42 24C44 32 52 36 60 30Z', 'f-green') + P('M60 30C68 22 76 24 78 24C76 32 68 36 60 30Z', 'f-green') + E(60, 70, 34, 30, 'f-yellow') + '<circle class="sd det" cx="49" cy="66" r="3.6"/><circle class="sd det" cx="71" cy="66" r="3.6"/><circle class="sc det" cx="40" cy="76" r="4.6"/><circle class="sc det" cx="80" cy="76" r="4.6"/><path class="sl det" d="M53 77Q60 85 67 77"/>';
+    return '';
+  }
+  /* accessory glyphs, drawn in a box of +-11 around (0,0) */
+  var TX = function (t, fs, y) { return '<text class="gx det" text-anchor="middle" y="' + (y === undefined ? 5 : y) + '" font-size="' + (fs || 15) + '">' + t + '</text>'; };
+  var G = function (d, extra) { return '<path class="sl gl det" d="' + d + '"' + (extra || '') + '/>'; };
+  var GF = function (d) { return '<path class="sl gf det" d="' + d + '"/>'; };
+  var GLYPH = {
+    plus: function () { return G('M-7 0H7M0 -7V7'); }, minus: function () { return G('M-7 0H7'); }, times: function () { return G('M-6 -6L6 6M6 -6L-6 6'); },
+    divide: function () { return G('M-7 0H7') + '<circle class="sd det" cx="0" cy="-5.5" r="2"/><circle class="sd det" cx="0" cy="5.5" r="2"/>'; },
+    num9: function () { return TX('9', 18, 6); }, n80: function () { return TX('80', 12, 4); }, ten: function () { return TX('10', 13, 4); }, n123: function () { return TX('123', 9.5, 3.5); },
+    tagN: function () { return TX('N', 16, 6); }, letterA: function () { return TX('a', 18, 6); },
+    clock: function () { return '<circle class="sl gl det" cx="0" cy="0" r="8.5"/>' + G('M0 -5V0L4 2'); }, clock15: function () { return '<circle class="sl gl det" cx="0" cy="0" r="8.5"/>' + G('M0 0V-5M0 0H5'); },
+    rupee: function () { return G('M-5 -6H6M-5 -2H6M-5 -6H0Q6 -6 6 -2Q6 3 -5 3L4 9'); }, ruler: function () { return G('M-9 3L3 -9L9 -3L-3 9ZM-5 -1L-2 2M0 -5L3 -2'); },
+    scale: function () { return G('M0 -9V7M-8 7H8M-9 -4H9M-9 -4L-11 2H-7ZM9 -4L7 2H11Z'); }, jug: function () { return G('M-5 -9H5L6 8H-6ZM6 -4Q11 -4 11 1Q11 5 6 5'); },
+    pie: function () { return '<circle class="sl gl det" cx="0" cy="0" r="8.5"/>' + G('M0 0V-8M0 0L7.5 4'); }, triangle: function () { return G('M0 -9L9 7H-9Z'); },
+    paw: function () { return '<circle class="sd det" cx="0" cy="3" r="5"/><circle class="sd det" cx="-6.5" cy="-3" r="2.6"/><circle class="sd det" cx="0" cy="-6.5" r="2.6"/><circle class="sd det" cx="6.5" cy="-3" r="2.6"/>'; },
+    leaf: function () { return GF('M-8 7Q-8 -7 8 -8Q8 6 -8 7Z') + G('M-6 6L5 -5'); }, heart: function () { return GF('M0 8L-8 0Q-9 -7 -3 -6Q0 -5 0 -2Q0 -5 3 -6Q9 -7 8 0Z'); },
+    star: function () { return GF('M0 -9L2.6 -3L9 -2.6L4 1.8L5.6 8L0 4.6L-5.6 8L-4 1.8L-9 -2.6L-2.6 -3Z'); }, sparkle: function () { return GF('M0 -10Q1 -1 10 0Q1 1 0 10Q-1 1 -10 0Q-1 -1 0 -10Z'); },
+    swap: function () { return G('M-8 -3H6M3 -6L7 -3L3 0M8 4H-6M-3 1L-7 4L-3 7'); }, run: function () { return G('M-9 0H8M3 -5L8 0L3 5'); }, over: function () { return G('M-9 5Q0 -11 9 5M5 -1L9 5L3 6'); },
+    fullstop: function () { return '<circle class="sd det" cx="0" cy="3" r="3.4"/>'; }, split: function () { return G('M-10 -6H-1V6H-10ZM1 -6H10V6H1Z'); },
+    openbook: function () { return G('M0 -5Q-5 -8 -10 -6V6Q-5 4 0 7Q5 4 10 6V-6Q5 -8 0 -5ZM0 -5V7'); }, pencil: function () { return G('M-8 8L-6 3L5 -8L8 -5L-3 6ZM-6 3L-3 6'); },
+    flag: function () { return G('M-6 -9V9') + GF('M-6 -8H8L4 -3L8 2H-6Z'); }, diamond: function () { return GF('M0 -9L8 0L0 9L-8 0Z'); },
+    loop: function () { return G('M-7 2A7 7 0 1 0 -4 -5M-4 -9V-4H-9'); }, bulb: function () { return '<circle class="sl gl det" cx="0" cy="-2" r="6.5"/>' + G('M-3 6H3M-2 9H2'); },
+    house: function () { return G('M-9 1L0 -8L9 1M-6 -1V8H6V-1M-2 8V3H2V8'); }, goldleaf: function () { return '<path class="so gold det" d="M-8 7Q-8 -7 8 -8Q8 6 -8 7Z"/>' + G('M-6 6L5 -5'); },
+    cal3: function () { return '<rect class="sl gl det" x="-9" y="-8" width="18" height="17" rx="3"/>' + G('M-9 -3H9') + TX('3', 11, 7); }, cal5: function () { return '<rect class="sl gl det" x="-9" y="-8" width="18" height="17" rx="3"/>' + G('M-9 -3H9') + TX('5', 11, 7); },
+    sun: function () { var s = '<circle class="sl gl det" cx="0" cy="0" r="4.5"/>'; for (var i = 0; i < 8; i++) { var a = i * Math.PI / 4; s += G('M' + (7 * Math.cos(a)).toFixed(1) + ' ' + (7 * Math.sin(a)).toFixed(1) + 'L' + (10 * Math.cos(a)).toFixed(1) + ' ' + (10 * Math.sin(a)).toFixed(1)); } return s; },
+    crown: function () { return GF('M-9 7V-4L-4 1L0 -7L4 1L9 -4V7Z'); }, keys: function () { return '<rect class="sl gl det" x="-9" y="-6" width="5" height="5" rx="1.2"/><rect class="sl gl det" x="-2.5" y="-6" width="5" height="5" rx="1.2"/><rect class="sl gl det" x="4" y="-6" width="5" height="5" rx="1.2"/><rect class="sl gl det" x="-9" y="1" width="18" height="5" rx="1.2"/>'; },
+    speed: function () { return G('M-10 -4H0M-10 0H4M-10 4H0') + '<circle class="sd det" cx="7" cy="0" r="3"/>'; }, target: function () { return '<circle class="sl gl det" cx="0" cy="0" r="9"/><circle class="sl gl det" cx="0" cy="0" r="4.5"/><circle class="sd det" cx="0" cy="0" r="1.6"/>'; },
+    sheet: function () { return G('M-7 -9H4L8 -5V9H-7ZM-4 -2H5M-4 2H5M-4 6H2'); }, trophy: function () { return G('M-6 -8H6V-1Q6 4 0 4Q-6 4 -6 -1ZM0 4V8M-4 8H4M-6 -6H-9Q-9 0 -6 0M6 -6H9Q9 0 6 0'); },
+    book12: function () { return '<rect class="sl gl det" x="-8" y="-9" width="16" height="18" rx="2"/>' + TX('12', 9, 4); }, bookR: function () { return '<rect class="sl gl det" x="-8" y="-9" width="16" height="18" rx="2"/>' + TX('R', 11, 4.5); }, bookP: function () { return '<rect class="sl gl det" x="-8" y="-9" width="16" height="18" rx="2"/>' + TX('P', 11, 4.5); }
+  };
+  /* borders by set */
+  function border(kind, gold) {
+    var fill = 'sb';
+    if (kind === 'scallop') { var p = '', n = 16, R = 49, r = 9; for (var i = 0; i <= n; i++) { var a = i * 2 * Math.PI / n, x = (60 + R * Math.cos(a)).toFixed(1), y = (60 + R * Math.sin(a)).toFixed(1); p += (i ? 'A' + r + ' ' + r + ' 0 0 1 ' : 'M') + x + ' ' + y; } return '<path class="so ' + fill + '" d="' + p + 'Z"/>'; }
+    if (kind === 'squircle') return '<rect class="so ' + fill + '" x="7" y="7" width="106" height="106" rx="30"/>';
+    if (kind === 'hex') { var q = ''; for (var k = 0; k < 6; k++) { var b = (k * 60 - 90) * Math.PI / 180; q += (k ? 'L' : 'M') + (60 + 56 * Math.cos(b)).toFixed(1) + ' ' + (60 + 56 * Math.sin(b)).toFixed(1); } return '<path class="so ' + fill + '" d="' + q + 'Z"/>'; }
+    if (kind === 'circle') return '<circle class="so ' + fill + '" cx="60" cy="60" r="54"/><circle class="sl det" cx="60" cy="60" r="48" stroke-dasharray="2 5" opacity=".55"/>';
+    if (kind === 'pebble') return '<path class="so ' + fill + '" d="M62 6C92 4 114 22 112 56C110 92 88 116 56 113C24 110 6 88 8 58C10 28 34 8 62 6Z"/>';
+    if (kind === 'keycap') return '<rect class="so ' + fill + '" x="6" y="6" width="108" height="108" rx="26"/><rect class="sl det" x="15" y="15" width="90" height="90" rx="18" opacity=".5"/>';
+    if (kind === 'shield') return '<path class="so ' + fill + '" d="M10 16Q60 -2 110 16V62Q110 100 60 118Q10 100 10 62Z"/>';
+    if (kind === 'burst') { var s = ''; for (var m = 0; m < 28; m++) { var c = m * Math.PI / 14 - Math.PI / 2, rr = m % 2 ? 49 : 58; s += (m ? 'L' : 'M') + (60 + rr * Math.cos(c)).toFixed(1) + ' ' + (60 + rr * Math.sin(c)).toFixed(1); } return '<path class="so ' + fill + '" d="' + s + 'Z"/>'; }
+    return '';
+  }
+  function character(name) {
+    var sp = SP[name] || SP.bear;
+    if (sp.sp) return special(sp, name);
+    return behind(sp, sp.fur) + ears(sp, sp.fur) + head(sp, sp.fur) + marks(sp, sp.fur) + face(sp) + eyes(sp.dark) + (sp.ear === 'eyes' ? '' : '');
+  }
+  /* def: {name,set,species,glyph,rarity}; opts: {locked, deco} */
+  function stamp(def, opts) {
+    opts = opts || {};
+    var set = null; for (var i = 0; i < SETS.length; i++) if (SETS[i].id === def.set) set = SETS[i];
+    var gold = def.rarity === 'gold', kind = gold ? 'burst' : set.border, fillTok = gold ? 'gold' : set.fill;
+    var title = opts.locked ? 'Locked stamp: ' + def.name : def.name;
+    var s = '<svg class="stampart ' + (opts.locked ? 'sil ' : '') + fillTok + (gold ? ' isgold' : '') + '" viewBox="0 0 120 120" ' + (opts.deco ? 'aria-hidden="true" focusable="false"' : 'role="img" aria-label="' + esc(title) + '"') + '>';
+    s += border(kind, gold);
+    s += character(def.species);
+    s += '<g transform="translate(95 94)"><circle class="so sbadge" cx="0" cy="0" r="17"/>' + ((GLYPH[def.glyph] || GLYPH.star)()) + '</g>';
+    if (gold) s += GLYPH.sparkle().replace(/<path/g, '<path').replace('class="sl gf det"', 'class="sl gf det"') ;
+    if (gold) s = s.replace(GLYPH.sparkle(), '') + '<g class="det" transform="translate(16 20) scale(.8)">' + GLYPH.sparkle() + '</g><g class="det" transform="translate(104 24) scale(.55)">' + GLYPH.sparkle() + '</g>';
+    return s + '</svg>';
+  }
+  return { stamp: stamp, species: Object.keys(SP) };
+})();
+
+/* ===== Pip ladder, chapters and per-kid sample state ===== */
+/* Chapter flags: [Easy passed, Medium passed, Challenge passed, started]. Done = Easy and Medium on every counted topic.
+   A unit-level flag is true only when EVERY counted topic of the unit has that level passed. */
+EX.stages = [
+  { name: 'Seed', at: 0, look: 'A round bean with a tiny pointed tip. No plant yet.' },
+  { name: 'Sprout', at: 1, look: 'A thin stem with two small round leaves.' },
+  { name: 'Seedling', at: 3, look: 'A taller stem with two pairs of leaves and a tip leaf.' },
+  { name: 'Sapling', at: 5, look: 'A slim trunk with leaves climbing up both sides.' },
+  { name: 'Bud', at: 8, look: 'The sapling with a closed pink bud on top.' },
+  { name: 'Bloom', at: 11, look: 'The bud opens into a six-petal flower.' },
+  { name: 'Bush', at: 15, look: 'A wide, leafy bush with little flowers.' },
+  { name: 'Young Tree', at: 19, look: 'A trunk with one round green crown.' },
+  { name: 'Blossom Tree', at: 23, look: 'A taller tree, three-part crown covered in blossom.' },
+  { name: 'Fruit Tree', at: 27, look: 'The full tree with red fruit. All 27 chapters are done.' }
+];
+EX.units = {
+  mira: {
+    maths: [[1, 1, 1], [1, 1, 1], [1, 1, 0], [1, 0, 0], [1, 0, 0, 1], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]],
+    reader: [[1, 1, 1], [0, 0, 0, 1], [0, 0, 0], [0, 0, 0]],
+    practice: [[1, 1, 1], [1, 1, 1], [1, 1, 0], [1, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]],
+    unseen: [[1, 1, 1], [1, 1, 0], [1, 1, 0], [1, 0, 0, 1]].concat(Array(20).fill([0, 0, 0]))
+  },
+  kabir: {
+    maths: [[1, 1, 0], [1, 0, 0, 1], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]],
+    reader: [[0, 0, 0, 1], [0, 0, 0], [0, 0, 0], [0, 0, 0]],
+    practice: Array(11).fill([0, 0, 0]),
+    unseen: [[1, 0, 0, 1]].concat(Array(23).fill([0, 0, 0]))
+  }
+};
+EX.meter = { mira: 7, kabir: 3, cap: 10 };
+var BOOKNAMES = { maths: 'Maths', reader: 'English Reader', practice: 'English Practice Book', unseen: 'Unseen passages' };
+var UNITWORD = { maths: 'Unit', reader: 'Lesson', practice: 'Section', unseen: 'Passage' };
+function unitState(u) { return u[0] && u[1] ? 'done' : (u[0] || u[1] || u[2] || u[3]) ? 'going' : 'new'; }
+function unitMarks(u) { return [!!u[0], !!u[1], !!u[2]]; }
+function chaptersDone(kid) { var u = EX.units[kid], n = 0; ['maths', 'reader', 'practice'].forEach(function (b) { u[b].forEach(function (x) { if (unitState(x) === 'done') n++; }); }); return n; }
+function goldLeaves(kid) { var u = EX.units[kid], n = 0; ['maths', 'reader', 'practice'].forEach(function (b) { u[b].forEach(function (x) { if (x[0] && x[1] && x[2]) n++; }); }); return n; }
+function stageFor(n) { var s = 0; EX.stages.forEach(function (t, i) { if (n >= t.at) s = i; }); return s; }
+function nextStage(n) { var s = stageFor(n); return s < 9 ? EX.stages[s + 1] : null; }
+function doneList(kid) { var u = EX.units[kid], out = []; ['maths', 'reader', 'practice'].forEach(function (b) { u[b].forEach(function (x, i) { out.push({ book: b, n: i + 1, state: unitState(x), marks: unitMarks(x) }); }); }); return out; }
+var MTITLES = HB.maths.map(function (m) { return m.title; }), RTITLES = HB.reader.map(function (m) { return m.title; }), PTITLES = HB.practice.map(function (m) { return m.title; });
+function chapterTitle(book, n) { return (book === 'maths' ? MTITLES : book === 'reader' ? RTITLES : book === 'practice' ? PTITLES : EX.unseen)[n - 1]; }
+
+/* Pip: ink outline, flat fills, same viewBox for every stage. opts: {sil:true} silhouette, {leaves:n} gold leaves. */
+function pipSVG(stage, title, cls, opts) {
+  opts = opts || {}; stage = Math.max(0, Math.min(9, stage));
+  var sc = stage === 0 ? 0.84 : 1, rx = 32 * sc, ry = 28 * sc, cy = 108, top = cy - ry;
+  var leaf = function (x, y, rot, w) { w = w || 15; return '<path class="o pip-leaf" d="M0 0C' + (w * .5) + ' -' + (w * .9) + ' ' + (w * 1.2) + ' -' + (w * .6) + ' ' + (w * 1.6) + ' 0C' + (w * 1.2) + ' ' + (w * .5) + ' ' + (w * .4) + ' ' + (w * .5) + ' 0 0Z" transform="translate(' + x + ' ' + y + ') rotate(' + rot + ')"/>'; };
+  var stem = function (y2, w) { return '<path class="o pip-stem" style="stroke-width:' + (w || 3) + 'px" d="M60 ' + (top + 2) + 'V' + y2 + '"/>'; };
+  var blossom = function (x, y) { return '<circle class="o pip-bloom" cx="' + x + '" cy="' + y + '" r="4.6"/>'; };
+  var s = '<svg class="pip ' + (opts.sil ? 'pip-sil ' : '') + (cls || '') + '" viewBox="0 0 120 140" role="img" aria-label="' + esc(title || ('Pip, ' + EX.stages[stage].name)) + '">';
+  s += '<ellipse class="pip-soil" cx="60" cy="134" rx="42" ry="6"/>';
+  var i;
+  if (stage === 0) s += '<path class="o pip-leaf" d="M54 ' + (top + 3) + 'L60 ' + (top - 8) + 'L66 ' + (top + 3) + 'Z"/>';
+  if (stage === 1) s += stem(60) + leaf(60, 62, -25, 12) + leaf(60, 62, -155, 12);
+  if (stage === 2) s += stem(38) + leaf(60, 66, -25, 14) + leaf(60, 66, -155, 14) + leaf(60, 50, -30, 13) + leaf(60, 50, -150, 13) + leaf(60, 38, -90, 11);
+  if (stage === 3) s += stem(18, 4.5) + leaf(60, 72, -25, 16) + leaf(60, 58, -155, 16) + leaf(60, 44, -28, 15) + leaf(60, 32, -152, 14) + leaf(60, 20, -90, 12);
+  if (stage === 4) s += stem(34, 3.5) + leaf(60, 66, -25, 15) + leaf(60, 66, -155, 15) + leaf(60, 50, -30, 13) + leaf(60, 50, -150, 13) + '<path class="o pip-bloom" d="M60 6C71 15 69 28 60 32C51 28 49 15 60 6Z"/>' + leaf(60, 34, -45, 9) + leaf(60, 34, -135, 9);
+  if (stage === 5) { s += stem(40, 3.5) + leaf(60, 68, -25, 15) + leaf(60, 68, -155, 15) + leaf(60, 54, -30, 13) + leaf(60, 54, -150, 13); for (i = 0; i < 6; i++) s += '<ellipse class="o pip-bloom" cx="60" cy="16" rx="6.5" ry="9" transform="rotate(' + (i * 60) + ' 60 25)"/>'; s += '<circle class="o pip-core" cx="60" cy="25" r="5.5"/>'; }
+  if (stage === 6) { s += '<path class="o pip-trunk" d="M56 ' + (top + 2) + 'V60H64V' + (top + 2) + 'Z"/>'; [[24, 58, 15], [42, 44, 17], [64, 36, 19], [86, 46, 17], [98, 62, 12]].forEach(function (c) { s += '<circle class="o pip-leaf" cx="' + c[0] + '" cy="' + c[1] + '" r="' + c[2] + '"/>'; }); s += blossom(36, 40) + blossom(62, 30) + blossom(84, 40) + blossom(98, 58) + blossom(22, 56); }
+  if (stage === 7) s += '<path class="o pip-trunk" d="M55 ' + (top + 2) + 'V44H65V' + (top + 2) + 'Z"/><circle class="o pip-leaf" cx="60" cy="32" r="27"/>';
+  if (stage === 8 || stage === 9) {
+    s += '<path class="o pip-trunk" d="M55 ' + (top + 2) + 'V44H65V' + (top + 2) + 'Z"/><circle class="o pip-leaf" cx="34" cy="44" r="17"/><circle class="o pip-leaf" cx="86" cy="44" r="17"/><circle class="o pip-leaf" cx="60" cy="27" r="23"/>';
+    var spots = [[50, 20], [70, 24], [32, 40], [42, 52], [80, 52], [90, 38]];
+    spots.forEach(function (p) { s += stage === 8 ? blossom(p[0], p[1]) : '<circle class="o pip-fruit" cx="' + p[0] + '" cy="' + p[1] + '" r="5.6"/>'; });
+  }
+  s += '<ellipse class="o pip-body" cx="60" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '"/>';
+  s += '<g class="det"><circle class="pip-eye" cx="' + (60 - 11 * sc) + '" cy="' + (cy - 3) + '" r="3.4"/><circle class="pip-eye" cx="' + (60 + 11 * sc) + '" cy="' + (cy - 3) + '" r="3.4"/>' +
+    '<circle class="pip-cheek" cx="' + (60 - 20 * sc) + '" cy="' + (cy + 6) + '" r="4.5"/><circle class="pip-cheek" cx="' + (60 + 20 * sc) + '" cy="' + (cy + 6) + '" r="4.5"/>' +
+    '<path class="o" fill="none" d="M53 ' + (cy + 5) + 'Q60 ' + (cy + 13) + ' 67 ' + (cy + 5) + '"/></g>';
+  var gl = Math.min(opts.leaves || 0, 5), pos = [[10, 122, -50], [110, 122, 230], [20, 134, -20], [100, 134, 200], [60, 139, 0]];
+  for (i = 0; i < gl; i++) s += '<path class="o pip-gold det" d="M0 0C4 -9 11 -10 15 -8C14 0 8 6 0 0Z" transform="translate(' + pos[i][0] + ' ' + pos[i][1] + ') rotate(' + pos[i][2] + ')"/>';
+  return s + '</svg>';
+}
+/* growth meter inside a stage (finished sets only fill this; the stage does not change) */
+function meterHTML(kid, extra) {
+  var m = Math.min(EX.meter.cap, EX.meter[kid] + (extra || 0)), pct = Math.round(m / EX.meter.cap * 100);
+  return '<div class="pbar meter" role="img" aria-label="Growth meter: ' + m + ' of ' + EX.meter.cap + ' sets"><i style="width:' + pct + '%"></i></div>';
+}
+
+/* ===== Stamp ledger (sample), tiles, popups ===== */
+var DEFBY = {}; STAMP_DEFS.forEach(function (d) { DEFBY[d.id] = d; });
+var SETBY = {}; SETS.forEach(function (s) { SETBY[s.id] = s; });
+/* earned: id -> date text. "new" = earned in the last set (shows the New dot). */
+EX.earned = {
+  mira: { mf1: '12 Sep', mf2: '19 Sep', mf3: '27 Sep', rf1: '20 Sep', pf1: '2 Sep', pf2: '9 Sep', pf3: '26 Sep', t_set: '26 Aug', t_challenge: '9 Sep', t_fixed: 'today', t_hint: 'today', t_back: '16 Sep', t_gold: '27 Sep', h_3: '30 Aug', h_5: 'today', h_15: 'today', q_first: '30 Aug', q_10: '9 Sep', q_wpm: '23 Sep', e_first: '25 Sep' },
+  kabir: { mf1: '20 Sep', t_set: '14 Sep', q_first: '22 Sep' }
+};
+EX.newIds = { mira: ['t_fixed', 't_hint', 'h_5', 'h_15'], kabir: [] };
+function earnedOf(kid) { return EX.earned[kid] || {}; }
+function stampCount(kid) { return Object.keys(earnedOf(kid)).length; }
+function setProgress(kid) { var e = earnedOf(kid); return SETS.map(function (s) { var all = STAMP_DEFS.filter(function (d) { return d.set === s.id; }); return { set: s, total: all.length, got: all.filter(function (d) { return e[d.id]; }).length, defs: all }; }); }
+/* what to earn next: nearest unearned friend, by chapter state */
+function nextStampHint(kid) {
+  var e = earnedOf(kid), u = EX.units[kid];
+  var order = [['maths', 'mf'], ['reader', 'rf'], ['practice', 'pf']], best = null;
+  order.forEach(function (o) { u[o[0]].forEach(function (x, i) { var id = o[1] + (i + 1); if (e[id] || unitState(x) !== 'going') return; var left = (x[0] ? 0 : 1) + (x[1] ? 0 : 1); if (!best || left < best.left) best = { id: id, left: left, unit: o[0], n: i + 1 }; }); });
+  return best;
+}
+function tile(def, kid, selected) {
+  var e = earnedOf(kid), got = !!e[def.id], isNew = got && EX.newIds[kid].indexOf(def.id) > -1;
+  return '<button type="button" class="tile ' + (got ? '' : 'locked ') + (def.rarity === 'gold' ? 'gold ' : '') + '" data-id="' + def.id + '" aria-pressed="' + !!selected + '" aria-label="' + esc(def.name + ', ' + (def.rarity === 'gold' ? 'rare, ' : '') + (got ? 'earned' + (isNew ? ', new' : '') : 'locked. ' + def.plain)) + '">' +
+    '<span class="tart">' + SA.stamp(def, { locked: !got, deco: true }) + '</span>' +
+    (isNew ? '<span class="newdot"><i></i>New</span>' : '') + (def.rarity === 'gold' ? '<span class="rare">Rare</span>' : '') +
+    '<span class="tn">' + (got ? esc(def.name) : 'Locked') + '</span></button>';
+}
+function plainStampList(kid) {
+  var e = earnedOf(kid);
+  return '<ul class="plainl">' + SETS.map(function (s) { var p = STAMP_DEFS.filter(function (d) { return d.set === s.id; }); var got = p.filter(function (d) { return e[d.id]; }); return '<li><b>' + s.name + ':</b> ' + got.length + ' of ' + p.length + (got.length ? ' (' + got.map(function (d) { return esc(d.name) + (EX.newIds[kid].indexOf(d.id) > -1 ? ', new' : ''); }).join('; ') + ')' : '') + '</li>'; }).join('') + '</ul>';
+}
+/* a few recent stamps, newest first */
+function recentStamps(kid, n) {
+  var e = earnedOf(kid), ids = Object.keys(e), nw = EX.newIds[kid];
+  ids.sort(function (a, b) { return (nw.indexOf(b) > -1) - (nw.indexOf(a) > -1); });
+  return ids.slice(0, n).map(function (id) { return DEFBY[id]; });
+}
+
+/* ===== Popup engine =====
+   mode(): quiet when reward is Minimal, Calm is on, or reduced motion is on (system or simulated). Light = stamp popup without sparkles + chapter as a quiet card. Full = both popups with sparkles.
+   Queue: stamp popups (max 3, then "and N more in your album"), then the chapter popup. ~3 s each, pause while hovered or after a key is pressed inside, skippable (Skip, Escape, click outside). */
+var Pop = (function () {
+  var layer, timer, left, t0, paused, retEl, queue, ui, running = false, escFn, curMode = 'full';
+  function rm() { return (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) || document.documentElement.getAttribute('data-rm') === '1'; }
+  function mode() { if (HBS.get('reward') === 'minimal' || HBS.get('calm') === '1' || rm()) return 'quiet'; return HBS.get('reward') === 'light' ? 'light' : 'full'; }
+  function quietLines(items) {
+    var st = items.filter(function (i) { return i.kind === 'stamp'; }), ch = items.filter(function (i) { return i.kind === 'chapter'; })[0], out = [];
+    st.slice(0, 3).forEach(function (i) { out.push('New stamp: ' + i.def.name + '. See album.'); });
+    if (st.length > 3) out.push('and ' + (st.length - 3) + ' more in your album.');
+    if (ch) out.push(ch.title + ' is done. ' + (ch.same ? 'Pip is still a ' + ch.to + '. ' + ch.more + (ch.more === 1 ? ' more chapter' : ' more chapters') + ' to a ' + ch.nextName + '.' : 'Pip is now a ' + ch.to + '.'));
+    return out;
+  }
+  function ensure() {
+    if (layer) return;
+    layer = document.createElement('div'); layer.className = 'pop-layer'; layer.hidden = true;
+    layer.innerHTML = '<div class="pop" id="pop" role="dialog" aria-modal="false" aria-labelledby="popT" aria-describedby="popD"><div class="pop-body" id="popB"></div><div class="pop-foot"><span class="pop-time" aria-hidden="true"><i id="popBar"></i></span><button class="btn" id="popSkip" type="button">Skip</button></div></div>';
+    document.body.appendChild(layer);
+    document.getElementById('popSkip').addEventListener('click', function () { finish(true); });
+    layer.addEventListener('click', function (e) { if (e.target === layer) finish(true); });
+    var p = document.getElementById('pop');
+    p.addEventListener('pointerenter', function () { pause(); }); p.addEventListener('pointerleave', function () { resume(); });
+    p.addEventListener('keydown', function (e) { if (e.key !== 'Escape' && e.key !== 'Enter' && e.key !== ' ') pause(); });
+    p.addEventListener('focusout', function () { setTimeout(function () { if (!p.contains(document.activeElement)) resume(); }, 0); });
+  }
+  function pause() { if (paused || !running) return; paused = true; clearTimeout(timer); left -= Date.now() - t0; document.getElementById('popBar').style.animationPlayState = 'paused'; }
+  function resume() { if (!paused || !running) return; paused = false; t0 = Date.now(); timer = setTimeout(next, Math.max(300, left)); document.getElementById('popBar').style.animationPlayState = 'running'; }
+  function body(it, m) {
+    var spk = m === 'full' && !(it.kind === 'stamp' && false) ? '<span class="spk s1"></span><span class="spk s2"></span><span class="spk s3"></span><span class="spk s4"></span><span class="spk s5"></span><span class="spk s6"></span>' : '';
+    if (it.kind === 'stamp') return '<div class="pop-card stamping ' + (it.def.rarity === 'gold' ? 'isgold' : '') + '"><div class="pop-art"><span class="ink-ring"></span>' + SA.stamp(it.def, { deco: true }) + spk + '</div><p class="label">New stamp</p><h2 id="popT">' + esc(it.def.name) + '</h2><p id="popD">' + esc(it.def.why) + '</p><p class="small muted">' + (it.def.rarity === 'gold' ? 'A rare golden stamp. ' : '') + 'It is in your album now.</p></div>';
+    if (it.same) return '<div class="pop-card growing"><div class="pop-art wide"><span class="pa">' + pipSVG(it.toStage, 'Pip, a ' + EX.stages[it.toStage].name, '', { leaves: it.leaves }) + spk + '</span></div><p class="label">Chapter done</p><h2 id="popT">' + esc(it.title) + ' is done</h2><p id="popD">Pip is still a ' + it.to.toLowerCase() + '. ' + it.more + (it.more === 1 ? ' more chapter' : ' more chapters') + ' to a ' + it.nextName.toLowerCase() + '.</p></div>';
+    return '<div class="pop-card growing"><div class="pop-art wide"><span class="pb">' + pipSVG(it.fromStage, 'Pip before: ' + EX.stages[it.fromStage].name, '', { leaves: it.leaves }) + '</span><span class="pa">' + pipSVG(it.toStage, 'Pip now: ' + EX.stages[it.toStage].name, '', { leaves: it.leaves }) + spk + '</span></div><p class="label">Chapter done</p><h2 id="popT">' + esc(it.title) + ' is done</h2><p id="popD">Pip grew from ' + EX.stages[it.fromStage].name.toLowerCase() + ' to ' + EX.stages[it.toStage].name.toLowerCase() + '.</p></div>';
+  }
+  function show() {
+    var it = queue[0], m = curMode; var b = document.getElementById('popB'); layer.hidden = false; layer.setAttribute('data-mode', m);
+    b.innerHTML = body(it, m);
+    var bar = document.getElementById('popBar'); bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; bar.style.animationPlayState = 'running';
+    left = 3200; paused = false; t0 = Date.now(); clearTimeout(timer); timer = setTimeout(next, left);
+    if (ui && ui.status) ui.status.textContent = it.kind === 'stamp' ? 'New stamp: ' + it.def.name + '. ' + it.def.why : it.title + ' is done. ' + (it.same ? 'Pip is still a ' + it.to.toLowerCase() + '.' : 'Pip grew to ' + EX.stages[it.toStage].name.toLowerCase() + '.');
+    document.getElementById('popSkip').focus({ preventScroll: true });
+  }
+  function next() { queue.shift(); if (queue.length) { layer.hidden = true; setTimeout(show, 160); } else finish(false); }
+  function finish(skipped) {
+    clearTimeout(timer); running = false; queue = []; if (layer) layer.hidden = true;
+    document.removeEventListener('keydown', escFn);
+    if (retEl && retEl.focus) retEl.focus({ preventScroll: true });
+    if (ui && ui.done) ui.done(skipped);
+  }
+  /* items: stamps and one optional chapter. ui: {quiet: element, status: element, card: element for the Light chapter card, done: fn} */
+  function run(items, u) {
+    if (document.body.getAttribute('data-asking') === '1') return false; /* nothing opens during a question */
+    ui = u || {}; var m = ui.mode || mode(); curMode = m; var lines = quietLines(items);
+    if (ui.quiet) ui.quiet.innerHTML = lines.length ? lines.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') : '<p>No new stamps this time. Every set still helps Pip grow a little.</p>';
+    var ch = items.filter(function (i) { return i.kind === 'chapter'; })[0], st = items.filter(function (i) { return i.kind === 'stamp'; }).slice(0, 3);
+    if (ui.card) { ui.card.hidden = !(ch && m === 'light'); if (ch && m === 'light') ui.card.innerHTML = '<div class="pip-row"><div>' + pipSVG(ch.fromStage, 'Pip before', 'mini2') + '</div><span aria-hidden="true">→</span><div>' + pipSVG(ch.toStage, 'Pip now', 'mini2') + '</div></div><div><h3>' + esc(ch.title) + ' is done</h3><p>' + (ch.same ? 'Pip is still a ' + ch.to.toLowerCase() + '. ' + ch.more + (ch.more === 1 ? ' more chapter' : ' more chapters') + ' to a ' + ch.nextName.toLowerCase() + '.' : 'Pip grew from ' + EX.stages[ch.fromStage].name.toLowerCase() + ' to ' + EX.stages[ch.toStage].name.toLowerCase() + '.') + '</p></div>'; }
+    if (ui.noPopup) { if (ui.status) ui.status.textContent = lines.join(' '); return true; }
+    if (m === 'quiet') { if (ui.status) ui.status.textContent = lines.join(' '); if (ui.done) ui.done(false); return true; }
+    queue = st.slice(); if (ch && m === 'full') queue.push(ch);
+    if (!queue.length) { if (ui.done) ui.done(false); return true; }
+    ensure(); retEl = document.activeElement; running = true;
+    escFn = function (e) { if (e.key === 'Escape') { finish(true); } }; document.addEventListener('keydown', escFn);
+    show(); return true;
+  }
+  return { run: run, mode: mode, rm: rm, quietLines: quietLines };
+})();
+
+</script>
+<script>
+
+var CONT = {
+  mira: { subj: 'Maths', cls: '', unit: 'Unit 4 · Multiplication', topic: 'Tables of 6, 7, 8, 9', level: 'Medium', page: 36, marks: 2, lead: 'Book page 36' },
+  kabir: { subj: 'English', cls: 'e', unit: 'Reader lesson 1 · Animal World', topic: 'Naming words', level: 'Easy', page: 5, marks: 1, lead: 'Book page 5' }
+};
+function render() {
+  var id = HBS.kid(), k = HB.kids.filter(function (x) { return x.id === id; })[0], c = CONT[id];
+  document.getElementById('kname').textContent = k.name;
+  document.getElementById('ksw').innerHTML = kidSwitch('kidSw');
+  wireKidSwitch('kidSw', render);
+  var goal = +HBS.get('goal');
+  document.getElementById('hisub').textContent = k.todayMin >= goal ? 'Goal reached today. Anything more is a bonus.' : (k.todayMin ? (goal - k.todayMin) + ' more minutes reaches today’s goal. Short sets are fine.' : 'A short set is a good start. Even five minutes counts.');
+  var cont = document.getElementById('cont');
+  cont.className = 'card cont ' + c.cls;
+  cont.innerHTML = '<div class="meta"><span class="subj ' + c.cls + '">' + c.subj + '</span><span>' + c.unit + '</span><span>' + c.lead + '</span></div>' +
+    '<h2 class="t" id="ct">' + c.topic + '</h2><div class="meta"><span>' + c.level + ' level</span>' + inkMarks(c.marks) + '<span class="muted">Set unfinished: question 4 of 8</span></div>' +
+    '<div class="row"><a class="btn primary big" href="04-practice.html">Continue</a><a class="btn quiet" href="03-chapter.html">All topics in this ' + (c.cls ? 'lesson' : 'unit') + '</a></div>';
+  var books = [['Maths', 'maths', '12 units'], ['English Reader', 'reader', '4 lessons'], ['English Practice Book', 'practice', '11 sections'], ['Unseen passages', 'unseen', '24 passages'], ['Exam preparation', 'exam', '2 papers']];
+  document.getElementById('shelf').innerHTML = books.map(function (bk) {
+    var u = EX.units[id][bk[1]], tot = u ? u.length : 0, dn = u ? u.filter(function (x) { return unitState(x) === 'done'; }).length : 0, p = tot ? Math.round(dn / tot * 100) : 0;
+    return '<a role="listitem" class="spine" href="02-book-index.html?book=' + bk[1] + '"><b>' + bk[0] + '</b><span><small>' + bk[2] + '</small><span class="bar" role="img" aria-label="' + dn + ' of ' + tot + ' done"><i style="width:' + p + '%"></i></span><small>' + (tot ? dn + ' of ' + tot + ' Done' : 'New') + '</small></span></a>';
+  }).join('');
+  var nCh = chaptersDone(id), st = stageFor(nCh), nx = nextStage(nCh), gl = goldLeaves(id);
+  document.getElementById('pipbox').innerHTML = pipSVG(st, 'Pip, now a ' + EX.stages[st].name.toLowerCase(), '', { leaves: gl });
+  document.getElementById('pipsay').textContent = 'Pip is a ' + EX.stages[st].name.toLowerCase() + '.';
+  document.getElementById('pipnote').textContent = nx ? (nx.at - nCh) + (nx.at - nCh === 1 ? ' more chapter' : ' more chapters') + ' Done and Pip becomes a ' + nx.name.toLowerCase() + '.' : 'Every chapter is Done. Pip is a full fruit tree.';
+  document.getElementById('pipbar').innerHTML = meterHTML(id);
+  document.getElementById('pipmeter').textContent = 'Growth meter: ' + EX.meter[id] + ' of ' + EX.meter.cap + ' sets since the last stage.';
+  var rec = recentStamps(id, 5);
+  document.getElementById('recent').innerHTML = rec.length ? rec.map(function (d) { return tile(d, id, false); }).join('') : '<p class="muted">No stamps yet. Finish a set to earn your first one.</p>';
+  document.getElementById('albl').textContent = 'Open the album (' + stampCount(id) + ' of ' + STAMP_DEFS.length + ')';
+  var hint = nextStampHint(id), nh = document.getElementById('nexts');
+  if (hint) { var d = DEFBY[(hint.unit === 'maths' ? 'mf' : hint.unit === 'reader' ? 'rf' : 'pf') + hint.n]; nh.innerHTML = '<p><b>Next stamp: ' + esc(d.name) + '.</b> ' + (hint.left === 1 ? 'One more level to pass and ' + UNITWORD[hint.unit] + ' ' + hint.n + ' is Done.' : 'Pass Easy and Medium in ' + UNITWORD[hint.unit] + ' ' + hint.n + '.') + '</p>'; } else nh.innerHTML = '<p class="muted">Start any chapter to see your next stamp.</p>';
+  var cnt = Math.min(goal, k.todayMin);
+  document.getElementById('ring').innerHTML = ringSVG(k.todayMin, goal, 120);
+  document.getElementById('goaltxt').textContent = k.todayMin >= goal ? 'Goal reached' : k.todayMin + ' of ' + goal + ' minutes';
+  document.getElementById('goalnote').textContent = 'Goal set by your grown-up. A short day is fine.';
+  var week = id === 'mira' ? ['p', 'p', 'r', 'p', '', '', ''] : ['p', '', '', '', '', '', ''];
+  var dn = ['M', 'T', 'W', 'T', 'F', 'S', 'S'], dl = { p: 'practised', r: 'rest day', '': 'no practice' };
+  document.getElementById('week').innerHTML = week.map(function (w, i) { return '<div><span class="wd ' + w + '" role="img" aria-label="' + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][i] + ': ' + dl[w] + '">' + (w === 'p' ? '✓' : w === 'r' ? 'z' : '') + '</span>' + dn[i] + '</div>'; }).join('');
+  document.getElementById('tokico').innerHTML = restToken();
+  document.getElementById('toktxt').innerHTML = '<b>' + k.streakDays + (k.streakDays === 1 ? ' day' : ' days') + ' in a row.</b> You have ' + EX.restTokens[id] + ' rest-day token. Use it any day you cannot practise. Your streak is never lost.';
+  HBS.rewire();
+}
+document.getElementById('recent').addEventListener('click', function (e) { var t = e.target.closest('.tile'); if (t) location.href = '09-stamp-album.html?stamp=' + t.dataset.id + '&' + HBS.query().toString(); });
+HBS.on(function () { render(); });
+render();
+
+</script>
+</body>
+</html>

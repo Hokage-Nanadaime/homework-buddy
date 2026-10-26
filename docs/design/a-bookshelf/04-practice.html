@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Bookshelf Practice Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600;7..72,700&family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap">
+<style>
+/* Layout concept: a reading-room. Pages are printed book pages on a blotting-paper desk; a dark cloth spine bar on top. */
+:root {
+  /* Surfaces: blotting-paper desk, bright book page */
+  --paper: #eef1ef;
+  --page: #fbfbf8;
+  --page-edge: #d5dbd6;
+  --rule: #c6cdc8;
+  --rule-soft: #dde2de;
+  /* Ink */
+  --ink: #1b2631;
+  --ink-2: #435060;
+  --ink-3: #5a6673;
+  /* Library cloth: Maths = Prussian blue, English = ochre buckram */
+  --maths: #274f86;
+  --maths-deep: #1b3a66;
+  --maths-tint: #dde7f3;
+  --on-maths: #ffffff;
+  --english: #8f5c0e;
+  --english-deep: #6e4509;
+  --english-tint: #f2e6c9;
+  --on-english: #ffffff;
+  /* Marks: stamp ink, tick, pencil, ribbon */
+  --stamp: #7a2e5b;
+  --stamp-tint: #f1e1ea;
+  --tick: #1d6a55;
+  --tick-tint: #d9eee6;
+  --pencil: #3f4954;
+  --note: #f6f0d6;
+  --note-line: #d9cf9b;
+  --ribbon: #a2383f;
+  --on-ribbon: #ffffff;
+  --shelf: #b9a789;
+  --shelf-dark: #8d7b5c;
+  --bar: #1b2631;
+  --on-bar: #e9eeeb;
+  --bar-line: #3a4756;
+  --focus: #b0267a;
+  /* Chart palette (validated: blue, ochre, violet) */
+  --c1: #2a78d6;
+  --c2: #b8760f;
+  --c3: #6250d6;
+  --grid: #d9dedb;
+  --heat-0: #e5ecf6;
+  --heat-1: #bcd0ea;
+  --heat-2: #86aadc;
+  --heat-3: #3a6bb0;
+  --heat-4: #1f4a85;
+  --heat-t0: #1b2631;
+  --heat-t1: #1b2631;
+  --heat-t2: #0f1a28;
+  --heat-t3: #ffffff;
+  --heat-t4: #ffffff;
+  --shadow: 0 1px 0 var(--page-edge), 0 6px 18px rgba(27, 38, 49, 0.10);
+  --display: 'Literata', Georgia, 'Times New Roman', serif;
+  --body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --hand: 'Patrick Hand', 'Comic Sans MS', cursive;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #12171c;
+    --page: #1b222a;
+    --page-edge: #2b3540;
+    --rule: #3a4651;
+    --rule-soft: #2c3640;
+    --ink: #e8ece9;
+    --ink-2: #bcc6c8;
+    --ink-3: #9aa7ac;
+    --maths: #8db0e6;
+    --maths-deep: #6f97d6;
+    --maths-tint: #1f3049;
+    --on-maths: #0b1626;
+    --english: #e1a950;
+    --english-deep: #c78d33;
+    --english-tint: #3b2f17;
+    --on-english: #231702;
+    --stamp: #e0a2c6;
+    --stamp-tint: #3a2433;
+    --tick: #6fd0b2;
+    --tick-tint: #1b3a31;
+    --pencil: #c9d1d6;
+    --note: #2b2b21;
+    --note-line: #55512f;
+    --ribbon: #e58a90;
+    --on-ribbon: #2a0b0e;
+    --shelf: #4a4234;
+    --shelf-dark: #332d22;
+    --bar: #0b0f13;
+    --on-bar: #e4e9e6;
+    --bar-line: #2b3540;
+    --focus: #f0a6d4;
+    --c1: #3987e5;
+    --c2: #c98500;
+    --c3: #9085e9;
+    --grid: #2f3a44;
+    --heat-0: #1f2d40;
+    --heat-1: #2a4468;
+    --heat-2: #3f6aa3;
+    --heat-3: #7ea6e0;
+    --heat-4: #b4cdf2;
+    --heat-t0: #e8ece9;
+    --heat-t1: #e8ece9;
+    --heat-t2: #ffffff;
+    --heat-t3: #0b1626;
+    --heat-t4: #0b1626;
+    --shadow: 0 1px 0 var(--page-edge), 0 8px 22px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --paper: #12171c;
+  --page: #1b222a;
+  --page-edge: #2b3540;
+  --rule: #3a4651;
+  --rule-soft: #2c3640;
+  --ink: #e8ece9;
+  --ink-2: #bcc6c8;
+  --ink-3: #9aa7ac;
+  --maths: #8db0e6;
+  --maths-deep: #6f97d6;
+  --maths-tint: #1f3049;
+  --on-maths: #0b1626;
+  --english: #e1a950;
+  --english-deep: #c78d33;
+  --english-tint: #3b2f17;
+  --on-english: #231702;
+  --stamp: #e0a2c6;
+  --stamp-tint: #3a2433;
+  --tick: #6fd0b2;
+  --tick-tint: #1b3a31;
+  --pencil: #c9d1d6;
+  --note: #2b2b21;
+  --note-line: #55512f;
+  --ribbon: #e58a90;
+  --on-ribbon: #2a0b0e;
+  --shelf: #4a4234;
+  --shelf-dark: #332d22;
+  --bar: #0b0f13;
+  --on-bar: #e4e9e6;
+  --bar-line: #2b3540;
+  --focus: #f0a6d4;
+  --c1: #3987e5;
+  --c2: #c98500;
+  --c3: #9085e9;
+  --grid: #2f3a44;
+  --heat-0: #1f2d40;
+  --heat-1: #2a4468;
+  --heat-2: #3f6aa3;
+  --heat-3: #7ea6e0;
+  --heat-4: #b4cdf2;
+  --heat-t0: #e8ece9;
+  --heat-t1: #e8ece9;
+  --heat-t2: #ffffff;
+  --heat-t3: #0b1626;
+  --heat-t4: #0b1626;
+  --shadow: 0 1px 0 var(--page-edge), 0 8px 22px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--body); font-size: 1.0625rem; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.2; margin: 0; text-wrap: balance; color: var(--ink); }
+h1 { font-size: clamp(1.7rem, 4vw, 2.5rem); }
+h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); }
+h3 { font-size: 1.15rem; }
+p { margin: 0; }
+a { color: inherit; }
+.eyebrow { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 800; color: var(--ink-3); }
+.muted { color: var(--ink-3); }
+.num { font-variant-numeric: tabular-nums; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+/* Spine bar */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); background: var(--bar); color: var(--on-bar); border-bottom: 3px solid var(--bar-line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--bar); z-index: 30; }
+.top-in { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; gap: 12px; min-height: 52px; }
+.brand { display: flex; align-items: center; gap: 8px; font-family: var(--display); font-weight: 700; text-decoration: none; white-space: nowrap; min-height: 44px; }
+.brand svg { width: 22px; height: 22px; }
+.navs { display: flex; gap: 2px; overflow-x: auto; flex: 1; scrollbar-width: thin; min-width: 0; }
+.navs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; border-radius: 6px; color: var(--on-bar); text-decoration: none; font-size: .9rem; font-weight: 700; white-space: nowrap; opacity: .86; }
+.navs a:hover { opacity: 1; background: var(--bar-line); }
+.navs a[aria-current='page'] { opacity: 1; background: var(--bar-line); box-shadow: inset 0 -3px 0 var(--on-bar); }
+.top-r { display: flex; gap: 6px; align-items: center; }
+.tbtn { min-height: 44px; min-width: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--bar-line); background: transparent; color: var(--on-bar); font: inherit; font-weight: 700; font-size: .88rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+.tbtn:hover { background: var(--bar-line); }
+@media (max-width: 760px) { .top-in { flex-wrap: wrap; gap: 0 8px; padding-block: 2px; } .navs { order: 3; flex-basis: 100%; } .top-r { margin-left: auto; } .brand span.long { display: none; } }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 0; }
+.pagehead { display: flex; flex-direction: column; gap: 6px; margin-bottom: 22px; }
+.pagehead p { color: var(--ink-2); max-width: 62ch; }
+
+/* Book page surface */
+.leaf { background: var(--page); border: 1px solid var(--page-edge); border-radius: 4px 10px 10px 4px; box-shadow: var(--shadow); padding: clamp(18px, 3vw, 34px); position: relative; min-width: 0; }
+.leaf.spine { border-left: 10px solid var(--page-edge); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 8px; border: 2px solid var(--ink); background: var(--ink); color: var(--page); font: inherit; font-weight: 800; text-decoration: none; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.maths { background: var(--maths); border-color: var(--maths); color: var(--on-maths); }
+.btn.english { background: var(--english); border-color: var(--english); color: var(--on-english); }
+.btn:hover { filter: brightness(1.08); }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 2px solid var(--ink-3); border-radius: 10px; overflow: hidden; }
+.seg button { min-height: 44px; padding: 0 14px; border: 0; background: transparent; color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; }
+.seg button + button { border-left: 2px solid var(--ink-3); }
+.seg button[aria-pressed='true'] { background: var(--ink); color: var(--page); }
+
+/* Three-level ink dots: Easy, Medium, Challenge. filled = done, ring = not yet; the Challenge dot is a diamond */
+.lv { display: inline-flex; gap: 5px; align-items: center; vertical-align: middle; }
+.lv i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--ink-2); display: block; }
+.lv i:nth-child(3) { border-radius: 2px; transform: rotate(45deg) scale(.88); }
+.lv i.on { background: var(--ink); border-color: var(--ink); }
+.lv.m i.on { background: var(--maths); border-color: var(--maths); }
+.lv.e i.on { background: var(--english); border-color: var(--english); }
+
+/* Stamp */
+.stamp { width: 84px; height: 84px; border-radius: 50%; border: 3px double var(--stamp); color: var(--stamp); display: grid; place-items: center; text-align: center; font-family: var(--display); font-weight: 700; font-size: .72rem; line-height: 1.1; letter-spacing: .04em; text-transform: uppercase; transform: rotate(-8deg); padding: 6px; background: var(--stamp-tint); flex: none; }
+.stamp svg { width: 26px; height: 26px; display: block; margin: 0 auto 2px; }
+.stamp.empty { border-style: dashed; background: transparent; color: var(--ink-3); border-color: var(--rule); transform: none; font-weight: 600; }
+.stamp.sm { width: 84px; height: 84px; font-size: .62rem; padding: 8px; }
+.stamp.sm svg { display: none; }
+
+/* Bookmark ribbon */
+.rib { width: 22px; height: 40px; background: var(--ribbon); color: var(--on-ribbon); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); display: block; flex: none; }
+.rib.off { background: transparent; border: 0; position: relative; }
+.rib.off::before { content: ""; position: absolute; inset: 0; background: var(--rule); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); }
+.rib.off::after { content: ""; position: absolute; inset: 2px; background: var(--page); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); }
+
+/* Pencil note */
+.pnote { font-family: var(--hand); font-size: 1.3rem; line-height: 1.35; color: var(--pencil); background: var(--note); border: 1px dashed var(--note-line); border-radius: 6px; padding: 12px 16px; }
+.pnote b { font-weight: 400; background: linear-gradient(transparent 60%, var(--note-line) 60%); }
+
+.footnote { margin-top: 40px; font-size: .9rem; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 14px; max-width: 80ch; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+.ctl { display: flex; flex-wrap: wrap; gap: 14px 24px; margin-bottom: 18px; padding: 12px 14px; border: 1px dashed var(--rule); border-radius: 8px; }
+.ctl .g { display: flex; flex-direction: column; gap: 4px; }
+.qhead { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--rule); padding-bottom: 10px; margin-bottom: 18px; }
+.marks { display: flex; gap: 5px; }
+.marks i { width: 14px; height: 20px; border: 2px solid var(--ink-3); border-radius: 2px; display: block; }
+.marks i.d { background: var(--ink-2); border-color: var(--ink-2); }
+.marks i.c { box-shadow: 0 3px 0 var(--ink); border-color: var(--ink); }
+.qgrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+.qgrid.eng { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+@media (max-width: 860px) { .qgrid.eng { grid-template-columns: minmax(0, 1fr); } }
+.passage { background: var(--english-tint); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 20px; font-family: var(--display); font-size: 1.1rem; line-height: 1.65; }
+.passage h3 { margin-bottom: 8px; color: var(--english-deep); }
+.passage p + p { margin-top: 10px; }
+.qtext { font-family: var(--display); font-size: clamp(1.25rem, 2.6vw, 1.6rem); line-height: 1.35; margin-bottom: 18px; font-weight: 600; }
+.opts { display: grid; gap: 10px; }
+.opt { display: flex; align-items: center; gap: 14px; min-height: 56px; padding: 8px 14px; border: 2px solid var(--ink-3); border-radius: 8px; background: var(--page); color: var(--ink); font: inherit; font-size: 1.1rem; text-align: left; cursor: pointer; width: 100%; position: relative; }
+.opt:hover { border-color: var(--ink); background: var(--paper); }
+.opt .ltr { width: 32px; height: 32px; border-radius: 50%; border: 2px solid currentColor; display: grid; place-items: center; font-weight: 800; flex: none; }
+.opt .tx { flex: 1; min-width: 0; }
+.opt .mark { width: 52px; height: 40px; flex: none; display: grid; place-items: center; }
+.opt.right { border-color: var(--tick); background: var(--tick-tint); }
+.opt.wrong { border-style: dashed; border-color: var(--pencil); background: var(--note); }
+.tickmark { color: var(--tick); display: flex; align-items: center; gap: 4px; font-weight: 800; font-size: .8rem; }
+.tickmark svg { width: 36px; height: 36px; transform: rotate(-6deg); }
+.tickmark path { stroke-dasharray: 30; stroke-dashoffset: 0; animation: press .28s ease-out; }
+.pencilmark { color: var(--pencil); font-family: var(--hand); font-size: 1.1rem; }
+@keyframes press { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+.typed { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.typed input { font: inherit; font-family: var(--display); font-size: 1.8rem; width: 9ch; min-height: 56px; padding: 0 14px; border: 0; border-bottom: 3px solid var(--ink); background: var(--paper); color: var(--ink); border-radius: 4px 4px 0 0; }
+.typed input.right { border-bottom-color: var(--tick); }
+.typed input.wrong { border-bottom: 3px dashed var(--pencil); background: var(--note); }
+.foot { margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap; align-items: stretch; }
+.foot .pnote { flex: 1; min-width: 240px; }
+.live { min-height: 0; }
+.kbd { font-size: .85rem; color: var(--ink-3); margin-top: 12px; }
+</style></head><body>
+<header class="top"><div class="top-in"><a class="brand" href="01-home.html"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 4h9a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M16 8h4v12h-4"/></svg><span>A Bookshelf </span></a>
+<nav class="navs" aria-label="Screens in this direction"><a href="01-home.html">01 Home</a><a href="02-book-index.html">02 Book index</a><a href="03-chapter.html">03 Chapter</a><a href="04-practice.html" aria-current="page">04 Practice</a><a href="05-set-summary.html">05 Summary</a><a href="06-word-quest.html">06 Word Quest</a><a href="07-parent-progress.html">07 Parent</a></nav>
+<div class="top-r"><button class="tbtn" id="themeBtn" type="button">Dark</button><a class="tbtn" href="../index.html">All directions</a></div></div></header>
+<main class="wrap">
+  <div class="ctl" aria-label="Design preview controls">
+    <div class="g"><span class="eyebrow">Question kind</span><div class="seg" id="kindSeg" role="group" aria-label="Question kind"><button type="button" data-k="mcq" aria-pressed="true">Maths: choose</button><button type="button" data-k="typed" aria-pressed="false">Maths: type</button><button type="button" data-k="english" aria-pressed="false">English + passage</button></div></div>
+    <div class="g"><span class="eyebrow">State</span><div class="seg" id="stateSeg" role="group" aria-label="State"><button type="button" data-s="asking" aria-pressed="true">Asking</button><button type="button" data-s="right" aria-pressed="false">Right</button><button type="button" data-s="wrong" aria-pressed="false">Wrong + hint</button></div></div>
+  </div>
+  <article class="leaf spine" aria-labelledby="unit">
+    <div class="qhead">
+      <div><p class="eyebrow" id="unit"></p></div>
+      <div class="row"><span class="num" id="qn"></span><span class="marks" id="marks" aria-hidden="true"></span></div>
+    </div>
+    <div class="qgrid" id="qgrid"></div>
+    <div class="foot" id="foot" aria-live="polite"></div>
+    <p class="kbd">Nothing on this page moves while you think. Press 1 to 4 to choose, Enter for next. <a href="05-set-summary.html">Finish this set</a></p>
+  </article>
+</main>
+
+<script>
+window.HB = (function () {
+  const kids = [
+    { id: 'mira', name: 'Mira', age: 8, avatar: 'M', stars: 143, level: 7, streakDays: 4, todayMin: 12, goalMin: 15 },
+    { id: 'kabir', name: 'Kabir', age: 9, avatar: 'K', stars: 61, level: 4, streakDays: 1, todayMin: 0, goalMin: 15 },
+  ];
+  const maths = [
+    [1, 'Chapter title', 1, 'done', 3], [2, 'Addition', 17, 'done', 3], [3, 'Subtraction', 26, 'done', 2],
+    [4, 'Multiplication', 36, 'going', 2], [5, 'Division', 48, 'going', 1], [6, 'Chapter title', 64, 'new', 0],
+    [7, 'Money', 80, 'new', 0], [8, 'Length', 95, 'new', 0], [9, 'Weight', 103, 'new', 0],
+    [10, 'Capacity', 108, 'new', 0], [11, 'Fraction', 115, 'new', 0], [12, 'Geometry', 129, 'new', 0],
+  ].map(([n, title, page, state, levelsDone]) => ({ n, title, page, state, levelsDone })); // levelsDone: 0-3 of Easy/Medium/Challenge
+  const reader = [
+    [1, 'Animal World', 'done', 3], [2, 'Nature Cares', 'going', 1], [3, 'Chapter title', 'new', 0], [4, 'Adventure', 'new', 0],
+  ].map(([n, title, state, levelsDone]) => ({ n, title, state, levelsDone }));
+  const practice = [
+    'Naming Words', 'Replacing Words', 'Chapter title', 'Describing Words', 'Verbs', 'Prepositions',
+    'Articles', 'Sentences', 'Chapter title', 'Chapter title', 'Writing Skills',
+  ].map((title, i) => ({ n: i + 1, title, state: i < 2 ? 'done' : i < 4 ? 'going' : 'new', levelsDone: i < 2 ? 3 : i < 4 ? 1 : 0 }));
+  const unseen = { count: 24, done: 3 };
+  /* Multiplication unit topics (real shape: topics grouped, each with Easy/Medium/Challenge) */
+  const multTopics = [
+    ['Multiplication as repeated addition', [3, 3, 1]], ['Tables of 2, 3, 4, 5', [3, 2, 0]], ['Tables of 6, 7, 8, 9', [2, 1, 0]],
+    ['Multiply a 2-digit number by 1 digit', [2, 0, 0]], ['Multiply a 3-digit number by 1 digit', [0, 0, 0]], ['Word problems', [1, 0, 0]],
+  ].map(([title, stars]) => ({ title, stars })); // stars per level 0-3
+  /* Question samples */
+  const questions = {
+    mcq: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 4, of: 8, text: 'There are 6 boxes. Each box has 8 mangoes. How many mangoes are there in all?',
+      options: ['42', '48', '54', '56'], answer: 1, hint: 'Think 6 groups of 8. Try 8 + 8 + 8 first, then keep adding.' },
+    typed: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 5, of: 8, text: '36 × 4 = ?', answer: '144', wrongTry: '124',
+      hint: 'Do the ones first: 6 × 4 = 24. Write 4, carry 2. Then 3 tens × 4 = 12 tens, plus the 2 carried.' },
+    english: { subject: 'english', unit: 'Animal World · Unseen passage', level: 'Easy', n: 2, of: 6,
+      passageTitle: 'The Clever Crow', passage: ['A thirsty crow found a jug with a little water at the bottom. Its beak could not reach.', 'The crow dropped small stones into the jug, one by one. The water rose slowly. At last the crow drank and flew away happily.'],
+      text: 'Why did the crow drop stones into the jug?', options: ['To break the jug', 'To make the water rise', 'To play a game', 'To hide the water'], answer: 1,
+      hint: 'Read the second paragraph again. What happened to the water after each stone?' },
+  };
+  const setSummary = { topic: 'Tables of 6, 7, 8, 9', level: 'Medium', got: 7, of: 8, stars: 3, minutes: 6, hintsUsed: 1, fixedOldMistake: true, triedChallenge: false, firstTry: 6 };
+  const wordQuest = { clue: 'A big grey animal with a trunk', answer: 'elephant', typedSoFar: 'eleph', wpm: 14, accuracy: 94, wordsToday: 9 };
+  /* Six weeks of history for Mira. Weekly accuracy % (null = not enough data: fewer than 10 attempts). */
+  const weeks = ['26 Aug', '2 Sep', '9 Sep', '16 Sep', '23 Sep', '30 Sep'];
+  const history = {
+    weeks,
+    overall: [48, 54, 61, 66, 71, 76],
+    maths: [50, 55, 63, 70, 75, 80],
+    english: [45, 52, 58, 61, 66, 71],
+    topics: { /* weekly accuracy for two topics: real growth vs plateau */
+      'Multiplication · Tables of 6, 7, 8, 9': [30, 38, 52, 64, 74, 81],
+      'Division · Sharing equally': [52, 55, 54, 56, 55, 57],
+      'English · Verbs': [null, 40, 48, 55, 62, 68],
+    },
+    minutes: [38, 55, 62, 70, 84, 91], days: [3, 4, 4, 5, 5, 6], sets: [5, 7, 9, 10, 12, 13],
+    baseline: { firstAttempts: 20, accuracy: 44, note: 'First 20 answers, 26 to 28 Aug' },
+    levels: { Easy: 'done in 8 of 12 maths units', Medium: 'started in 4', Challenge: 'tried in 2' },
+    typing: { wpm: [6, 8, 9, 11, 13, 14], accuracy: [81, 85, 88, 90, 93, 94], fingerGuideOff: [false, false, false, true, true, true] },
+    mistakeThemes: [['Carrying in multiplication', 9], ['Misread the question', 7], ['Spelling of plurals', 5], ['Remainders in division', 5], ['Tell time to the minute', 3]],
+    heat: { /* accuracy % per chapter, null = not tried */
+      'Maths 1 Numbers': 92, 'Maths 2 Addition': 88, 'Maths 3 Subtraction': 79, 'Maths 4 Multiplication': 74, 'Maths 5 Division': 57, 'Maths 6 Time': 49, 'Maths 7 Money': null,
+      'Reader 1 Animal World': 84, 'Reader 2 Nature Cares': 66, 'Practice Nouns': 90, 'Practice Pronouns': 82, 'Practice Describing': 71, 'Practice Verbs': 68, 'Practice Prepositions': null,
+    },
+    nextUp: ['Division · Sharing equally: 2 short Easy sets, then Medium', 'Time to the minute: re-read book page 66 together', 'Verbs: one Challenge set to stretch'],
+    exam: { portion: 'Maths units 1 to 5 (Periodic Test, 25 marks)', ready: 'Nearly there', predicted: '18 to 21 of 25', weakest: 'Division' },
+  };
+  return { kids, maths, reader, practice, unseen, multTopics, questions, setSummary, wordQuest, history };
+})();
+</script>
+<script>(function () {
+  var root = document.documentElement;
+  function isDark() { var t = root.getAttribute('data-theme'); return t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches; }
+  var tb = document.getElementById('themeBtn');
+  function label() { tb.textContent = isDark() ? 'Light' : 'Dark'; tb.setAttribute('aria-label', 'Switch to ' + (isDark() ? 'light' : 'dark') + ' theme'); }
+  tb.addEventListener('click', function () { root.setAttribute('data-theme', isDark() ? 'light' : 'dark'); label(); document.dispatchEvent(new Event('themechange')); });
+  label();
+  var q = /[?&]theme=(light|dark)/.exec(location.search); if (q) { root.setAttribute('data-theme', q[1]); label(); }
+})();
+</script>
+<script>
+(function () {
+  var Q = HB.questions, kind = 'mcq', state = 'asking', hintOn = false;
+  var TICK = '<svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="15" stroke-width="2" opacity=".5"/><path d="M9 19l6 6 12-14"/></svg>';
+  function marks(q) { var h = ''; for (var i = 1; i <= q.of; i++) h += '<i class="' + (i < q.n ? 'd' : i === q.n ? 'c' : '') + '"></i>'; return h; }
+  function opts(q) {
+    var L = 'ABCD', h = '<div class="opts" role="group" aria-label="Answers">';
+    q.options.forEach(function (o, i) {
+      var cls = '', mark = '';
+      if (state === 'right' && i === q.answer) { cls = ' right'; mark = '<span class="tickmark">' + TICK + '<span>Right</span></span>'; }
+      if (state === 'wrong' && i === 0) { cls = ' wrong'; mark = '<span class="pencilmark">not yet</span>'; }
+      h += '<button class="opt' + cls + '" type="button" data-i="' + i + '"><span class="ltr" aria-hidden="true">' + L[i] + '</span><span class="tx">' + o + '</span><span class="mark">' + mark + '</span></button>';
+    });
+    return h + '</div>';
+  }
+  function draw() {
+    var q = Q[kind], typed = kind === 'typed';
+    document.getElementById('unit').textContent = q.unit + ' · ' + q.level;
+    document.getElementById('qn').textContent = 'Question ' + q.n + ' of ' + q.of;
+    document.getElementById('marks').innerHTML = marks(q);
+    var g = document.getElementById('qgrid'); g.className = 'qgrid' + (kind === 'english' ? ' eng' : '');
+    var left = '', body = '<div><p class="qtext">' + q.text + '</p>';
+    if (kind === 'english') left = '<div class="passage"><h3>' + q.passageTitle + '</h3>' + q.passage.map(function (p) { return '<p>' + p + '</p>'; }).join('') + '</div>';
+    if (typed) {
+      var v = state === 'right' ? q.answer : state === 'wrong' ? q.wrongTry : '';
+      body += '<div class="typed"><label class="sr" for="ans">Your answer</label><input id="ans" inputmode="numeric" autocomplete="off" value="' + v + '" class="' + (state === 'asking' ? '' : state) + '"' + (state === 'asking' ? '' : ' aria-describedby="fb"') + '>' +
+        (state === 'right' ? '<span class="tickmark">' + TICK + '<span>Right</span></span>' : state === 'wrong' ? '<span class="pencilmark">not yet</span>' : '<button class="btn maths" id="chk" type="button">Check</button>') + '</div>';
+    } else body += opts(q);
+    body += '</div>';
+    g.innerHTML = left + body;
+    var f = document.getElementById('foot'), h = '';
+    if (state === 'asking') h = hintOn ? '<div class="pnote"><b>Hint.</b> ' + q.hint + '</div>' : '<button class="btn ghost" id="hintBtn" type="button">Ask for a hint</button>';
+    if (state === 'right') h = '<a class="btn ' + (q.subject === 'maths' ? 'maths' : 'english') + '" href="#" id="next">Next question</a><span class="muted" id="fb">Good. That tick is just for you; carry on when ready.</span>';
+    if (state === 'wrong') h = '<div class="pnote" id="fb"><b>Not quite yet.</b> ' + q.hint + '</div><button class="btn ghost" id="retry" type="button">Try again</button>';
+    f.innerHTML = h;
+    document.querySelectorAll('#kindSeg button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.k === kind); });
+    document.querySelectorAll('#stateSeg button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.s === state); });
+    var hb = document.getElementById('hintBtn'); if (hb) hb.onclick = function () { hintOn = true; draw(); };
+    var rt = document.getElementById('retry'); if (rt) rt.onclick = function () { set('asking'); };
+    var nx = document.getElementById('next'); if (nx) nx.onclick = function (e) { e.preventDefault(); set('asking'); };
+    document.querySelectorAll('.opt').forEach(function (b) { b.onclick = function () { set(+b.dataset.i === q.answer ? 'right' : 'wrong'); }; });
+    var ck = document.getElementById('chk'); if (ck) ck.onclick = function () { set(document.getElementById('ans').value.trim() === q.answer ? 'right' : 'wrong'); };
+  }
+  function set(s) { state = s; hintOn = false; draw(); }
+  document.querySelectorAll('#kindSeg button').forEach(function (b) { b.onclick = function () { kind = b.dataset.k; state = 'asking'; hintOn = false; draw(); }; });
+  document.querySelectorAll('#stateSeg button').forEach(function (b) { b.onclick = function () { set(b.dataset.s); }; });
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT') { if (e.key === 'Enter') { var c = document.getElementById('chk'); if (c) c.click(); } return; }
+    var i = '1234'.indexOf(e.key); if (i > -1 && kind !== 'typed' && state === 'asking') { var q = Q[kind]; set(i === q.answer ? 'right' : 'wrong'); }
+    if (e.key === 'Enter') { var n = document.getElementById('next'); if (n) n.click(); }
+  });
+  draw();
+})();
+</script></body></html>

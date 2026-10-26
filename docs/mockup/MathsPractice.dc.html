@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Maths practice on screen</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="min-height:1000px;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5">
+  <dc-import name="TopBar" active="maths" hint-size="100%,72px"></dc-import>
+  <main style="box-sizing:border-box;max-width:1160px;margin:0 auto;padding:32px 40px 64px;display:flex;flex-direction:column;gap:24px">
+
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px">
+      <a href="MathsChapter.dc.html" style="min-height:44px;display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:800;font-size:16px">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        Unit 1
+      </a>
+      <h1 style="margin:0;flex:1 1 240px;font-family:var(--display);font-weight:700;font-size:32px;line-height:1.2">Easy practice · The abacus</h1>
+      <span style="display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:22px">
+        <svg aria-hidden="true" width="26" height="26" viewBox="0 0 40 40"><polygon points="20,4 24.5,14.5 36,16 27.5,23.5 30,35 20,29 10,35 12.5,23.5 4,16 15.5,14.5" stroke-width="2" style="fill:var(--gold);stroke:var(--ink)"/></svg>
+        4 stars
+      </span>
+      <a href="MathsPrintPreview.dc.html" style="box-sizing:border-box;min-height:44px;padding:0 18px;display:inline-flex;align-items:center;gap:8px;border-radius:999px;border:2px solid var(--ink);background:#fff;font-weight:800;font-size:16px">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V4h10v5M7 17H5v-6h14v6h-2M7 14h10v6H7z"/></svg>
+        Print the whole worksheet (10 questions)
+      </a>
+    </div>
+
+    <ol aria-label="Questions" style="margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px">
+      <sc-for list="{{dots}}" as="d" hint-placeholder-count="10">
+        <li>
+          <sc-if value="{{d.isDone}}" hint-placeholder-val="{{false}}">
+            <span role="img" aria-label="Question {{d.n}} done" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--ok);color:#fff">
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+            </span>
+          </sc-if>
+          <sc-if value="{{d.isNow}}" hint-placeholder-val="{{false}}">
+            <span aria-current="step" aria-label="Question {{d.n}}, you are here" style="box-sizing:border-box;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--maths-tint);border:4px solid var(--maths);color:var(--maths-ink);font-family:var(--display);font-weight:700;font-size:18px">{{d.n}}</span>
+          </sc-if>
+          <sc-if value="{{d.isTodo}}" hint-placeholder-val="{{true}}">
+            <span aria-label="Question {{d.n}}, not yet" style="box-sizing:border-box;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#fff;border:2px solid var(--line);color:var(--muted);font-family:var(--display);font-weight:600;font-size:18px">{{d.n}}</span>
+          </sc-if>
+        </li>
+      </sc-for>
+    </ol>
+
+    <section aria-label="Question" style="box-sizing:border-box;width:100%;max-width:820px;margin:0 auto;padding:32px 36px;border-radius:28px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:22px">
+      <div style="align-self:stretch;display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-weight:800;font-size:16px">
+        <span>Question 3 of 10</span>
+        <span>1 mark</span>
+      </div>
+
+      <p style="margin:0;font-family:var(--display);font-weight:500;font-size:30px;line-height:1.3;text-align:center">Write the number shown on the abacus.</p>
+
+      <svg role="img" aria-label="An abacus with four rods: Th, H, T and O, with beads on the rods" width="340" height="196" viewBox="0 0 260 150">
+        <rect x="10" y="120" width="240" height="8" rx="4" style="fill:var(--ink)"/>
+        <line x1="40" y1="16" x2="40" y2="120" stroke-width="4" style="stroke:var(--ink)"/>
+        <line x1="100" y1="16" x2="100" y2="120" stroke-width="4" style="stroke:var(--ink)"/>
+        <line x1="160" y1="16" x2="160" y2="120" stroke-width="4" style="stroke:var(--ink)"/>
+        <line x1="220" y1="16" x2="220" y2="120" stroke-width="4" style="stroke:var(--ink)"/>
+        <circle cx="40" cy="108" r="9" style="fill:var(--maths)"/><circle cx="40" cy="88" r="9" style="fill:var(--maths)"/>
+        <circle cx="100" cy="108" r="9" style="fill:var(--maths)"/><circle cx="100" cy="88" r="9" style="fill:var(--maths)"/><circle cx="100" cy="68" r="9" style="fill:var(--maths)"/><circle cx="100" cy="48" r="9" style="fill:var(--maths)"/>
+        <circle cx="220" cy="108" r="9" style="fill:var(--maths)"/><circle cx="220" cy="88" r="9" style="fill:var(--maths)"/><circle cx="220" cy="68" r="9" style="fill:var(--maths)"/><circle cx="220" cy="48" r="9" style="fill:var(--maths)"/><circle cx="220" cy="28" r="9" style="fill:var(--maths)"/>
+        <text x="40" y="144" text-anchor="middle" font-family="Nunito, sans-serif" font-size="14" font-weight="800" style="fill:var(--ink)">Th</text>
+        <text x="100" y="144" text-anchor="middle" font-family="Nunito, sans-serif" font-size="14" font-weight="800" style="fill:var(--ink)">H</text>
+        <text x="160" y="144" text-anchor="middle" font-family="Nunito, sans-serif" font-size="14" font-weight="800" style="fill:var(--ink)">T</text>
+        <text x="220" y="144" text-anchor="middle" font-family="Nunito, sans-serif" font-size="14" font-weight="800" style="fill:var(--ink)">O</text>
+      </svg>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <label for="answer" style="font-weight:800">Your answer</label>
+        <input id="answer" type="text" inputmode="numeric" value="2450" aria-invalid="true" aria-describedby="feedback" style="box-sizing:border-box;width:240px;height:64px;padding:0 16px;border-radius:16px;border:3px solid var(--english);background:#fff;font-family:var(--display);font-weight:600;font-size:34px;text-align:center;color:var(--ink)">
+        <span style="color:var(--muted);font-size:16px;font-weight:700">Write the answer as a number, like 7000. Words are fine too.</span>
+      </div>
+
+      <div id="feedback" role="status" style="box-sizing:border-box;width:100%;padding:16px 20px;border-radius:20px;background:var(--english-tint);display:flex;flex-direction:column;gap:6px">
+        <strong style="font-family:var(--display);font-weight:600;font-size:22px;color:var(--english)">Not quite yet</strong>
+        <span>Look at the tens rod. How many beads are on it? Then read the rods from thousands to ones.</span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px">
+        <button type="button" style="box-sizing:border-box;min-height:52px;padding:0 22px;border-radius:999px;border:2px solid var(--line);background:#fff;color:var(--ink);font-family:var(--body);font-weight:800;font-size:17px;cursor:pointer">Show a hint</button>
+        <button type="button" style="box-sizing:border-box;min-height:52px;padding:0 22px;border-radius:999px;border:2px solid var(--line);background:#fff;color:var(--ink);font-family:var(--body);font-weight:800;font-size:17px;cursor:pointer">Skip for now</button>
+        <button type="button" style="box-sizing:border-box;min-height:52px;padding:0 28px;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;background:var(--maths);color:#fff;font-family:var(--body);font-weight:800;font-size:17px;cursor:pointer">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+          Check my answer
+        </button>
+      </div>
+    </section>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const current = 3;
+    const dots = Array.from({ length: 10 }, (_, i) => {
+      const n = i + 1;
+      return { n, isDone: n < current, isNow: n === current, isTodo: n > current };
+    });
+    return { dots };
+  }
+}
+</script>
+</body>
+</html>

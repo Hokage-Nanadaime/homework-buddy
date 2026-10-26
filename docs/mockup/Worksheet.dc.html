@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Worksheet</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="min-height:1340px;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5">
+  <dc-import name="TopBar" active="make" hint-size="100%,72px"></dc-import>
+  <main style="box-sizing:border-box;max-width:1160px;margin:0 auto;padding:32px 40px 64px;display:flex;flex-direction:column;gap:24px">
+
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px">
+      <a href="EnglishScan.dc.html" style="min-height:44px;display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:800;font-size:16px">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        Back
+      </a>
+      <h1 style="margin:0;flex:1 1 240px;font-family:var(--display);font-weight:700;font-size:32px;line-height:1.2">English · The Zoo Trip</h1>
+
+      <fieldset style="margin:0;padding:4px;border:2px solid var(--line);border-radius:999px;background:#fff;display:flex;gap:4px">
+        <legend style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">View</legend>
+        <label style="box-sizing:border-box;min-height:40px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:999px;background:var(--ink);color:#fff;font-weight:800;font-size:16px">
+          <input type="radio" name="view" checked style="width:18px;height:18px;margin:0;accent-color:var(--gold)">Worksheet
+        </label>
+        <label style="box-sizing:border-box;min-height:40px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:999px;color:var(--ink);font-weight:800;font-size:16px">
+          <input type="radio" name="view" style="width:18px;height:18px;margin:0;accent-color:var(--ink)">Answer key
+        </label>
+      </fieldset>
+      <button type="button" style="box-sizing:border-box;min-height:44px;padding:0 18px;display:inline-flex;align-items:center;gap:8px;border-radius:999px;border:2px solid var(--ink);background:#fff;color:var(--ink);font-family:var(--body);font-weight:800;font-size:16px;cursor:pointer">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+        Save as PDF
+      </button>
+      <button type="button" style="box-sizing:border-box;min-height:44px;padding:0 18px;display:inline-flex;align-items:center;gap:8px;border-radius:999px;border:2px solid var(--ink);background:var(--card);color:var(--ink);font-family:var(--body);font-weight:800;font-size:16px;cursor:pointer">Save as HTML</button>
+      <a href="WordQuest.dc.html" style="box-sizing:border-box;min-height:44px;padding:0 20px;display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:var(--english);color:#fff;font-weight:800;font-size:16px">Do it on screen</a>
+    </div>
+
+    <article aria-label="Worksheet page" style="box-sizing:border-box;width:100%;max-width:794px;margin:0 auto;padding:56px;background:#fff;border:2px solid var(--line);border-radius:8px;display:flex;flex-direction:column;gap:28px;color:var(--paper-ink)">
+
+      <header style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;padding-bottom:16px;border-bottom:3px solid var(--paper-ink)">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="align-self:flex-start;padding:2px 12px;border-radius:999px;background:var(--english-tint);color:var(--english);font-weight:800;font-size:14px">English · Grade 3</span>
+          <div style="font-family:var(--display);font-weight:700;font-size:34px;line-height:1.1">The Zoo Trip</div>
+        </div>
+        <div style="font-weight:700;line-height:2">Name: ______________________<br>Date: ______________________</div>
+      </header>
+
+      <section style="display:flex;flex-direction:column;gap:12px">
+        <h2 style="margin:0;font-family:var(--display);font-weight:600;font-size:22px">A. Fill in the blanks</h2>
+        <div style="padding:8px 14px;border:2px dashed var(--paper-ink);border-radius:10px;font-weight:700">Word bank: <span style="margin-left:8px">tall · trunk · leaves</span></div>
+        <div style="line-height:2.1">1. The giraffe eats ____________ from a tree.</div>
+        <div style="line-height:2.1">2. The elephant uses its ____________ to drink water.</div>
+        <div style="line-height:2.1">3. The ____________ giraffe can reach the top of the tree.</div>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:12px">
+        <h2 style="margin:0;font-family:var(--display);font-weight:600;font-size:22px">B. Read and answer</h2>
+        <div>4. Where did Mia go on Saturday?</div>
+        <div style="border-bottom:2px solid var(--paper-ink);height:30px"></div>
+        <div>5. Name one animal Mia saw at the zoo.</div>
+        <div style="border-bottom:2px solid var(--paper-ink);height:30px"></div>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:14px">
+        <h2 style="margin:0;font-family:var(--display);font-weight:600;font-size:22px">C. Match the word to its meaning</h2>
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 48px">
+          <div style="flex:0 0 auto;display:flex;flex-direction:column;gap:18px;font-weight:700">
+            <div>6. giraffe</div>
+            <div>7. elephant</div>
+            <div>8. trunk</div>
+          </div>
+          <div style="flex:1 1 320px;display:flex;flex-direction:column;gap:18px">
+            <div>a. the long nose of an elephant</div>
+            <div>b. a very tall animal with a long neck</div>
+            <div>c. a huge animal with big ears</div>
+          </div>
+        </div>
+      </section>
+
+      <footer style="margin-top:12px;padding-top:12px;border-top:2px solid var(--line);display:flex;justify-content:space-between;color:var(--muted);font-weight:700;font-size:14px">
+        <span>Made with Homework Buddy</span>
+        <span>Page 1 of 1</span>
+      </footer>
+    </article>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1340}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

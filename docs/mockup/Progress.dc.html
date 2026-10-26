@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Progress</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="min-height:1000px;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5">
+  <dc-import name="TopBar" active="progress" hint-size="100%,72px"></dc-import>
+  <main style="box-sizing:border-box;max-width:1160px;margin:0 auto;padding:40px 40px 64px;display:flex;flex-direction:column;gap:28px">
+
+    <header style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+      <h1 style="margin:0;font-family:var(--display);font-weight:700;font-size:40px;line-height:1.15">Mia’s week</h1>
+      <span style="padding:4px 14px;display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:var(--ink);color:#fff;font-weight:800;font-size:15px">
+        <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        Parent view
+      </span>
+    </header>
+
+    <section aria-label="This week at a glance" style="display:flex;flex-wrap:wrap;gap:20px">
+      <article style="flex:1 1 240px;min-width:0;box-sizing:border-box;padding:22px 24px;border-radius:24px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column;gap:2px">
+        <span style="color:var(--muted);font-weight:800;font-size:16px">Homework done</span>
+        <span style="font-family:var(--display);font-weight:700;font-size:52px;line-height:1.1">5 of 6</span>
+        <span style="color:var(--muted);font-size:16px">1 still to do</span>
+      </article>
+      <article style="flex:1 1 240px;min-width:0;box-sizing:border-box;padding:22px 24px;border-radius:24px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column;gap:2px">
+        <span style="color:var(--muted);font-weight:800;font-size:16px">New words learned</span>
+        <span style="font-family:var(--display);font-weight:700;font-size:52px;line-height:1.1">24</span>
+        <span style="color:var(--muted);font-size:16px">from Chapters 3 and 4</span>
+      </article>
+      <article style="flex:1 1 240px;min-width:0;box-sizing:border-box;padding:22px 24px;border-radius:24px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column;gap:2px">
+        <span style="color:var(--muted);font-weight:800;font-size:16px">Typing speed</span>
+        <span style="font-family:var(--display);font-weight:700;font-size:52px;line-height:1.1">14</span>
+        <span style="color:var(--muted);font-size:16px">words per minute</span>
+      </article>
+      <article style="flex:1 1 240px;min-width:0;box-sizing:border-box;padding:22px 24px;border-radius:24px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column;gap:2px">
+        <span style="color:var(--muted);font-weight:800;font-size:16px">Right first time</span>
+        <span style="font-family:var(--display);font-weight:700;font-size:52px;line-height:1.1">92%</span>
+        <span style="color:var(--muted);font-size:16px">across all answers</span>
+      </article>
+    </section>
+
+    <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+      <section style="flex:2 1 520px;min-width:0;box-sizing:border-box;padding:24px 28px;border-radius:28px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column;gap:20px">
+        <h2 style="margin:0;font-family:var(--display);font-weight:600;font-size:26px">Minutes practised each day</h2>
+        <div role="img" aria-label="Minutes practised: Monday 15, Tuesday 20, Wednesday 0, Thursday 25, Friday 18, Saturday 30, Sunday 10" style="display:flex;align-items:flex-end;gap:12px;height:230px;border-bottom:3px solid var(--line)">
+          <div style="flex:1 1 0;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px"><span style="font-weight:800">15</span><div style="width:100%;max-width:56px;height:75px;border-radius:12px 12px 4px 4px;background:var(--maths)"></div></div>
+          <div style="flex:1 1 0;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px"><span style="font-weight:800">20</span><div style="width:100%;max-width:56px;height:100px;border-radius:12px 12px 4px 4px;background:var(--maths)"></div></div>
+          <div style="flex:1 1 0;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px"><span style="font-weight:800">0</span><div style="width:100%;max-width:56px;height:4px;border-radius:2px;background:var(--maths)"></div></div>
+          <div style="flex:1 1 0;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px"><span style="font-weight:800">25</span><div style="width:100%;max-width:56px;height:125px;border-radius:12px 12px 4px 4px;background:var(--maths)"></div></div>
+          <div style="flex:1 1 0;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px"><span style="font-weight:800">18</span><div style="width:100%;max-width:56px;height:90px;border-radius:12px 12px 4px 4px;background:var(--maths)"></div></div>
+          <div style="flex:1 1 0;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px"><span style="font-weight:800">30</span><div style="width:100%;max-width:56px;height:150px;border-radius:12px 12px 4px 4px;background:var(--maths)"></div></div>
+          <div style="flex:1 1 0;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px"><span style="font-weight:800">10</span><div style="width:100%;max-width:56px;height:50px;border-radius:12px 12px 4px 4px;background:var(--maths)"></div></div>
+        </div>
+        <div aria-hidden="true" style="display:flex;gap:12px;color:var(--muted);font-weight:800;font-size:15px;text-align:center">
+          <span style="flex:1 1 0">Mon</span><span style="flex:1 1 0">Tue</span><span style="flex:1 1 0">Wed</span><span style="flex:1 1 0">Thu</span><span style="flex:1 1 0">Fri</span><span style="flex:1 1 0">Sat</span><span style="flex:1 1 0">Sun</span>
+        </div>
+      </section>
+
+      <section style="flex:1 1 340px;min-width:0;box-sizing:border-box;padding:24px 28px;border-radius:28px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column;gap:16px">
+        <h2 style="margin:0;font-family:var(--display);font-weight:600;font-size:26px">Needs a little more practice</h2>
+        <div style="display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:2px solid var(--line)">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px">
+            <span style="padding:2px 12px;border-radius:999px;background:var(--maths-tint);color:var(--maths-ink);font-weight:800;font-size:14px">Maths</span>
+            <span style="font-weight:800">Subtraction with borrowing</span>
+          </div>
+          <div role="progressbar" aria-label="6 of 10 right" aria-valuemin="0" aria-valuemax="10" aria-valuenow="6" style="height:10px;border-radius:999px;background:var(--line);overflow:hidden"><div style="width:60%;height:100%;background:var(--maths)"></div></div>
+          <span style="color:var(--muted);font-size:16px">6 of 10 right</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;padding-top:14px;border-top:2px solid var(--line)">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px">
+            <span style="padding:2px 12px;border-radius:999px;background:var(--english-tint);color:var(--english);font-weight:800;font-size:14px">English</span>
+            <span style="font-weight:800">Spelling: elephant, giraffe</span>
+          </div>
+          <span style="color:var(--muted);font-size:16px">Letters often swapped around</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;padding-top:14px;border-top:2px solid var(--line)">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px">
+            <span style="padding:2px 12px;border-radius:999px;background:var(--ground);border:2px solid var(--line);font-weight:800;font-size:14px">Typing</span>
+            <span style="font-weight:800">Keys P and Q</span>
+          </div>
+          <span style="color:var(--muted);font-size:16px">Slow with the little fingers</span>
+        </div>
+      </section>
+
+    </div>
+
+    <section style="box-sizing:border-box;padding:24px 28px;border-radius:28px;background:var(--card);border:2px solid var(--line);display:flex;flex-direction:column;gap:12px">
+      <h2 style="margin:0;font-family:var(--display);font-weight:600;font-size:26px">Recent homework</h2>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:17px">
+          <thead>
+            <tr style="text-align:left;color:var(--muted);font-size:15px">
+              <th style="padding:10px 12px 10px 0;font-weight:800">Homework</th>
+              <th style="padding:10px 12px;font-weight:800">Subject</th>
+              <th style="padding:10px 12px;font-weight:800">Score</th>
+              <th style="padding:10px 0 10px 12px;font-weight:800">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-top:2px solid var(--line)">
+              <td style="padding:14px 12px 14px 0;font-weight:700">Addition and subtraction</td>
+              <td style="padding:14px 12px"><span style="padding:2px 12px;border-radius:999px;background:var(--maths-tint);color:var(--maths-ink);font-weight:800;font-size:14px">Maths</span></td>
+              <td style="padding:14px 12px;font-weight:700">9 of 10</td>
+              <td style="padding:14px 0 14px 12px;color:var(--ok);font-weight:800">Done</td>
+            </tr>
+            <tr style="border-top:2px solid var(--line)">
+              <td style="padding:14px 12px 14px 0;font-weight:700">The Zoo Trip</td>
+              <td style="padding:14px 12px"><span style="padding:2px 12px;border-radius:999px;background:var(--english-tint);color:var(--english);font-weight:800;font-size:14px">English</span></td>
+              <td style="padding:14px 12px;font-weight:700">7 of 8</td>
+              <td style="padding:14px 0 14px 12px;color:var(--ok);font-weight:800">Done</td>
+            </tr>
+            <tr style="border-top:2px solid var(--line)">
+              <td style="padding:14px 12px 14px 0;font-weight:700">Multiplication tables</td>
+              <td style="padding:14px 12px"><span style="padding:2px 12px;border-radius:999px;background:var(--maths-tint);color:var(--maths-ink);font-weight:800;font-size:14px">Maths</span></td>
+              <td style="padding:14px 12px;color:var(--muted);font-weight:700">Not yet</td>
+              <td style="padding:14px 0 14px 12px;color:var(--muted);font-weight:800">Not started</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

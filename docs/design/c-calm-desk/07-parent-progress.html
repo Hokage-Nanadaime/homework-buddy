@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parent progress · Homework Buddy · C Calm desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&display=swap">
+<style>
+/* Layout concept: one desk, one open notebook. A narrow reading column, thin rules instead of boxes, one calm accent. */
+:root{
+  --bg:#eef1ee; --card:#fbfcfa; --ink:#1c2528; --ink2:#46535a; --muted:#566468; --line:#d0d8d3; --line2:#e1e7e3;
+  --maths:#245f9f; --english:#9a4a0c; --leaf:#2b7347; --leaf-soft:#dcebe0; --on-leaf:#ffffff;
+  --note-bg:#f7ecd6; --note-line:#c9923a; --note-ink:#4f3305; --focus:#1b5fd0;
+  --pot:#b9a58b; --soil:#6b5a45; --seed:#8a7358;
+  --c1:#2a6fb8; --c2:#c4601a; --c3:#6250d6; --grid:#dfe5e1; --surf:#fbfcfa;
+  --h1:#e6eef6; --h1t:#1c2528; --h2:#c3d6ea; --h2t:#1c2528; --h3:#8fb2d8; --h3t:#14202a; --h4:#3a74b0; --h4t:#ffffff; --h5:#1f4f86; --h5t:#ffffff; --hnone:#e9ede9;
+  --f-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif; --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12181b; --card:#1b2226; --ink:#e6ece8; --ink2:#b9c4c0; --muted:#9aa8a5; --line:#2f3a3f; --line2:#263034;
+  --maths:#7db0ee; --english:#e9a063; --leaf:#74c48f; --leaf-soft:#213a2b; --on-leaf:#0d1a12;
+  --note-bg:#3a2f1c; --note-line:#a8812f; --note-ink:#f0d8aa; --focus:#8fb8ff;
+  --pot:#6d6150; --soil:#3b3226; --seed:#a38d6e;
+  --c1:#4f92dd; --c2:#d4702f; --c3:#8b7fe6; --grid:#29333a; --surf:#1b2226;
+  --h1:#243440; --h1t:#e6ece8; --h2:#2d4961; --h2t:#e6ece8; --h3:#3f6588; --h3t:#f2f6f4; --h4:#6e9fd0; --h4t:#0f1a22; --h5:#a3c8ec; --h5t:#0f1a22; --hnone:#222b2f;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12181b; --card:#1b2226; --ink:#e6ece8; --ink2:#b9c4c0; --muted:#9aa8a5; --line:#2f3a3f; --line2:#263034;
+  --maths:#7db0ee; --english:#e9a063; --leaf:#74c48f; --leaf-soft:#213a2b; --on-leaf:#0d1a12;
+  --note-bg:#3a2f1c; --note-line:#a8812f; --note-ink:#f0d8aa; --focus:#8fb8ff;
+  --pot:#6d6150; --soil:#3b3226; --seed:#a38d6e;
+  --c1:#4f92dd; --c2:#d4702f; --c3:#8b7fe6; --grid:#29333a; --surf:#1b2226;
+  --h1:#243440; --h1t:#e6ece8; --h2:#2d4961; --h2t:#e6ece8; --h3:#3f6588; --h3t:#f2f6f4; --h4:#6e9fd0; --h4t:#0f1a22; --h5:#a3c8ec; --h5t:#0f1a22; --hnone:#222b2f;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.5}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.15;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(28px,4vw,40px)} h2{font-size:24px} h3{font-size:19px}
+p{margin:0} a{color:inherit}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto}
+main{padding-block:32px 72px}
+.stack{display:grid;gap:24px}
+.label{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.muted{color:var(--muted)} .small{font-size:15px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+/* top bar */
+.topbar{background:var(--card);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap;min-height:56px;padding-block:4px}
+.brand{font-family:var(--f-display);font-weight:700;font-size:17px;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;gap:8px}
+.brand i{width:10px;height:10px;border-radius:50%;background:var(--leaf);display:inline-block}
+.nav-wide{display:flex;gap:2px;flex-wrap:wrap;flex:1}
+.nav-wide a,.tb-link,.tb-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:15px;color:var(--ink2);text-decoration:none;border-radius:6px}
+.nav-wide a:hover,.tb-link:hover,.tb-btn:hover{background:var(--line2);color:var(--ink)}
+.nav-wide a[aria-current="page"]{color:var(--ink);font-weight:700;box-shadow:inset 0 -3px 0 var(--leaf);border-radius:0}
+.tb-btn{border:1px solid var(--line);background:transparent;font:inherit;font-size:15px;cursor:pointer}
+.nav-narrow{display:none;flex:1}
+.nav-narrow summary{list-style:none;cursor:pointer;min-height:44px;display:inline-flex;align-items:center;padding:0 10px;font-size:15px;color:var(--ink2);border:1px solid var(--line);border-radius:6px}
+.nav-narrow summary::-webkit-details-marker{display:none}
+.nav-narrow div{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding-top:6px;width:100%}
+.nav-narrow a{display:flex;align-items:center;min-height:44px;padding:0 10px;text-decoration:none;color:var(--ink2);font-size:16px}
+.nav-narrow a[aria-current="page"]{font-weight:700;color:var(--ink)}
+@media(max-width:860px){.nav-wide{display:none}.nav-narrow{display:block}.topbar .wrap>.nav-narrow{order:3;flex-basis:100%}.nav-narrow[open]{flex-basis:100%}.nav-narrow:not([open]){flex:0 0 auto;order:0}}
+.tb-right{margin-left:auto;display:flex;gap:4px;align-items:center}
+/* controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:8px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
+.btn.primary{background:var(--leaf);border-color:var(--leaf);color:var(--on-leaf)}
+.btn.quiet{border-color:var(--line);font-weight:400;color:var(--ink2)}
+.btn:hover{filter:brightness(1.06)} .btn[disabled]{opacity:.55;cursor:default}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px}
+.seg button,.seg a{min-height:44px;padding:0 14px;border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:8px;font:inherit;font-size:16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.seg [aria-pressed="true"],.seg [aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px}
+.rule{border:0;border-top:1px solid var(--line);margin:0}
+.pbar{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.pbar>i{display:block;height:100%;background:var(--leaf);border-radius:2px}
+.pbar.m>i{background:var(--maths)} .pbar.e>i{background:var(--english)}
+/* garden */
+.plant{width:100%;max-width:120px;height:auto;display:block}
+.p-leaf{fill:var(--leaf)} .p-stem{stroke:var(--leaf);stroke-width:4;fill:none;stroke-linecap:round}
+.p-pot{fill:var(--pot)} .p-soil{fill:var(--soil)} .p-seed{fill:var(--seed)}
+.p-bloom.m{fill:var(--maths)} .p-bloom.e{fill:var(--english)} .p-core{fill:var(--card)}
+.p-bud.m{fill:var(--maths)} .p-bud.e{fill:var(--english)}
+.ring-bg{stroke:var(--line);fill:none} .ring-fg{stroke:var(--leaf);fill:none;stroke-linecap:round}
+.ring-paused .ring-fg{stroke:var(--muted);stroke-dasharray:2 7!important}
+@media(max-width:700px){body{font-size:17px}main{padding-block:20px 56px}.card{padding:18px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{.topbar,.noprint{display:none!important}body{background:var(--card)}}
+
+
+.rep{display:grid;gap:28px}
+.rhead{display:grid;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:16px}
+.rtop{display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;align-items:center}
+.tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.sum div{display:grid;gap:2px;border-top:3px solid var(--line);padding-top:10px}
+.sum b{font-family:var(--f-display);font-size:38px;font-variant-numeric:tabular-nums;line-height:1.1}
+.sec{display:grid;gap:14px;padding-top:8px}
+.sec>header{display:grid;gap:4px;max-width:70ch}
+.sec h2{font-size:23px}
+.fig{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:12px;min-width:0}
+.cv{position:relative;min-width:0}
+.tv{display:none;overflow-x:auto}
+.tables .cv{display:none}.tables .tv{display:block}
+table{border-collapse:collapse;width:100%;font-size:16px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.legend{display:flex;gap:6px 18px;flex-wrap:wrap;font-size:15px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend svg{width:26px;height:10px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart text{font-family:var(--f-body);fill:var(--ink2);font-size:12px}
+.chart .grid{stroke:var(--grid);stroke-width:1}
+.chart .axis{stroke:var(--line);stroke-width:1}
+.chart .ln{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.cm{stroke:var(--surf);stroke-width:2}
+.s1{stroke:var(--c1)}.s2{stroke:var(--c2)}.s3{stroke:var(--c3)}
+.f1{fill:var(--c1)}.f2{fill:var(--c2)}.f3{fill:var(--c3)}
+.chart .lab{fill:var(--ink);font-weight:700;font-size:13px}
+.chart .na{fill:var(--muted);font-size:12px}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);border-radius:8px;padding:8px 10px;font-size:14px;line-height:1.35;z-index:3;white-space:nowrap;display:none}
+.tip b{display:block}
+.small3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.two2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mini{display:grid;gap:6px;min-width:0}
+.mini h3{font-size:17px}.mini p{font-size:15px;color:var(--ink2)}
+.heat{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.hc{border-radius:8px;padding:10px 12px;display:grid;gap:2px;min-height:76px;align-content:space-between}
+.hc b{font-family:var(--f-display);font-size:26px;font-variant-numeric:tabular-nums;line-height:1}
+.hc span{font-size:14px;line-height:1.25}
+.hc.h1{background:var(--h1);color:var(--h1t)}.hc.h2{background:var(--h2);color:var(--h2t)}.hc.h3{background:var(--h3);color:var(--h3t)}.hc.h4{background:var(--h4);color:var(--h4t)}.hc.h5{background:var(--h5);color:var(--h5t)}
+.hc.hn{background:repeating-linear-gradient(45deg,var(--hnone),var(--hnone) 6px,var(--card) 6px,var(--card) 8px);color:var(--ink2);border:1px dashed var(--line)}
+.hl{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--ink2)}
+.hl i{width:30px;height:16px;border-radius:3px;display:inline-block}
+.tk{margin:2px 132px 0 162px}.hrow>*{min-width:0}.hrow{display:grid;grid-template-columns:150px minmax(0,1fr) 120px;gap:12px;align-items:center;min-height:44px}
+.track{position:relative;height:6px;background:var(--line);border-radius:3px}
+.dot{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;transform:translate(-50%,-50%);border:3px solid var(--c1);background:var(--card)}
+.dot.now{background:var(--c1)}
+.span{position:absolute;top:0;height:6px;background:var(--c1);opacity:.35}
+.hrow.e .dot{border-color:var(--c2)}.hrow.e .dot.now{background:var(--c2)}.hrow.e .span{background:var(--c2)}
+.hrow.o .dot{border-color:var(--c3)}.hrow.o .dot.now{background:var(--c3)}.hrow.o .span{background:var(--c3)}
+.bars{display:grid;gap:8px}
+.br{display:grid;grid-template-columns:minmax(120px,230px) minmax(0,1fr) 44px;gap:12px;align-items:center;min-height:36px}
+.br .t{height:14px;background:var(--line2);border-radius:2px}
+.br .t i{display:block;height:100%;background:var(--c3);border-radius:0 4px 4px 0}
+.br.lv .t i{background:var(--c1)}
+.br b{font-variant-numeric:tabular-nums;text-align:right}
+.cols6{display:flex;gap:6px;align-items:flex-end;height:110px;border-bottom:1px solid var(--line)}
+.cols6 div{flex:1;display:grid;justify-items:center;align-content:end;gap:2px;height:100%}
+.cols6 i{display:block;width:100%;background:var(--c1);border-radius:4px 4px 0 0}
+.cols6 span{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.xl{display:flex;gap:6px;font-size:12px;color:var(--muted)}.xl span{flex:1;text-align:center}
+.soon{border:2px dashed var(--note-line);background:var(--note-bg);color:var(--note-ink);border-radius:10px;padding:18px;display:grid;gap:10px}
+.soon .tag{justify-self:start;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--note-line);border-radius:999px;padding:2px 10px}
+.soon .bars .t{background:var(--note-line);opacity:.35}.soon .bars .t i{background:var(--note-ink)}
+.ex{display:grid;gap:10px}
+.rng{position:relative;height:22px;background:var(--line2);border-radius:4px;margin:8px 0 2px}
+.rng i{position:absolute;top:0;bottom:0;background:var(--c1);border-radius:4px}
+.ticks{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.next{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.next li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.next li b{font-family:var(--f-display);font-size:22px;color:var(--muted)}
+.two,.two2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0 10px;font-size:14px;color:var(--ink2)}
+.empty{border:1px dashed var(--line);border-radius:10px;padding:28px;color:var(--ink2)}
+@media(max-width:820px){.small3,.two,.two2{grid-template-columns:1fr}.tk{margin:2px 0 0}.hrow{grid-template-columns:minmax(0,1fr) auto;}.hrow .track{grid-column:1/3;grid-row:2}.br{grid-template-columns:minmax(100px,1fr) minmax(0,1fr) 36px}.sum b{font-size:30px}}
+@media print{.fig,.soon{break-inside:avoid}}
+
+</style>
+</head>
+<body class="">
+<header class="topbar gut"><div class="wrap">
+  <a class="brand" href="01-home.html"><i></i>C Calm desk</a>
+  <nav class="nav-wide" aria-label="Pages in this direction"><a href="01-home.html">Home</a><a href="02-book-index.html">Books</a><a href="03-chapter.html">Chapter</a><a href="04-practice.html">Practice</a><a href="05-set-summary.html">Set summary</a><a href="06-word-quest.html">Word Quest</a><a href="07-parent-progress.html" aria-current="page">Parent</a></nav>
+  <details class="nav-narrow"><summary>Pages</summary><div><a href="01-home.html">Home</a><a href="02-book-index.html">Books</a><a href="03-chapter.html">Chapter</a><a href="04-practice.html">Practice</a><a href="05-set-summary.html">Set summary</a><a href="06-word-quest.html">Word Quest</a><a href="07-parent-progress.html" aria-current="page">Parent</a></div></details>
+  <div class="tb-right"><a class="tb-link" href="../index.html">All directions</a><button class="tb-btn" id="themeBtn" type="button">Dark mode</button></div>
+</div></header>
+<main class="gut"><div class="wrap rep">
+<header class="rhead">
+  <div class="rtop"><div style="display:grid;gap:6px"><span class="label">Progress report · parent area</span><h1 id="rt">Mira</h1></div>
+   <div class="tools noprint"><div class="seg" id="kidSeg" role="group" aria-label="Choose a child"></div><button class="btn quiet" id="tblBtn" type="button" aria-pressed="false">Table view: off</button></div></div>
+  <p class="muted" id="rsub"></p>
+  <p class="small muted">Each child is compared only with their own earlier weeks. There is no ranking between children.</p>
+</header>
+<div id="content" class="rep"></div>
+</div></main>
+<script>
+window.HB = (function () {
+  const kids = [
+    { id: 'mira', name: 'Mira', age: 8, avatar: 'M', stars: 143, level: 7, streakDays: 4, todayMin: 12, goalMin: 15 },
+    { id: 'kabir', name: 'Kabir', age: 9, avatar: 'K', stars: 61, level: 4, streakDays: 1, todayMin: 0, goalMin: 15 },
+  ];
+  const maths = [
+    [1, 'Chapter title', 1, 'done', 3], [2, 'Addition', 17, 'done', 3], [3, 'Subtraction', 26, 'done', 2],
+    [4, 'Multiplication', 36, 'going', 2], [5, 'Division', 48, 'going', 1], [6, 'Chapter title', 64, 'new', 0],
+    [7, 'Money', 80, 'new', 0], [8, 'Length', 95, 'new', 0], [9, 'Weight', 103, 'new', 0],
+    [10, 'Capacity', 108, 'new', 0], [11, 'Fraction', 115, 'new', 0], [12, 'Geometry', 129, 'new', 0],
+  ].map(([n, title, page, state, levelsDone]) => ({ n, title, page, state, levelsDone })); // levelsDone: 0-3 of Easy/Medium/Challenge
+  const reader = [
+    [1, 'Animal World', 'done', 3], [2, 'Nature Cares', 'going', 1], [3, 'Chapter title', 'new', 0], [4, 'Adventure', 'new', 0],
+  ].map(([n, title, state, levelsDone]) => ({ n, title, state, levelsDone }));
+  const practice = [
+    'Naming Words', 'Replacing Words', 'Chapter title', 'Describing Words', 'Verbs', 'Prepositions',
+    'Articles', 'Sentences', 'Chapter title', 'Chapter title', 'Writing Skills',
+  ].map((title, i) => ({ n: i + 1, title, state: i < 2 ? 'done' : i < 4 ? 'going' : 'new', levelsDone: i < 2 ? 3 : i < 4 ? 1 : 0 }));
+  const unseen = { count: 24, done: 3 };
+  /* Multiplication unit topics (real shape: topics grouped, each with Easy/Medium/Challenge) */
+  const multTopics = [
+    ['Multiplication as repeated addition', [3, 3, 1]], ['Tables of 2, 3, 4, 5', [3, 2, 0]], ['Tables of 6, 7, 8, 9', [2, 1, 0]],
+    ['Multiply a 2-digit number by 1 digit', [2, 0, 0]], ['Multiply a 3-digit number by 1 digit', [0, 0, 0]], ['Word problems', [1, 0, 0]],
+  ].map(([title, stars]) => ({ title, stars })); // stars per level 0-3
+  /* Question samples */
+  const questions = {
+    mcq: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 4, of: 8, text: 'There are 6 boxes. Each box has 8 mangoes. How many mangoes are there in all?',
+      options: ['42', '48', '54', '56'], answer: 1, hint: 'Think 6 groups of 8. Try 8 + 8 + 8 first, then keep adding.' },
+    typed: { subject: 'maths', unit: 'Multiplication', level: 'Medium', n: 5, of: 8, text: '36 × 4 = ?', answer: '144', wrongTry: '124',
+      hint: 'Do the ones first: 6 × 4 = 24. Write 4, carry 2. Then 3 tens × 4 = 12 tens, plus the 2 carried.' },
+    english: { subject: 'english', unit: 'Animal World · Unseen passage', level: 'Easy', n: 2, of: 6,
+      passageTitle: 'The Clever Crow', passage: ['A thirsty crow found a jug with a little water at the bottom. Its beak could not reach.', 'The crow dropped small stones into the jug, one by one. The water rose slowly. At last the crow drank and flew away happily.'],
+      text: 'Why did the crow drop stones into the jug?', options: ['To break the jug', 'To make the water rise', 'To play a game', 'To hide the water'], answer: 1,
+      hint: 'Read the second paragraph again. What happened to the water after each stone?' },
+  };
+  const setSummary = { topic: 'Tables of 6, 7, 8, 9', level: 'Medium', got: 7, of: 8, stars: 3, minutes: 6, hintsUsed: 1, fixedOldMistake: true, triedChallenge: false, firstTry: 6 };
+  const wordQuest = { clue: 'A big grey animal with a trunk', answer: 'elephant', typedSoFar: 'eleph', wpm: 14, accuracy: 94, wordsToday: 9 };
+  /* Six weeks of history for Mira. Weekly accuracy % (null = not enough data: fewer than 10 attempts). */
+  const weeks = ['26 Aug', '2 Sep', '9 Sep', '16 Sep', '23 Sep', '30 Sep'];
+  const history = {
+    weeks,
+    overall: [48, 54, 61, 66, 71, 76],
+    maths: [50, 55, 63, 70, 75, 80],
+    english: [45, 52, 58, 61, 66, 71],
+    topics: { /* weekly accuracy for two topics: real growth vs plateau */
+      'Multiplication · Tables of 6, 7, 8, 9': [30, 38, 52, 64, 74, 81],
+      'Division · Sharing equally': [52, 55, 54, 56, 55, 57],
+      'English · Verbs': [null, 40, 48, 55, 62, 68],
+    },
+    minutes: [38, 55, 62, 70, 84, 91], days: [3, 4, 4, 5, 5, 6], sets: [5, 7, 9, 10, 12, 13],
+    baseline: { firstAttempts: 20, accuracy: 44, note: 'First 20 answers, 26 to 28 Aug' },
+    levels: { Easy: 'done in 8 of 12 maths units', Medium: 'started in 4', Challenge: 'tried in 2' },
+    typing: { wpm: [6, 8, 9, 11, 13, 14], accuracy: [81, 85, 88, 90, 93, 94], fingerGuideOff: [false, false, false, true, true, true] },
+    mistakeThemes: [['Carrying in multiplication', 9], ['Misread the question', 7], ['Spelling of plurals', 5], ['Remainders in division', 5], ['Tell time to the minute', 3]],
+    heat: { /* accuracy % per chapter, null = not tried */
+      'Maths 1 Numbers': 92, 'Maths 2 Addition': 88, 'Maths 3 Subtraction': 79, 'Maths 4 Multiplication': 74, 'Maths 5 Division': 57, 'Maths 6 Time': 49, 'Maths 7 Money': null,
+      'Reader 1 Animal World': 84, 'Reader 2 Nature Cares': 66, 'Practice Nouns': 90, 'Practice Pronouns': 82, 'Practice Describing': 71, 'Practice Verbs': 68, 'Practice Prepositions': null,
+    },
+    nextUp: ['Division · Sharing equally: 2 short Easy sets, then Medium', 'Time to the minute: re-read book page 66 together', 'Verbs: one Challenge set to stretch'],
+    exam: { portion: 'Maths units 1 to 5 (Periodic Test, 25 marks)', ready: 'Nearly there', predicted: '18 to 21 of 25', weakest: 'Division' },
+  };
+  return { kids, maths, reader, practice, unseen, multTopics, questions, setSummary, wordQuest, history };
+})();
+
+(function(){
+  var root=document.documentElement;
+  function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches}
+  function label(){var b=document.getElementById('themeBtn');if(b)b.textContent=isDark()?'Light mode':'Dark mode'}
+  window.toggleTheme=function(){root.setAttribute('data-theme',isDark()?'light':'dark');label();document.dispatchEvent(new Event('themechange'))};
+  document.addEventListener('DOMContentLoaded',function(){label();var b=document.getElementById('themeBtn');if(b)b.addEventListener('click',window.toggleTheme)});
+  var urlT=(location.search.match(/theme=(light|dark)/)||[])[1];if(urlT)root.setAttribute('data-theme',urlT);
+})();
+/* Garden helpers. Growth stages: 0 Seed, 1 Sprout, 2 Seedling, 3 Growing, 4 In bloom. Never wilts; may be "paused". */
+var STAGES=['Seed','Sprout','Seedling','Growing','In bloom'], STAGE_AT=[0,1,6,12,24];
+function stageFor(n){var s=0;STAGE_AT.forEach(function(t,i){if(n>=t)s=i});return s}
+function levelsTotal(list){return list.reduce(function(a,u){return a+u.levelsDone},0)}
+function plantSVG(stage,kind,title){
+  var L=function(x,y,r,rx){return '<ellipse class="p-leaf" cx="'+x+'" cy="'+y+'" rx="'+(rx||13)+'" ry="6" transform="rotate('+r+' '+x+' '+y+')"/>'};
+  var s='<svg class="plant" viewBox="0 0 120 150" role="img" aria-label="'+title+'">';
+  s+='<path class="p-pot" d="M32 112h56l-7 32H39z"/><rect class="p-pot" x="28" y="106" width="64" height="10" rx="3"/><ellipse class="p-soil" cx="60" cy="108" rx="28" ry="4"/>';
+  if(stage===0){s+='<ellipse class="p-seed" cx="60" cy="106" rx="6" ry="3.5"/>'}
+  if(stage>=1){s+='<path class="p-stem" d="M60 106V'+[0,88,70,40,34][stage]+'"/>'}
+  if(stage===1){s+=L(52,88,-30,10)+L(68,88,30,10)}
+  if(stage>=2){s+=L(48,96,-25)+L(72,90,25)}
+  if(stage>=2&&stage<3){s+=L(50,76,-30,11)+L(70,72,30,11)}
+  if(stage>=3){s+=L(46,78,-28)+L(74,70,28)+L(48,58,-30,12)+L(72,52,30,12)}
+  if(stage===3){s+='<circle class="p-bud '+kind+'" cx="60" cy="34" r="7"/>'}
+  if(stage===4){for(var i=0;i<6;i++){s+='<ellipse class="p-bloom '+kind+'" cx="60" cy="18" rx="7" ry="12" transform="rotate('+(i*60)+' 60 34)"/>'}s+='<circle class="p-core" cx="60" cy="34" r="6"/>'}
+  return s+'</svg>';
+}
+function ringSVG(done,goal,paused,size){
+  var r=44,c=2*Math.PI*r,f=Math.min(1,done/goal);
+  return '<svg class="'+(paused?'ring-paused':'')+'" width="'+size+'" height="'+size+'" viewBox="0 0 110 110" role="img" aria-label="'+(paused?'Daily goal paused':done+' of '+goal+' minutes today')+'">'
+   +'<circle class="ring-bg" cx="55" cy="55" r="'+r+'" stroke-width="9"/>'
+   +'<circle class="ring-fg" cx="55" cy="55" r="'+r+'" stroke-width="9" transform="rotate(-90 55 55)" stroke-dasharray="'+(paused?'':(c*f)+' '+c)+'"/>'
+   +'<text x="55" y="53" text-anchor="middle" font-family="var(--f-display)" font-size="26" font-weight="600" fill="var(--ink)">'+(paused?'Rest':done)+'</text>'
+   +'<text x="55" y="73" text-anchor="middle" font-size="12" fill="var(--muted)">'+(paused?'day':'of '+goal+' min')+'</text></svg>';
+}
+
+</script>
+<script>
+
+var kid=HB.kids[0], H=HB.history;
+var SAMPLE_START='26 Aug', MIN=10;
+function tbl(head,rows){return '<table><thead><tr>'+head.map(function(h){return '<th scope="col">'+h+'</th>'}).join('')+'</tr></thead><tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c,i){return i?'<td>'+c+'</td>':'<th scope="row" style="text-transform:none;letter-spacing:0;font-size:16px;color:var(--ink);font-weight:400">'+c+'</th>'}).join('')+'</tr>'}).join('')+'</tbody></table>'}
+function fig(id,title,legend,tableHtml,note){return '<figure class="fig" aria-label="'+title+'">'+(legend||'')+'<div class="cv chart" id="'+id+'"></div><div class="tv">'+tableHtml+'</div>'+(note?'<figcaption class="small muted">'+note+'</figcaption>':'')+'</figure>'}
+function sec(title,lead,inner){return '<section class="sec"><header><h2>'+title+'</h2><p class="muted">'+lead+'</p></header>'+inner+'</section>'}
+function legend(items){return '<div class="legend">'+items.map(function(i){return '<span><svg viewBox="0 0 26 10" aria-hidden="true"><line x1="0" y1="5" x2="26" y2="5" class="ln '+i[1]+'" stroke-width="3"/><circle cx="13" cy="5" r="4" class="cm f'+i[1].slice(1)+'"/></svg>'+i[0]+'</span>'}).join('')+'</div>'}
+var charts=[];
+function lineChart(id,o){charts.push([id,o]);}
+function drawLine(id,o){
+  var el=document.getElementById(id);if(!el)return;var W=el.clientWidth||320,Ht=o.h||230,m={l:36,r:o.r||84,t:14,b:36};
+  var pw=W-m.l-m.r,ph=Ht-m.t-m.b,n=o.labels.length;
+  var X=function(i){return m.l+(n===1?pw/2:i*pw/(n-1))}, Y=function(v){return m.t+ph-(v-o.min)/(o.max-o.min)*ph};
+  var s='<svg viewBox="0 0 '+W+' '+Ht+'" width="'+W+'" height="'+Ht+'" role="img" aria-label="'+o.aria+'">';
+  for(var t=o.min;t<=o.max+0.001;t+=o.step){s+='<line class="grid" x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text x="'+(m.l-8)+'" y="'+(Y(t)+4)+'" text-anchor="end">'+t+(o.unit||'')+'</text>'}
+  var skip=W<460?2:1;
+  o.labels.forEach(function(l,i){if(i%skip===(n-1)%skip)s+='<text x="'+X(i)+'" y="'+(Ht-12)+'" text-anchor="middle">'+l+'</text>'});
+  var ends=[];
+  o.series.forEach(function(se){
+    var d='',pen=false;se.vals.forEach(function(v,i){if(v==null){pen=false;return}d+=(pen?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)+' ';pen=true});
+    s+='<path class="ln '+se.cls+'" d="'+d+'"/>';
+    se.vals.forEach(function(v,i){if(v==null){s+='<line class="grid" x1="'+X(i)+'" x2="'+X(i)+'" y1="'+m.t+'" y2="'+(m.t+ph)+'" stroke-dasharray="3 4"/><text class="na" x="'+(X(i)+4)+'" y="'+(m.t+ph-6)+'" transform="rotate(-90 '+(X(i)+4)+' '+(m.t+ph-6)+')">Not enough data yet</text>';return}
+      s+='<circle class="cm f'+se.cls.slice(1)+'" cx="'+X(i)+'" cy="'+Y(v)+'" r="'+(i===n-1?5:3.5)+'"/>'});
+    var last=se.vals.length-1;while(last>0&&se.vals[last]==null)last--;ends.push({y:Y(se.vals[last]),t:se.name+' '+se.vals[last]+(o.unit||'')});
+  });
+  ends.sort(function(a,b){return a.y-b.y});for(var i=1;i<ends.length;i++)if(ends[i].y-ends[i-1].y<15)ends[i].y=ends[i-1].y+15;
+  ends.forEach(function(e){s+='<text class="lab" x="'+(W-m.r+8)+'" y="'+(e.y+4)+'">'+e.t+'</text>'});
+  s+='<line class="axis" x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+(m.t+ph)+'" y2="'+(m.t+ph)+'"/><line id="cx-'+id+'" class="axis" y1="'+m.t+'" y2="'+(m.t+ph)+'" style="display:none"/><rect x="'+m.l+'" y="0" width="'+pw+'" height="'+Ht+'" fill="transparent" id="hit-'+id+'"/></svg><div class="tip" id="tip-'+id+'"></div>';
+  el.innerHTML=s;
+  var hit=document.getElementById('hit-'+id),tip=document.getElementById('tip-'+id),cx=document.getElementById('cx-'+id);
+  function show(ev){var r=hit.getBoundingClientRect();var i=Math.round((ev.clientX-r.left)/r.width*(n-1));i=Math.max(0,Math.min(n-1,i));
+    cx.setAttribute('x1',X(i));cx.setAttribute('x2',X(i));cx.style.display='';
+    tip.innerHTML='<b>Week of '+o.labels[i]+'</b>'+o.series.map(function(se){return se.name+': '+(se.vals[i]==null?'not enough data yet':se.vals[i]+(o.unit||''))}).join('<br>');
+    tip.style.display='block';var tw=tip.offsetWidth;tip.style.left=Math.max(0,Math.min(W-tw,X(i)+12))+'px';tip.style.top='10px'}
+  function hide(){tip.style.display='none';cx.style.display='none'}
+  hit.addEventListener('pointermove',show);hit.addEventListener('pointerdown',show);hit.addEventListener('pointerleave',hide);
+}
+function drawAll(){charts.forEach(function(c){drawLine(c[0],c[1])})}
+var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(drawAll,120)});
+function heatClass(v){return v==null?'hn':v>=85?'h5':v>=75?'h4':v>=65?'h3':v>=55?'h2':'h1'}
+function wkTable(vals){return H.weeks.map(function(w,i){return [w].concat(vals.map(function(v){return v[i]==null?'not enough data yet':v[i]+'%'}))})}
+function render(){
+  charts=[];var c=document.getElementById('content');
+  document.getElementById('rt').textContent=kid.name+(kid.age?', age '+kid.age:'');
+  if(kid.id!=='mira'){
+    document.getElementById('rsub').textContent='History starts on 21 Oct. Class III · sample child with very little history.';
+    c.innerHTML='<div class="empty"><h2 style="margin-bottom:8px">Not enough data yet</h2><p>'+kid.name+' has 1 day of practice so far. Growth lines, the chapter map and exam readiness need at least '+MIN+' answers in a week, so they stay empty rather than guess. What we can show: level '+kid.level+', '+kid.stars+' stars, '+kid.streakDays+' day of practice.</p><p class="small muted" style="margin-top:10px">Come back after a week of practice. Switch to Mira to see a full six-week report.</p></div>';
+    return;
+  }
+  document.getElementById('rsub').textContent='History starts on '+SAMPLE_START+'. Report for 6 weeks to 30 Sep. Class III · sample data.';
+  var h='';
+  h+='<div class="sum"><div><span class="label">Started</span><b>'+H.baseline.accuracy+'%</b><span class="small muted">'+H.baseline.note+'</span></div><div><span class="label">Now</span><b>'+H.overall[5]+'%</b><span class="small muted">Week of '+H.weeks[5]+'</span></div><div><span class="label">Growth</span><b>+'+(H.overall[5]-H.baseline.accuracy)+' points</b><span class="small muted">Her own start, not anyone else</span></div></div>';
+  h+='<p class="small muted"><span class="pill">Before logging</span> &nbsp;Sample: 212 answers were counted before dated history began, 61% right in total. They are kept as one total, with no weeks, and are not drawn on the lines.</p>';
+  /* 1 started vs now */
+  var dum=[['Overall','o',H.baseline.accuracy,H.overall[5],'First 20 answers'],['Maths','m',H.maths[0],H.maths[5],'First week'],['English','e',H.english[0],H.english[5],'First week']];
+  h+=sec('Where Mira started and where Mira is now','Open circle is the start, filled circle is now. Overall starts from the first 20 answers; subjects start from their first week.',
+   fig('x1','Start and now by subject',null,tbl(['Area','Start','Now','Change'],dum.map(function(d){return [d[0],d[2]+'% ('+d[4]+')',d[3]+'%','+'+(d[3]-d[2])]})),'')+'');
+  /* 2 weekly lines */
+  h+=sec('Weekly growth by subject','Share of answers right each week. All three lines are going up.',
+   fig('x2','Weekly accuracy lines',legend([['Overall','s3'],['Maths','s1'],['English','s2']]),tbl(['Week','Overall','Maths','English'],wkTable([H.overall,H.maths,H.english])),'Hover or touch a week to read the numbers.'));
+  lineChart('x2',{labels:H.weeks,min:40,max:100,step:20,unit:'%',aria:'Weekly accuracy for overall, maths and english, all rising',series:[{name:'Overall',vals:H.overall,cls:'s3'},{name:'Maths',vals:H.maths,cls:'s1'},{name:'English',vals:H.english,cls:'s2'}]});
+  /* 3 topics */
+  var tk=Object.keys(H.topics);
+  var cls=['s1','s1','s2'];
+  var tt=tbl(['Week'].concat(tk),wkTable(tk.map(function(k){return H.topics[k]})));
+  h+=sec('Growth and plateau, topic by topic','Multiplication is growing. Division has stayed flat for six weeks, which is a sign to change how it is practised, not to push harder. A week with fewer than '+MIN+' answers shows as "not enough data yet".',
+   '<figure class="fig"><div class="small3">'+tk.map(function(k,i){var v=H.topics[k],f=v.filter(function(x){return x!=null}),d=f[f.length-1]-f[0];
+     var msg=i===0?'Growing: +'+d+' points since week 1.':i===1?'Flat: '+f[0]+'% to '+f[f.length-1]+'% over six weeks. Plateau.':'Growing: +'+d+' points. First week had too few answers.';
+     return '<div class="mini"><h3>'+k.split(' · ')[0]+'</h3><p>'+k.split(' · ')[1]+'</p><div class="cv chart" id="tp'+i+'"></div><p><b>'+msg+'</b></p></div>'}).join('')+'</div><div class="tv">'+tt+'</div></figure>');
+  tk.forEach(function(k,i){lineChart('tp'+i,{labels:H.weeks,min:0,max:100,step:50,unit:'%',h:190,r:40,aria:k+' weekly accuracy',series:[{name:'',vals:H.topics[k],cls:cls[i]}]})});
+  /* 4 heat map */
+  var hk=Object.keys(H.heat);
+  h+=sec('Strengths and weak spots by chapter','Each cell shows the share right in that chapter. Darker means stronger. Hatched means not tried yet.',
+   '<figure class="fig"><div class="cv"><div class="heat">'+hk.map(function(k){var v=H.heat[k];return '<div class="hc '+heatClass(v)+'"><span>'+k+'</span><b>'+(v==null?'\u2013':v+'%')+'</b>'+(v==null?'<span>Not tried yet</span>':'')+'</div>'}).join('')+'</div>'
+   +'<div class="hl" style="margin-top:12px"><span>Lower</span><i style="background:var(--h1)"></i><i style="background:var(--h2)"></i><i style="background:var(--h3)"></i><i style="background:var(--h4)"></i><i style="background:var(--h5)"></i><span>Higher</span></div></div><div class="tv">'+tbl(['Chapter','Accuracy'],hk.map(function(k){return [k,H.heat[k]==null?'not tried yet':H.heat[k]+'%']}))+'</div></figure>');
+  /* 5 levels */
+  var lv=[['Easy',8],['Medium',4],['Challenge',2]];
+  h+=sec('Level progress','How far Mira has climbed through Easy, Medium and Challenge across the 12 Maths units.',
+   '<figure class="fig"><div class="cv bars">'+lv.map(function(l){return '<div class="br lv"><span>'+l[0]+'</span><div class="t"><i style="width:'+l[1]/12*100+'%"></i></div><b>'+l[1]+'/12</b></div>'}).join('')+'<p class="small muted">Easy '+H.levels.Easy+'. Medium '+H.levels.Medium+'. Challenge '+H.levels.Challenge+'.</p></div><div class="tv">'+tbl(['Level','Units'],lv.map(function(l){return [l[0],l[1]+' of 12']}))+'</div></figure>');
+  /* 6 habit */
+  function cols(arr,lab){var mx=Math.max.apply(null,arr);return '<div class="mini"><h3>'+lab+'</h3><div class="cols6">'+arr.map(function(v){return '<div><span>'+v+'</span><i style="height:'+(v/mx*80)+'px"></i></div>'}).join('')+'</div><div class="xl">'+H.weeks.map(function(w){return '<span>'+w.replace(' ','\u00a0')+'</span>'}).join('')+'</div></div>'}
+  h+=sec('Habit','Days practised, minutes and sets per week. Only dated entries are counted.',
+   '<figure class="fig"><div class="cv small3">'+cols(H.days,'Days (of 7)')+cols(H.minutes,'Minutes')+cols(H.sets,'Sets finished')+'</div><div class="tv">'+tbl(['Week','Days','Minutes','Sets'],H.weeks.map(function(w,i){return [w,H.days[i],H.minutes[i],H.sets[i]]}))+'</div></figure>');
+  /* 7 typing */
+  h+=sec('Typing growth','Word Quest rows keep date, words, characters, seconds and mistakes, so speed and accuracy are worked out from those. The on-screen keyboard help is always on today.',
+   '<figure class="fig"><div class="small3 two2"><div class="mini"><h3>Words per minute</h3><div class="cv chart" id="ty1"></div></div><div class="mini"><h3>Accuracy</h3><div class="cv chart" id="ty2"></div></div></div><div class="tv">'+tbl(['Week','Words per minute','Accuracy'],H.weeks.map(function(w,i){return [w,H.typing.wpm[i],H.typing.accuracy[i]+'%']}))+'</div></figure>');
+  lineChart('ty1',{labels:H.weeks,min:0,max:20,step:10,h:190,r:46,aria:'Typing speed rising from 6 to 14 words per minute',series:[{name:'',vals:H.typing.wpm,cls:'s3'}]});
+  lineChart('ty2',{labels:H.weeks,min:70,max:100,step:10,unit:'%',h:190,r:46,aria:'Typing accuracy rising from 81 to 94 percent',series:[{name:'',vals:H.typing.accuracy,cls:'s3'}]});
+  /* 8 mistake themes placeholder */
+  var mt=H.mistakeThemes,mm=mt[0][1];
+  h+=sec('Mistake themes','','<div class="soon"><span class="tag">Coming later</span><p><b>Not live data.</b> The app does not tag the kind of mistake yet. This panel shows what it could look like once it does. The numbers below are made up.</p><div class="bars">'+mt.map(function(t){return '<div class="br"><span>'+t[0]+'</span><div class="t"><i style="width:'+t[1]/mm*100+'%"></i></div><b>'+t[1]+'</b></div>'}).join('')+'</div></div>');
+  /* 9 marks */
+  var mk=[['Describe the crow (2 marks)','2','1.5 (AI suggested)','1.5','Accepted by grown-up'],['Write a sentence with "quickly" (2 marks)','2','1','2','Changed by grown-up'],['Why was the crow thirsty? (1 mark)','1','1','1','Accepted by grown-up']];
+  h+=sec('Written answers: marks you confirmed','Written answers are marked by the AI as a suggestion. The grown-up always decides the mark that counts.',
+   '<figure class="fig"><div style="overflow-x:auto">'+tbl(['Question','Max','AI suggested','Final','Decision'],mk.map(function(r){return [r[0],r[1],r[2].split(' ')[0],r[3],r[4]]}))+'</div><p class="small muted">Sample rows. Three of the last three suggestions were reviewed.</p></figure>');
+  /* 10 exam + next */
+  var E=H.exam;
+  h+='<div class="two"><div>'+sec('Exam readiness','For '+E.portion+'.',
+    '<figure class="fig"><div class="ex"><p><b style="font-family:var(--f-display);font-size:28px">'+E.ready+'</b></p><p class="small">Likely mark: <b>'+E.predicted+'</b>. Weakest area: <b>'+E.weakest+'</b>.</p><div><div class="rng" role="img" aria-label="Likely mark 18 to 21 out of 25"><i style="left:'+18/25*100+'%;width:'+3/25*100+'%"></i></div><div class="ticks"><span>0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span></div></div><p class="small muted">The band is a range, not a promise. It is based on the last two weeks of answers in these units.</p></div></figure>')+'</div>'
+   +'<div>'+sec('What to practise next','Three small steps for this week.','<ol class="next">'+H.nextUp.map(function(t,i){return '<li><b>'+(i+1)+'</b><span>'+t+'</span></li>'}).join('')+'</ol>')+'</div></div>';
+  /* 11 rewards */
+  h+=sec('Rewards at a glance','','<div class="soon"><span class="tag">Design intent</span><p>Reward settings are not stored yet. In the finished app a parent chooses <b>Full</b>, <b>Gentle</b> or <b>Minimal</b>. Minimal hides the garden and daily goal and shows a plain tick at the end of each set. No setting adds lives, ranking or lost streaks.</p><div class="seg" id="rwSeg" role="group" aria-label="Reward level (preview only)"><button type="button" aria-pressed="false">Full</button><button type="button" aria-pressed="true">Gentle</button><button type="button" aria-pressed="false">Minimal</button></div></div>');
+  c.innerHTML=h;
+  var dd=document.getElementById('x1');
+  dd.innerHTML='<div class="bars" style="gap:2px">'+dum.map(function(d){var lo=Math.min(d[2],d[3]);return '<div class="hrow '+d[1]+'"><div><b>'+d[0]+'</b><div class="small muted">'+d[4]+' to now</div></div><div class="track"><div class="span" style="left:'+d[2]+'%;width:'+(d[3]-d[2])+'%"></div><div class="dot" style="left:'+d[2]+'%" title="Start '+d[2]+'%"></div><div class="dot now" style="left:'+d[3]+'%" title="Now '+d[3]+'%"></div></div><div style="text-align:right;font-variant-numeric:tabular-nums"><b>'+d[2]+' \u2192 '+d[3]+'%</b></div></div>'}).join('')+'<div class="ticks tk"><span>0%</span><span>50%</span><span>100%</span></div></div>';
+  drawAll();
+  var rw=document.getElementById('rwSeg');rw&&rw.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(rw.children,function(x){x.setAttribute('aria-pressed',x===b)})});
+}
+document.getElementById('kidSeg').innerHTML=HB.kids.map(function(k){return '<button type="button" data-id="'+k.id+'" aria-pressed="'+(k.id===kid.id)+'">'+k.name+'</button>'}).join('');
+document.getElementById('kidSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;kid=HB.kids.filter(function(k){return k.id===b.dataset.id})[0];[].forEach.call(this.children,function(x){x.setAttribute('aria-pressed',x===b)});render()});
+document.getElementById('tblBtn').addEventListener('click',function(e){var on=document.body.classList.toggle('tables');e.target.setAttribute('aria-pressed',on);e.target.textContent='Table view: '+(on?'on':'off')});
+if(/tables=1/.test(location.search))document.getElementById('tblBtn').click();
+render();
+</script>
+</body>
+</html>
